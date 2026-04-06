@@ -105,35 +105,35 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
         </a>
 
         {/* Desktop Nav Links — SPACE | IG | LI | @ */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="nav-links hidden md:flex items-center gap-6">
           <a
             href="https://space.open-bln.com"
-            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
+            className={`nav-link text-xs tracking-widest uppercase ${linkColor}`}
           >
             Space
           </a>
-          <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
+          <span className={`nav-sep ${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
           <a
             href="https://instagram.com/open.bln"
             target="_blank"
             rel="noopener noreferrer"
-            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
+            className={`nav-link text-xs tracking-widest uppercase ${linkColor}`}
           >
             IG
           </a>
-          <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
+          <span className={`nav-sep ${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
           <a
             href="https://www.linkedin.com/company/open-bln"
             target="_blank"
             rel="noopener noreferrer"
-            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
+            className={`nav-link text-xs tracking-widest uppercase ${linkColor}`}
           >
             LI
           </a>
-          <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
+          <span className={`nav-sep ${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
           <a
             href="mailto:hallo@open-bln.com"
-            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
+            className={`nav-link text-xs tracking-widest uppercase ${linkColor}`}
           >
             @
           </a>
@@ -141,10 +141,10 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
           {/* Theme Toggle */}
           {showToggle && (
             <>
-              <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
+              <span className={`nav-sep ${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
               <button
                 onClick={toggleTheme}
-                className={`text-xs tracking-widest uppercase transition-colors cursor-pointer ${linkColor}`}
+                className={`nav-link text-xs tracking-widest uppercase cursor-pointer ${linkColor}`}
                 aria-label="Toggle theme"
                 title={isDark ? "Switch to light mode" : "Switch to dark mode"}
               >
@@ -157,7 +157,7 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
           <div className="relative ml-2" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className={`w-8 h-8 rounded-full border transition-colors flex items-center justify-center text-sm cursor-pointer ${avatarClasses}`}
+              className={`nav-avatar w-8 h-8 rounded-full border flex items-center justify-center text-sm cursor-pointer ${avatarClasses}`}
               aria-label="User menu"
             >
               &bull;
