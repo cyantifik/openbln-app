@@ -28,12 +28,13 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   if (!authenticated) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-6 text-center">
-        <h2 className="text-2xl mb-3">
+        <h2 className="logo logo-float text-8xl sm:text-9xl md:text-[12rem] tracking-tight mb-2" style={{ letterSpacing: "-0.03em" }}>
           <span className="font-bold">OPEN</span>{" "}
           <span className="font-light">BLN</span>
         </h2>
+        <p className="text-gray-400 text-sm tracking-widest uppercase mb-8">The Space</p>
         <p className="text-gray-400 mb-8 max-w-sm">
-          This area is for community members. Sign in to access, or request an invite to join.
+          This area is for members. Sign in to access, or request an invite to join.
         </p>
         <div className="flex gap-4 text-sm">
           <Link
