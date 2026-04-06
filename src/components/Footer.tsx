@@ -21,10 +21,12 @@ export default function Footer({ variant = "light" }: { variant?: FooterVariant 
           isDark ? "text-white/30" : "text-gray-400"
         }`}
       >
-        <p className="font-normal">
+        <p className="font-normal normal-case tracking-normal text-xs">
           &copy; 2026{" "}
           <span className="font-bold">OPEN</span>{" "}
           <span className="font-light">BLN</span>
+          {" "}&mdash; A community for Berlin&apos;s creative professionals
+          {" "}&hearts;{" "} All rights reserved.
         </p>
 
         <div className="flex items-center gap-4">
