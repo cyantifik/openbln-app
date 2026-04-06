@@ -13,6 +13,16 @@
       "Helvetica Neue", sans-serif;
   }
 
+  /* Ensure Hanken Grotesk on all elements — prevent Tailwind overrides */
+  *, *::before, *::after {
+    font-family: inherit;
+  }
+
+  input, button, textarea, select {
+    font-family: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Helvetica Neue", sans-serif;
+  }
+
   /* Smooth scroll everywhere */
   * {
     scroll-behavior: smooth;

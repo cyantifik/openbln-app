@@ -43,7 +43,7 @@ export default function Home() {
             priority
           />
 
-          <p className="text-white/50 text-sm sm:text-base md:text-lg max-w-lg text-center leading-relaxed">
+          <p className="text-white/50 text-xs sm:text-sm md:text-base max-w-lg text-center leading-relaxed">
             A Berlin-based creative community shaped by mentorship,
             colored with inspiration, and driven by purposeful collaboration.
           </p>
