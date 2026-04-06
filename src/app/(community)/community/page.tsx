@@ -47,7 +47,7 @@ export default function Community() {
 
       {/* Directory */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold mb-4">Community Directory</h2>
+        <h2 className="text-2xl font-bold mb-4">Directory</h2>
         <p className="text-gray-600 mb-8">
           Find and connect with designers, developers, and creative professionals
           in Berlin. Search by name, role, company, or skill.

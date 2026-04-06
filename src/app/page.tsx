@@ -39,7 +39,7 @@ export default function Home() {
             alt="OPEN BLN"
             width={320}
             height={320}
-            className="w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 mb-6"
+            className="w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 mb-6 logo-float"
             priority
           />
 
