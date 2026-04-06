@@ -28,7 +28,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   if (!authenticated) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-6 text-center">
-        <h2 className="logo logo-float text-8xl sm:text-9xl md:text-[12rem] tracking-tight mb-2" style={{ letterSpacing: "-0.03em" }}>
+        <h2 className="logo logo-float text-5xl sm:text-6xl md:text-8xl tracking-tight mb-2" style={{ letterSpacing: "-0.03em" }}>
           <span className="font-bold">OPEN</span>{" "}
           <span className="font-light">BLN</span>
         </h2>
