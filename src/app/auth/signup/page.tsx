@@ -107,21 +107,33 @@ export default function SignUp() {
       <div className="min-h-screen flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-md text-center">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-4">Check Your Email</h1>
+            <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h1 className="text-3xl mb-4">
+              <span className="font-bold">Got it!</span>
+            </h1>
             <p className="text-gray-600 mb-4">
-              We've sent a confirmation link to <strong>{formData.email}</strong>
+              Thanks for applying, <strong>{formData.name}</strong>.
             </p>
-            <p className="text-gray-600">
-              Click the link in the email to verify your account. Your application will be reviewed by our team.
+            <p className="text-gray-500 mb-6">
+              We&apos;ll review your info and you&apos;ll hear back from us soon.
             </p>
+            <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-500">
+              <p>
+                We also sent a confirmation link to <strong>{formData.email}</strong> — click it to verify your email while you wait.
+              </p>
+            </div>
           </div>
 
           <div className="mt-8 border-t border-gray-200 pt-4">
             <Link
-              href="/auth/login"
+              href="/"
               className="text-gray-600 hover:text-black text-sm"
             >
-              Back to Sign In
+              ← Back to Home
             </Link>
           </div>
         </div>
