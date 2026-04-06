@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
+    invite_code: "",
     name: "",
     email: "",
     password: "",
@@ -31,6 +32,13 @@ export default function SignUp() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    // Validate invite code
+    const validCodes = ["OPENBLN2026", "BERLINSPACE", "CREATIVEBLN"];
+    if (!validCodes.includes(formData.invite_code.trim().toUpperCase())) {
+      setError("Invalid invite code. You need an invite to join OPEN BLN.");
+      return;
+    }
 
     // Validation
     if (formData.password !== formData.confirmPassword) {
@@ -104,7 +112,7 @@ export default function SignUp() {
               We've sent a confirmation link to <strong>{formData.email}</strong>
             </p>
             <p className="text-gray-600">
-              Click the link in the email to verify your account and get started with OPEN BLN.
+              Click the link in the email to verify your account. Your application will be reviewed by our team.
             </p>
           </div>
 
@@ -125,9 +133,9 @@ export default function SignUp() {
     <div className="min-h-screen flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Create Account</h1>
-          <p className="text-gray-600">
-            Join OPEN BLN and connect with Berlin's creative community.
+          <h1 className="text-3xl mb-2"><span className="font-bold">Request</span> <span className="font-light">Access</span></h1>
+          <p className="text-gray-400">
+            <span className="font-bold">OPEN</span> <span className="font-light">BLN</span> is invite-only. Enter your invite code to apply.
           </p>
         </div>
 
@@ -138,6 +146,20 @@ export default function SignUp() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Invite Code */}
+          <div>
+            <label className="block text-sm font-medium mb-2">Invite Code</label>
+            <input
+              type="text"
+              name="invite_code"
+              required
+              value={formData.invite_code}
+              onChange={handleChange}
+              className="input"
+              placeholder="Enter your invite code"
+            />
+          </div>
+
           {/* Name */}
           <div>
             <label className="block text-sm font-medium mb-2">Full Name</label>
@@ -268,7 +290,7 @@ export default function SignUp() {
 
           {/* Submit */}
           <button type="submit" className="button-primary w-full" disabled={loading}>
-            {loading ? "Creating account..." : "Create Account"}
+            {loading ? "Submitting..." : "Request Access"}
           </button>
         </form>
 

@@ -20,20 +20,34 @@
     letter-spacing: 0.04em;
   }
 
-  /* Breathing micro-animation for the wordmark */
+  /* Breathing micro-animation for the nav wordmark */
   @keyframes breathe {
     0%, 100% {
       opacity: 0.7;
-      letter-spacing: 0.04em;
     }
     50% {
       opacity: 1;
-      letter-spacing: 0.08em;
     }
   }
 
   .logo-animated {
     animation: breathe 4s ease-in-out infinite;
+  }
+
+  /* Floating animation for the landing page wordmark */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+      opacity: 0.85;
+    }
+    50% {
+      transform: translateY(-6px);
+      opacity: 1;
+    }
+  }
+
+  .logo-float {
+    animation: float 6s ease-in-out infinite;
   }
 
   .skill-tag {

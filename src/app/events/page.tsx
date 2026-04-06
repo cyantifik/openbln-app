@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AuthGuard from "@/components/AuthGuard";
 import { getUpcomingEventsDB, getPastEvents, EVENTS } from "@/lib/data";
 import type { Event } from "@/lib/data";
 
@@ -42,6 +43,7 @@ export default function Events() {
   };
 
   return (
+    <AuthGuard>
     <div className="max-w-4xl mx-auto px-6 py-12">
       <h1 className="text-4xl font-bold mb-12">Events</h1>
 
@@ -106,5 +108,6 @@ export default function Events() {
         </div>
       )}
     </div>
+    </AuthGuard>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import MemberCard from "@/components/MemberCard";
+import AuthGuard from "@/components/AuthGuard";
 import { getMembers, searchMembersDB, MEMBERS } from "@/lib/data";
 import type { Member } from "@/lib/data";
 
@@ -33,6 +34,7 @@ export default function Community() {
   }, [searchQuery]);
 
   return (
+    <AuthGuard>
     <div className="max-w-6xl mx-auto px-6 py-12">
       {/* Header */}
       <div className="mb-12">
@@ -69,5 +71,6 @@ export default function Community() {
         </div>
       )}
     </div>
+    </AuthGuard>
   );
 }
