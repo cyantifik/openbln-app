@@ -6,17 +6,15 @@ import { ThemeProvider, useTheme } from "@/lib/theme";
 
 function CommunityShell({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
-  const isDark = theme === "dark";
 
   return (
     <div
-      className={`min-h-screen flex flex-col transition-colors duration-300 ${
-        isDark ? "bg-black text-white" : "bg-white text-black"
-      }`}
+      className="min-h-screen flex flex-col transition-colors duration-500"
+      style={{ backgroundColor: theme.bg, color: theme.text }}
     >
-      <Nav variant={theme} showToggle />
+      <Nav variant="light" showToggle />
       <main className="flex-1">{children}</main>
-      <Footer variant={theme} />
+      <Footer variant="light" showToggle />
     </div>
   );
 }

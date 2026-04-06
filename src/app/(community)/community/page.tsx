@@ -11,7 +11,6 @@ export default function SpacePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredMembers, setFilteredMembers] = useState<Member[]>(MEMBERS);
   const { theme } = useTheme();
-  const isDark = theme === "dark";
 
   useEffect(() => {
     const loadMembers = async () => {
@@ -45,13 +44,18 @@ export default function SpacePage() {
           <span className="font-bold">OPEN</span>{" "}
           <span className="font-light">BLN</span>
         </h1>
-        <p className={`text-sm tracking-widest uppercase ${isDark ? "text-white/40" : "text-gray-400"}`}>The Space</p>
+        <p
+          className="text-sm tracking-widest uppercase transition-colors duration-500"
+          style={{ color: theme.textFaint }}
+        >
+          The Space
+        </p>
       </div>
 
       {/* Directory */}
       <div className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Directory</h2>
-        <p className={`mb-8 ${isDark ? "text-white/50" : "text-gray-600"}`}>
+        <p className="mb-8 transition-colors duration-500" style={{ color: theme.textMuted }}>
           Find and connect with designers, developers, and creative professionals
           in Berlin. Search by name, role, company, or skill.
         </p>
@@ -62,9 +66,14 @@ export default function SpacePage() {
           placeholder="Search by name, skill, role, or company..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className={`input mb-2 max-w-md ${isDark ? "input-dark" : ""}`}
+          className="w-full max-w-md px-4 py-2 rounded-lg mb-2 transition-colors duration-500 outline-none"
+          style={{
+            backgroundColor: "transparent",
+            border: `1px solid ${theme.inputBorder}`,
+            color: theme.text,
+          }}
         />
-        <p className={`text-sm ${isDark ? "text-white/40" : "text-gray-500"}`}>
+        <p className="text-sm transition-colors duration-500" style={{ color: theme.textFaint }}>
           {filteredMembers.length} {filteredMembers.length === 1 ? "member" : "members"} found
         </p>
       </div>
@@ -73,11 +82,18 @@ export default function SpacePage() {
       {filteredMembers.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredMembers.map((member) => (
-            <MemberCard key={member.id} member={member} isDark={isDark} />
+            <MemberCard key={member.id} member={member} />
           ))}
         </div>
       ) : (
-        <div className={`card text-center py-12 ${isDark ? "card-dark" : ""} ${isDark ? "text-white/40" : "text-gray-500"}`}>
+        <div
+          className="rounded-lg border text-center py-12 transition-colors duration-500"
+          style={{
+            backgroundColor: theme.cardBg,
+            borderColor: theme.cardBorder,
+            color: theme.textFaint,
+          }}
+        >
           <p className="mb-2">No members found matching your search.</p>
           <p className="text-sm">Try a different keyword or browse all members.</p>
         </div>
