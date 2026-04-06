@@ -85,8 +85,11 @@ export default function Home() {
         </div>
 
         {/* Bottom */}
-        <div className="flex items-end justify-between text-xs text-white/30">
-          <span>&copy; 2026 OPEN BLN</span>
+        <div className="flex items-end justify-between text-sm text-white/40">
+          <p>
+            &copy; 2026 <span className="font-bold">OPEN</span>{" "}
+            <span className="font-light">BLN</span> — A community for Berlin&apos;s creative professionals
+          </p>
           <a
             href="https://space.open-bln.com"
             className="hover:text-white/60 transition-colors duration-300"
