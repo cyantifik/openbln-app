@@ -3,7 +3,7 @@ export default function Home() {
     <div className="min-h-[85vh] flex flex-col items-center justify-center px-6">
       {/* Floating wordmark */}
       <div className="logo-float text-center mb-10">
-        <h1 className="text-5xl md:text-7xl tracking-wide">
+        <h1 className="text-5xl md:text-7xl" style={{ letterSpacing: "-0.02em" }}>
           <span className="font-bold">OPEN</span>{" "}
           <span className="font-light">BLN</span>
         </h1>

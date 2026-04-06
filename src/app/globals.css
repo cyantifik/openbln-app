@@ -17,7 +17,7 @@
 @layer components {
   .logo {
     font-family: "Hanken Grotesk", sans-serif;
-    letter-spacing: 0.04em;
+    letter-spacing: -0.01em;
   }
 
   /* Breathing micro-animation for the nav wordmark */
