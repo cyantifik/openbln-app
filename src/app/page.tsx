@@ -39,11 +39,11 @@ export default function Home() {
             alt="OPEN BLN"
             width={320}
             height={320}
-            className="w-64 h-64 sm:w-80 sm:h-80 md:w-[26rem] md:h-[26rem] mb-6 logo-float"
+            className="w-72 h-72 sm:w-[22rem] sm:h-[22rem] md:w-[28rem] md:h-[28rem] mb-6 logo-float"
             priority
           />
 
-          <p className="text-white/50 text-xs sm:text-sm md:text-base max-w-lg text-center leading-relaxed font-medium">
+          <p className="text-white/50 text-xs sm:text-sm md:text-base max-w-lg text-center leading-relaxed font-semibold">
             A Berlin-based creative community shaped by mentorship,
             colored with inspiration, and driven by purposeful collaboration.
           </p>

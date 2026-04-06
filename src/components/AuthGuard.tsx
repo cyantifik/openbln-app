@@ -46,10 +46,10 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         >
           This area is for members. Sign in to access, or request an invite to join.
         </p>
-        <div className="flex gap-4 text-sm">
+        <div className="flex gap-3 text-xs tracking-widest uppercase">
           <Link
             href="/auth/login"
-            className="px-6 py-3 border rounded-full transition-all duration-300"
+            className="px-4 py-2 border rounded-full transition-all duration-300"
             style={{
               borderColor: theme.border,
               color: theme.textMuted,
@@ -59,7 +59,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
           </Link>
           <Link
             href="/auth/signup"
-            className="px-6 py-3 rounded-full transition-all duration-300"
+            className="px-4 py-2 rounded-full transition-all duration-300"
             style={{
               backgroundColor: theme.accent,
               color: theme.accentText,
