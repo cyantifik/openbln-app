@@ -36,9 +36,18 @@ export default function Community() {
   return (
     <AuthGuard>
     <div className="max-w-6xl mx-auto px-6 py-12">
-      {/* Header */}
+      {/* Floating logotype */}
+      <div className="text-center mb-16 pt-8">
+        <h1 className="logo logo-float text-6xl sm:text-7xl md:text-8xl tracking-tight mb-4" style={{ letterSpacing: "-0.03em" }}>
+          <span className="font-bold">OPEN</span>{" "}
+          <span className="font-light">BLN</span>
+        </h1>
+        <p className="text-gray-400 text-sm tracking-widest uppercase">The Space</p>
+      </div>
+
+      {/* Directory */}
       <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-6">Community Directory</h1>
+        <h2 className="text-2xl font-bold mb-4">Community Directory</h2>
         <p className="text-gray-600 mb-8">
           Find and connect with designers, developers, and creative professionals
           in Berlin. Search by name, role, company, or skill.

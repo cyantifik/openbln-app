@@ -39,12 +39,12 @@ export default function Home() {
             alt="OPEN BLN"
             width={320}
             height={320}
-            className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 mb-6"
+            className="w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 mb-6"
             priority
           />
 
           <p className="text-white/50 text-sm sm:text-base md:text-lg max-w-lg text-center leading-relaxed">
-            Berlin-based creative community shaped by mentorship,
+            A Berlin-based creative community shaped by mentorship,
             colored with inspiration, and driven by purposeful collaboration.
           </p>
         </div>
