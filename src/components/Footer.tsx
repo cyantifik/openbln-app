@@ -25,8 +25,7 @@ export default function Footer({ variant = "light" }: { variant?: FooterVariant 
           &copy; 2026{" "}
           <span className="font-bold">OPEN</span>{" "}
           <span className="font-light">BLN</span>
-          {" "}A community for Berlin&apos;s creative professionals
-          {" "}&hearts;{" "} All rights reserved.
+          {" "}&hearts;{" "}All rights reserved.
         </p>
 
         <div className="flex items-center gap-4">
