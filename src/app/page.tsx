@@ -30,9 +30,10 @@ export default function Home() {
       <div className="relative z-10 flex flex-col h-full px-8 md:px-16 py-10">
         {/* Top nav */}
         <nav className="flex items-center justify-between w-full">
-          <div className="text-white text-sm tracking-widest uppercase opacity-70">
-            open-bln.com
-          </div>
+          <a href="/" className="logo logo-animated text-xl tracking-tight text-white">
+            <span className="font-bold">OPEN</span>{" "}
+            <span className="font-light">BLN</span>
+          </a>
           <div className="flex items-center gap-8 text-sm text-white/70">
             <a
               href="https://space.open-bln.com"
