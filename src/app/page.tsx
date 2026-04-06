@@ -68,12 +68,14 @@ export default function Home() {
 
         {/* Center logo + tagline */}
         <div className="flex-1 flex flex-col items-center justify-center -mt-10">
-          {/* OPEN BLN square logo */}
-          <img
-            src="/logo-transparent.svg"
-            alt="OPEN BLN"
-            className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 mb-6 logo-float"
-          />
+          {/* OPEN BLN wordmark */}
+          <h1
+            className="text-white text-6xl md:text-8xl lg:text-9xl tracking-tight mb-6"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            <span className="font-bold">OPEN</span>{" "}
+            <span className="font-light">BLN</span>
+          </h1>
 
           {/* Tagline */}
           <p className="text-white/50 text-base md:text-lg max-w-lg text-center leading-relaxed">
