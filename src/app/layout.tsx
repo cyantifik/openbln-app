@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OPEN BLN - Berlin Creative Community",
+  title: "OPEN BLN",
   description:
-    "A Berlin-based creative community shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
+    "A Berlin-based creative collective shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
@@ -12,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "OPEN BLN",
     description:
-      "Berlin-based creative community shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
+      "A Berlin-based creative collective shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
     url: "https://open-bln.com",
     siteName: "OPEN BLN",
     images: [
@@ -29,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "OPEN BLN",
     description:
-      "Berlin-based creative community shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
+      "A Berlin-based creative collective shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
     images: ["https://open-bln.com/og-image.png"],
   },
 };
@@ -53,7 +62,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-black">{children}</body>
+      <body className="bg-black">
+        <GoogleAnalytics />
+        {children}
+      </body>
     </html>
   );
 }

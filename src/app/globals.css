@@ -60,11 +60,23 @@
     border: 1px solid #e5e7eb;
   }
 
+  .skill-tag-dark {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
   .card {
     border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
     padding: 1.5rem;
     background: white;
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+
+  .card-dark {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .button-primary {
@@ -97,11 +109,27 @@
     padding: 0.5rem 1rem;
     border: 1px solid #d1d5db;
     border-radius: 0.5rem;
+    background: transparent;
+    color: inherit;
+    transition: border-color 0.2s;
   }
 
   .input:focus {
     border-color: black;
     outline: none;
+  }
+
+  .input-dark {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+
+  .input-dark::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .input-dark:focus {
+    border-color: rgba(255, 255, 255, 0.5);
   }
 }
 

@@ -4,10 +4,17 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
+import { useTheme } from "@/lib/theme";
 
 type NavVariant = "light" | "dark";
 
-export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
+interface NavProps {
+  variant?: NavVariant;
+  showToggle?: boolean;
+}
+
+export default function Nav({ variant = "light", showToggle }: NavProps) {
+  const { toggleTheme } = useTheme();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -131,6 +138,21 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
             @
           </a>
 
+          {/* Theme Toggle */}
+          {showToggle && (
+            <>
+              <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
+              <button
+                onClick={toggleTheme}
+                className={`text-xs tracking-widest uppercase transition-colors cursor-pointer ${linkColor}`}
+                aria-label="Toggle theme"
+                title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              >
+                {isDark ? "☀" : "☽"}
+              </button>
+            </>
+          )}
+
           {/* Avatar Dropdown */}
           <div className="relative ml-2" ref={dropdownRef}>
             <button
@@ -238,6 +260,14 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
           >
             @
           </a>
+          {showToggle && (
+            <button
+              onClick={toggleTheme}
+              className={`text-xs tracking-widest uppercase transition-colors cursor-pointer text-left ${linkColor} bg-transparent`}
+            >
+              {isDark ? "☀ Light mode" : "☽ Dark mode"}
+            </button>
+          )}
           <div className={`border-t pt-3 mt-1 ${isDark ? "border-white/10" : "border-gray-200"}`}>
             {user ? (
               <>

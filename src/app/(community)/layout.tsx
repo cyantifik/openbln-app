@@ -1,5 +1,25 @@
+"use client";
+
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { ThemeProvider, useTheme } from "@/lib/theme";
+
+function CommunityShell({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  return (
+    <div
+      className={`min-h-screen flex flex-col transition-colors duration-300 ${
+        isDark ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
+      <Nav variant={theme} showToggle />
+      <main className="flex-1">{children}</main>
+      <Footer variant={theme} />
+    </div>
+  );
+}
 
 export default function CommunityLayout({
   children,
@@ -7,10 +27,8 @@ export default function CommunityLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-white min-h-screen text-black flex flex-col">
-      <Nav variant="light" />
-      <main className="flex-1">{children}</main>
-      <Footer variant="light" />
-    </div>
+    <ThemeProvider>
+      <CommunityShell>{children}</CommunityShell>
+    </ThemeProvider>
   );
 }

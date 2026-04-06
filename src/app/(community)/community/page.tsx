@@ -5,10 +5,13 @@ import MemberCard from "@/components/MemberCard";
 import AuthGuard from "@/components/AuthGuard";
 import { getMembers, searchMembersDB, MEMBERS } from "@/lib/data";
 import type { Member } from "@/lib/data";
+import { useTheme } from "@/lib/theme";
 
-export default function Community() {
+export default function SpacePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredMembers, setFilteredMembers] = useState<Member[]>(MEMBERS);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   useEffect(() => {
     const loadMembers = async () => {
@@ -42,13 +45,13 @@ export default function Community() {
           <span className="font-bold">OPEN</span>{" "}
           <span className="font-light">BLN</span>
         </h1>
-        <p className="text-gray-400 text-sm tracking-widest uppercase">The Space</p>
+        <p className={`text-sm tracking-widest uppercase ${isDark ? "text-white/40" : "text-gray-400"}`}>The Space</p>
       </div>
 
       {/* Directory */}
       <div className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Directory</h2>
-        <p className="text-gray-600 mb-8">
+        <p className={`mb-8 ${isDark ? "text-white/50" : "text-gray-600"}`}>
           Find and connect with designers, developers, and creative professionals
           in Berlin. Search by name, role, company, or skill.
         </p>
@@ -59,9 +62,9 @@ export default function Community() {
           placeholder="Search by name, skill, role, or company..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="input mb-2 max-w-md"
+          className={`input mb-2 max-w-md ${isDark ? "input-dark" : ""}`}
         />
-        <p className="text-sm text-gray-500">
+        <p className={`text-sm ${isDark ? "text-white/40" : "text-gray-500"}`}>
           {filteredMembers.length} {filteredMembers.length === 1 ? "member" : "members"} found
         </p>
       </div>
@@ -70,11 +73,11 @@ export default function Community() {
       {filteredMembers.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredMembers.map((member) => (
-            <MemberCard key={member.id} member={member} />
+            <MemberCard key={member.id} member={member} isDark={isDark} />
           ))}
         </div>
       ) : (
-        <div className="card text-center text-gray-500 py-12">
+        <div className={`card text-center py-12 ${isDark ? "card-dark" : ""} ${isDark ? "text-white/40" : "text-gray-500"}`}>
           <p className="mb-2">No members found matching your search.</p>
           <p className="text-sm">Try a different keyword or browse all members.</p>
         </div>

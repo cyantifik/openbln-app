@@ -27,7 +27,7 @@ export default async function MemberProfile({ params }: MemberPageProps) {
     <div className="max-w-4xl mx-auto px-6 py-12">
       {/* Back Link */}
       <Link href="/community" className="text-sm text-gray-600 hover:text-black mb-8 inline-block">
-        ← Back to Community
+        ← Back to Space
       </Link>
 
       {/* Header Section */}
