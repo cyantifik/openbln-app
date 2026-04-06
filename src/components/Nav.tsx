@@ -144,25 +144,23 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
           {showToggle && (
             <>
               <span style={{ color: colors.separator }} className="nav-sep">|</span>
-              <div
-                className="flex items-center gap-1.5 px-1 cursor-pointer"
-                title={`Theme: ${THEME_STOPS[stop].label}`}
-              >
-                {THEME_STOPS.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => setStop(s.id)}
-                    className="relative transition-all duration-300 rounded-full cursor-pointer"
-                    style={{
-                      width: stop === s.id ? 10 : 6,
-                      height: stop === s.id ? 10 : 6,
-                      backgroundColor: stop === s.id ? colors.text : colors.textFaint,
-                      opacity: stop === s.id ? 1 : 0.4,
-                    }}
-                    aria-label={`Theme: ${s.label}`}
-                    title={s.label}
-                  />
-                ))}
+              <div className="flex items-center" title={`Theme: ${THEME_STOPS[stop].label}`}>
+                <input
+                  type="range"
+                  min={0}
+                  max={4}
+                  step={1}
+                  value={stop}
+                  onChange={(e) => setStop(parseInt(e.target.value, 10))}
+                  className="theme-slider"
+                  style={{
+                    // CSS custom properties for dynamic coloring
+                    "--slider-track": colors.border,
+                    "--slider-fill": colors.text,
+                    "--slider-thumb": colors.text,
+                  } as React.CSSProperties}
+                  aria-label="Theme brightness"
+                />
               </div>
             </>
           )}
@@ -273,23 +271,24 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
           <a href="https://www.linkedin.com/company/open-bln" target="_blank" rel="noopener noreferrer" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>LI</a>
           <a href="mailto:hallo@open-bln.com" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>@</a>
 
-          {/* Mobile theme dots */}
+          {/* Mobile theme slider */}
           {showToggle && (
-            <div className="flex items-center gap-2 py-1">
-              {THEME_STOPS.map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => setStop(s.id)}
-                  className="rounded-full cursor-pointer transition-all duration-300"
-                  style={{
-                    width: stop === s.id ? 12 : 8,
-                    height: stop === s.id ? 12 : 8,
-                    backgroundColor: stop === s.id ? colors.text : colors.textFaint,
-                    opacity: stop === s.id ? 1 : 0.4,
-                  }}
-                  aria-label={`Theme: ${s.label}`}
-                />
-              ))}
+            <div className="flex items-center py-1">
+              <input
+                type="range"
+                min={0}
+                max={4}
+                step={1}
+                value={stop}
+                onChange={(e) => setStop(parseInt(e.target.value, 10))}
+                className="theme-slider theme-slider-mobile"
+                style={{
+                  "--slider-track": colors.border,
+                  "--slider-fill": colors.text,
+                  "--slider-thumb": colors.text,
+                } as React.CSSProperties}
+                aria-label="Theme brightness"
+              />
             </div>
           )}
 
