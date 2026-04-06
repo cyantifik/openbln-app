@@ -1,15 +1,29 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AuthGuard from "@/components/AuthGuard";
+import { supabase } from "@/lib/supabase";
 import { getUpcomingEventsDB, getPastEvents, EVENTS } from "@/lib/data";
+import { useTheme } from "@/lib/theme";
 import type { Event } from "@/lib/data";
 
-export default function Events() {
+export default function EventsPage() {
   const [upcoming, setUpcoming] = useState<Event[]>([]);
   const [past, setPast] = useState<Event[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   useEffect(() => {
+    // Check auth state
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    // Load events
     const loadEvents = async () => {
       try {
         const upcomingEvents = await getUpcomingEventsDB();
@@ -31,6 +45,8 @@ export default function Events() {
     };
 
     loadEvents();
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const formatDate = (dateStr: string) => {
@@ -43,30 +59,51 @@ export default function Events() {
   };
 
   return (
-    <AuthGuard>
     <div className="max-w-4xl mx-auto px-6 py-12">
       <h1 className="text-4xl font-bold mb-12">Events</h1>
 
       {/* Upcoming Events */}
       {upcoming.length > 0 && (
         <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-8 text-black">Upcoming Events</h2>
+          <h2 className={`text-2xl font-bold mb-8 ${isDark ? "text-white" : "text-black"}`}>Upcoming</h2>
           <div className="space-y-6">
             {upcoming.map((event) => (
-              <div key={event.id} className="card border-l-4 border-l-black">
+              <div
+                key={event.id}
+                className={`card border-l-4 ${isDark ? "card-dark border-l-white" : "border-l-black"}`}
+              >
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="text-lg font-semibold">{event.title}</h3>
-                  <span className="text-sm font-medium text-gray-500">
-                    {event.attendance_count}{" "}
-                    {event.attendance_count === 1 ? "attending" : "attending"}
+                  <span className={`text-sm font-medium ${isDark ? "text-white/40" : "text-gray-500"}`}>
+                    {event.attendance_count} attending
                   </span>
                 </div>
                 {event.description && (
-                  <p className="text-gray-600 mb-4">{event.description}</p>
+                  <p className={`mb-4 ${isDark ? "text-white/50" : "text-gray-600"}`}>{event.description}</p>
                 )}
-                <div className="flex items-center gap-6 text-sm text-gray-500">
-                  <span>{formatDate(event.date)}</span>
-                  {event.location && <span>{event.location}</span>}
+                <div className={`flex items-center justify-between text-sm ${isDark ? "text-white/40" : "text-gray-500"}`}>
+                  <div className="flex items-center gap-6">
+                    <span>{formatDate(event.date)}</span>
+                    {event.location && <span>{event.location}</span>}
+                  </div>
+                  {isAuthenticated ? (
+                    <button
+                      className={`px-4 py-2 rounded-full text-xs tracking-widest uppercase transition-all duration-300 ${
+                        isDark
+                          ? "bg-white text-black hover:bg-gray-200"
+                          : "bg-black text-white hover:bg-gray-800"
+                      }`}
+                    >
+                      RSVP
+                    </button>
+                  ) : (
+                    <a
+                      href="/auth/login"
+                      className={`text-xs tracking-widest uppercase ${isDark ? "text-white/30 hover:text-white/60" : "text-gray-400 hover:text-gray-600"} transition-colors`}
+                    >
+                      Sign in to RSVP
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
@@ -77,21 +114,20 @@ export default function Events() {
       {/* Past Events */}
       {past.length > 0 && (
         <section>
-          <h2 className="text-2xl font-bold mb-8 text-gray-600">Past Events</h2>
+          <h2 className={`text-2xl font-bold mb-8 ${isDark ? "text-white/50" : "text-gray-600"}`}>Past</h2>
           <div className="space-y-6">
             {past.map((event) => (
-              <div key={event.id} className="card opacity-75">
+              <div key={event.id} className={`card opacity-60 ${isDark ? "card-dark" : ""}`}>
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="text-lg font-semibold">{event.title}</h3>
-                  <span className="text-sm font-medium text-gray-400">
-                    {event.attendance_count}{" "}
-                    {event.attendance_count === 1 ? "attended" : "attended"}
+                  <span className={`text-sm font-medium ${isDark ? "text-white/30" : "text-gray-400"}`}>
+                    {event.attendance_count} attended
                   </span>
                 </div>
                 {event.description && (
-                  <p className="text-gray-600 mb-4">{event.description}</p>
+                  <p className={`mb-4 ${isDark ? "text-white/40" : "text-gray-600"}`}>{event.description}</p>
                 )}
-                <div className="flex items-center gap-6 text-sm text-gray-500">
+                <div className={`flex items-center gap-6 text-sm ${isDark ? "text-white/30" : "text-gray-500"}`}>
                   <span>{formatDate(event.date)}</span>
                   {event.location && <span>{event.location}</span>}
                 </div>
@@ -103,11 +139,10 @@ export default function Events() {
 
       {/* No Events */}
       {upcoming.length === 0 && past.length === 0 && (
-        <div className="card text-center text-gray-500 py-12">
-          <p>No events found.</p>
+        <div className={`card text-center py-12 ${isDark ? "card-dark text-white/40" : "text-gray-500"}`}>
+          <p>No events yet. Stay tuned.</p>
         </div>
       )}
     </div>
-    </AuthGuard>
   );
 }
