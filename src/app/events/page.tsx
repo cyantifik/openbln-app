@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
 import { getUpcomingEventsDB, getPastEvents, EVENTS } from "@/lib/data";
 import type { Event } from "@/lib/data";
+import { EVENT_ARCHIVE } from "@/lib/event-archive";
 
 export default function EventsPage() {
   const [upcoming, setUpcoming] = useState<Event[]>([]);
@@ -135,6 +137,35 @@ export default function EventsPage() {
           <div className="text-center text-white/30 py-20">
             <p>No events yet. Stay tuned.</p>
           </div>
+        )}
+
+        {/* Event Archive */}
+        {EVENT_ARCHIVE.length > 0 && (
+          <section className="mt-20 border-t border-white/10 pt-12">
+            <h2 className="text-lg font-semibold text-white/25 tracking-widest uppercase mb-8">Archive</h2>
+            <div className="space-y-6">
+              {[...EVENT_ARCHIVE].reverse().map((event) => (
+                <Link
+                  key={event.slug}
+                  href={`/events/${event.slug}`}
+                  className="block border-l border-white/10 pl-6 py-3 transition-all duration-300 hover:border-white/30 group"
+                >
+                  <div className="flex items-baseline gap-4 mb-1">
+                    <span className="text-xs text-white/15 tracking-widest">
+                      #{event.number}
+                    </span>
+                    <h3 className="text-lg font-light text-white/40 group-hover:text-white/70 transition-colors duration-300">
+                      {event.title}
+                    </h3>
+                  </div>
+                  <div className="flex items-center gap-4 text-xs text-white/20">
+                    <span>{event.date}</span>
+                    <span>{event.location}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
       </main>
 
