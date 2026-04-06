@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
@@ -33,25 +34,19 @@ export default function Home() {
 
         {/* Center logo + tagline */}
         <div className="flex-1 flex flex-col items-center justify-center -mt-10 px-6">
-          <h1
-            className="text-white text-6xl md:text-8xl lg:text-9xl tracking-tight mb-6"
-            style={{ letterSpacing: "-0.03em" }}
-          >
-            <span className="font-bold">OPEN</span>{" "}
-            <span className="font-light">BLN</span>
-          </h1>
+          <Image
+            src="/logo-transparent.svg"
+            alt="OPEN BLN"
+            width={320}
+            height={320}
+            className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 mb-6"
+            priority
+          />
 
-          <p className="text-white/50 text-base md:text-lg max-w-lg text-center leading-relaxed mb-8">
+          <p className="text-white/50 text-sm sm:text-base md:text-lg max-w-lg text-center leading-relaxed">
             Berlin-based creative community shaped by mentorship,
             colored with inspiration, and driven by purposeful collaboration.
           </p>
-
-          <a
-            href="/community"
-            className="text-white/50 text-sm hover:text-white transition-colors duration-300"
-          >
-            Enter the Space &rarr;
-          </a>
         </div>
 
         <Footer variant="dark" />

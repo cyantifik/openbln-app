@@ -97,26 +97,45 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
           <span className="font-light">BLN</span>
         </Link>
 
-        {/* Desktop Nav Links */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop Nav Links — SPACE | IG | LI | @ */}
+        <div className="hidden md:flex items-center gap-6">
           <Link
             href="/community"
-            className={`text-sm transition-colors ${linkColor}`}
+            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
           >
-            Community
+            Space
           </Link>
-          <Link
-            href="/events"
-            className={`text-sm transition-colors ${linkColor}`}
+          <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
+          <a
+            href="https://instagram.com/open.bln"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
           >
-            Events
-          </Link>
+            IG
+          </a>
+          <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
+          <a
+            href="https://linkedin.com/company/openbln"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
+          >
+            LI
+          </a>
+          <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
+          <a
+            href="mailto:hello@open-bln.com"
+            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
+          >
+            @
+          </a>
 
           {/* Avatar Dropdown */}
-          <div className="relative" ref={dropdownRef}>
+          <div className="relative ml-2" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className={`w-9 h-9 rounded-full border transition-colors flex items-center justify-center text-sm cursor-pointer ${avatarClasses}`}
+              className={`w-8 h-8 rounded-full border transition-colors flex items-center justify-center text-sm cursor-pointer ${avatarClasses}`}
               aria-label="User menu"
             >
               &bull;
@@ -189,29 +208,49 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
         <div className={`md:hidden px-6 pb-6 flex flex-col gap-4 ${isDark ? "bg-black/90" : "bg-white"}`}>
           <Link
             href="/community"
-            className={`text-sm transition-colors ${linkColor}`}
+            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
             onClick={() => setMobileOpen(false)}
           >
-            Community
+            Space
           </Link>
-          <Link
-            href="/events"
-            className={`text-sm transition-colors ${linkColor}`}
+          <a
+            href="https://instagram.com/open.bln"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
             onClick={() => setMobileOpen(false)}
           >
-            Events
-          </Link>
-          {user ? (
-            <>
-              <Link href="/profile" className={`text-sm transition-colors ${linkColor}`} onClick={() => setMobileOpen(false)}>Profile</Link>
-              <button className={`text-sm text-left transition-colors ${linkColor} bg-transparent cursor-pointer`} onClick={() => { handleSignOut(); setMobileOpen(false); }}>Sign Out</button>
-            </>
-          ) : (
-            <>
-              <Link href="/auth/login" className={`text-sm transition-colors ${linkColor}`} onClick={() => setMobileOpen(false)}>Sign In</Link>
-              <Link href="/auth/signup" className={`text-sm transition-colors ${linkColor}`} onClick={() => setMobileOpen(false)}>Sign Up</Link>
-            </>
-          )}
+            IG
+          </a>
+          <a
+            href="https://linkedin.com/company/openbln"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
+            onClick={() => setMobileOpen(false)}
+          >
+            LI
+          </a>
+          <a
+            href="mailto:hello@open-bln.com"
+            className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
+            onClick={() => setMobileOpen(false)}
+          >
+            @
+          </a>
+          <div className={`border-t pt-3 mt-1 ${isDark ? "border-white/10" : "border-gray-200"}`}>
+            {user ? (
+              <>
+                <Link href="/profile" className={`block text-xs tracking-widest uppercase transition-colors py-2 ${linkColor}`} onClick={() => setMobileOpen(false)}>Profile</Link>
+                <button className={`text-xs tracking-widest uppercase text-left transition-colors py-2 ${linkColor} bg-transparent cursor-pointer`} onClick={() => { handleSignOut(); setMobileOpen(false); }}>Sign Out</button>
+              </>
+            ) : (
+              <>
+                <Link href="/auth/login" className={`block text-xs tracking-widest uppercase transition-colors py-2 ${linkColor}`} onClick={() => setMobileOpen(false)}>Sign In</Link>
+                <Link href="/auth/signup" className={`block text-xs tracking-widest uppercase transition-colors py-2 ${linkColor}`} onClick={() => setMobileOpen(false)}>Sign Up</Link>
+              </>
+            )}
+          </div>
         </div>
       )}
     </nav>
