@@ -89,13 +89,13 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
     <nav className={`${navBg} sticky top-0 z-50`}>
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link
-          href="/"
+        <a
+          href="https://open-bln.com"
           className={`logo logo-animated text-xl tracking-tight ${logoColor}`}
         >
           <span className="font-bold">OPEN</span>{" "}
           <span className="font-light">BLN</span>
-        </Link>
+        </a>
 
         {/* Desktop Nav Links — SPACE | IG | LI | @ */}
         <div className="hidden md:flex items-center gap-6">
