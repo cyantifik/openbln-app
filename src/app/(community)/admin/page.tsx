@@ -76,7 +76,7 @@ export default function Admin() {
       const { error: memberError } = await supabase.from("members").insert({
         auth_id: app.auth_id,
         name: app.name,
-        role: "Community Member",
+        role: "Member",
         company: "",
         bio: app.working_on,
         skills_offered: app.can_help_with.split(",").map((s) => s.trim()),

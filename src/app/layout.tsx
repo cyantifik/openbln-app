@@ -3,7 +3,10 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OPEN BLN",
+  title: {
+    default: "OPEN BLN",
+    template: "%s | OPEN BLN",
+  },
   description:
     "A Berlin-based creative collective shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
   robots: {

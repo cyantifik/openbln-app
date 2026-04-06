@@ -49,21 +49,25 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         <div className="flex gap-3 text-xs tracking-widest uppercase">
           <Link
             href="/auth/login"
-            className="px-4 py-2 border rounded-full transition-all duration-300"
+            className="px-5 py-2.5 border rounded-full transition-all duration-300"
             style={{
               borderColor: theme.border,
               color: theme.textMuted,
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.55")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
             Sign in
           </Link>
           <Link
             href="/auth/signup"
-            className="px-4 py-2 rounded-full transition-all duration-300"
+            className="px-5 py-2.5 border rounded-full transition-all duration-300"
             style={{
-              backgroundColor: theme.accent,
-              color: theme.accentText,
+              borderColor: theme.border,
+              color: theme.textMuted,
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.55")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
             Request access
           </Link>
