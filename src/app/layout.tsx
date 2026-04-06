@@ -7,6 +7,30 @@ export const metadata: Metadata = {
     "A Berlin-based creative community shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
   icons: {
     icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  openGraph: {
+    title: "OPEN BLN",
+    description:
+      "Berlin-based creative community shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
+    url: "https://open-bln.com",
+    siteName: "OPEN BLN",
+    images: [
+      {
+        url: "https://open-bln.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "OPEN BLN",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OPEN BLN",
+    description:
+      "Berlin-based creative community shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
+    images: ["https://open-bln.com/og-image.png"],
   },
 };
 
