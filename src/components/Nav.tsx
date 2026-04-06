@@ -63,8 +63,9 @@ export default function Nav() {
     <nav className="border-b border-gray-200 bg-white sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="logo text-xl font-bold tracking-tight">
-          OPEN BLN
+        <Link href="/" className="logo logo-animated text-xl tracking-tight">
+          <span className="font-bold">OPEN</span>{" "}
+          <span className="font-light">BLN</span>
         </Link>
 
         {/* Nav Links */}

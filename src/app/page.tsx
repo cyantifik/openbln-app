@@ -32,7 +32,7 @@ export default async function Home() {
     <div className="max-w-6xl mx-auto px-6 py-20">
       {/* Hero */}
       <div className="mb-20">
-        <h1 className="text-5xl font-bold mb-6">Welcome to OPEN BLN</h1>
+        <h1 className="text-5xl mb-6">Welcome to <span className="font-bold">OPEN</span> <span className="font-light">BLN</span></h1>
         <p className="text-xl text-gray-600 max-w-2xl">
           A community platform for designers, developers, and creative
           professionals in Berlin. Connect, collaborate, and grow together.
