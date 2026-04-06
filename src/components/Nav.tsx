@@ -5,13 +5,17 @@ import { useState, useRef, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 
-export default function Nav() {
+type NavVariant = "light" | "dark";
+
+export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const isDark = variant === "dark";
+
   useEffect(() => {
-    // Check if user is logged in
     const checkUser = async () => {
       try {
         const {
@@ -25,7 +29,6 @@ export default function Nav() {
 
     checkUser();
 
-    // Subscribe to auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -50,7 +53,10 @@ export default function Nav() {
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     }
@@ -59,26 +65,49 @@ export default function Nav() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Color classes based on variant
+  const navBg = isDark
+    ? "bg-transparent border-b border-white/10"
+    : "bg-white border-b border-gray-200";
+  const logoColor = isDark ? "text-white" : "text-black";
+  const linkColor = isDark
+    ? "text-white/60 hover:text-white"
+    : "text-gray-700 hover:text-black";
+  const avatarClasses = isDark
+    ? "bg-white/20 border-white/30 hover:border-white/50 text-white/70"
+    : "bg-gray-300 border-gray-300 hover:border-gray-400 text-gray-600";
+  const dropdownBg = isDark
+    ? "bg-gray-900 border-white/10"
+    : "bg-white border-gray-200";
+  const dropdownItem = isDark
+    ? "text-white/70 hover:bg-white/10"
+    : "text-gray-700 hover:bg-gray-50";
+  const dropdownBorder = isDark ? "border-white/10" : "border-gray-200";
+  const hamburgerColor = isDark ? "bg-white" : "bg-black";
+
   return (
-    <nav className="border-b border-gray-200 bg-white sticky top-0 z-50">
+    <nav className={`${navBg} sticky top-0 z-50`}>
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="logo logo-animated text-xl tracking-tight">
+        <Link
+          href="/"
+          className={`logo logo-animated text-xl tracking-tight ${logoColor}`}
+        >
           <span className="font-bold">OPEN</span>{" "}
           <span className="font-light">BLN</span>
         </Link>
 
-        {/* Nav Links */}
-        <div className="flex items-center gap-8">
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex items-center gap-8">
           <Link
             href="/community"
-            className="text-sm text-gray-700 hover:text-black transition-colors"
+            className={`text-sm transition-colors ${linkColor}`}
           >
             Community
           </Link>
           <Link
             href="/events"
-            className="text-sm text-gray-700 hover:text-black transition-colors"
+            className={`text-sm transition-colors ${linkColor}`}
           >
             Events
           </Link>
@@ -87,36 +116,35 @@ export default function Nav() {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="w-9 h-9 rounded-full bg-gray-300 border border-gray-300 hover:border-gray-400 transition-colors flex items-center justify-center text-gray-600 text-sm cursor-pointer"
+              className={`w-9 h-9 rounded-full border transition-colors flex items-center justify-center text-sm cursor-pointer ${avatarClasses}`}
               aria-label="User menu"
             >
-              •
+              &bull;
             </button>
 
-            {/* Dropdown Menu */}
             {dropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-sm z-1000">
+              <div
+                className={`absolute top-full right-0 mt-2 w-40 border rounded-md shadow-sm z-[1000] ${dropdownBg}`}
+              >
                 {user ? (
                   <>
                     <Link
                       href="/profile"
-                      className="block w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors first:pt-2 last:pb-2"
+                      className={`block w-full px-4 py-3 text-left text-sm transition-colors ${dropdownItem}`}
                       onClick={() => setDropdownOpen(false)}
                     >
                       Profile
                     </Link>
                     <Link
                       href="/admin"
-                      className="block w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors first:pt-2 last:pb-2"
+                      className={`block w-full px-4 py-3 text-left text-sm transition-colors ${dropdownItem}`}
                       onClick={() => setDropdownOpen(false)}
                     >
                       Admin
                     </Link>
                     <button
-                      className="block w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-200 first:pt-2 last:pb-2 bg-transparent cursor-pointer"
-                      onClick={() => {
-                        handleSignOut();
-                      }}
+                      className={`block w-full px-4 py-3 text-left text-sm transition-colors border-t bg-transparent cursor-pointer ${dropdownItem} ${dropdownBorder}`}
+                      onClick={handleSignOut}
                     >
                       Sign Out
                     </button>
@@ -125,14 +153,14 @@ export default function Nav() {
                   <>
                     <Link
                       href="/auth/login"
-                      className="block w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors first:pt-2"
+                      className={`block w-full px-4 py-3 text-left text-sm transition-colors ${dropdownItem}`}
                       onClick={() => setDropdownOpen(false)}
                     >
                       Sign In
                     </Link>
                     <Link
                       href="/auth/signup"
-                      className="block w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors last:pb-2"
+                      className={`block w-full px-4 py-3 text-left text-sm transition-colors ${dropdownItem}`}
                       onClick={() => setDropdownOpen(false)}
                     >
                       Sign Up
@@ -143,7 +171,49 @@ export default function Nav() {
             )}
           </div>
         </div>
+
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden flex flex-col gap-1.5 cursor-pointer"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
+        >
+          <span className={`block w-6 h-0.5 ${hamburgerColor} transition-transform ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`block w-6 h-0.5 ${hamburgerColor} transition-opacity ${mobileOpen ? "opacity-0" : ""}`} />
+          <span className={`block w-6 h-0.5 ${hamburgerColor} transition-transform ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className={`md:hidden px-6 pb-6 flex flex-col gap-4 ${isDark ? "bg-black/90" : "bg-white"}`}>
+          <Link
+            href="/community"
+            className={`text-sm transition-colors ${linkColor}`}
+            onClick={() => setMobileOpen(false)}
+          >
+            Community
+          </Link>
+          <Link
+            href="/events"
+            className={`text-sm transition-colors ${linkColor}`}
+            onClick={() => setMobileOpen(false)}
+          >
+            Events
+          </Link>
+          {user ? (
+            <>
+              <Link href="/profile" className={`text-sm transition-colors ${linkColor}`} onClick={() => setMobileOpen(false)}>Profile</Link>
+              <button className={`text-sm text-left transition-colors ${linkColor} bg-transparent cursor-pointer`} onClick={() => { handleSignOut(); setMobileOpen(false); }}>Sign Out</button>
+            </>
+          ) : (
+            <>
+              <Link href="/auth/login" className={`text-sm transition-colors ${linkColor}`} onClick={() => setMobileOpen(false)}>Sign In</Link>
+              <Link href="/auth/signup" className={`text-sm transition-colors ${linkColor}`} onClick={() => setMobileOpen(false)}>Sign Up</Link>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 }
