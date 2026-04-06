@@ -14,6 +14,15 @@ export default async function MemberProfile({ params }: MemberPageProps) {
     notFound();
   }
 
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-12">
       {/* Back Link */}
@@ -23,8 +32,24 @@ export default async function MemberProfile({ params }: MemberPageProps) {
 
       {/* Header Section */}
       <div className="mb-12">
-        <div className="flex items-start justify-between mb-6">
-          <div>
+        <div className="flex items-start gap-8 mb-6">
+          {/* Avatar */}
+          <div className="flex-shrink-0">
+            {member.avatar_url ? (
+              <img
+                src={member.avatar_url}
+                alt={member.name}
+                className="w-32 h-32 rounded-full object-cover border border-gray-200"
+              />
+            ) : (
+              <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-3xl border border-gray-200">
+                {getInitials(member.name)}
+              </div>
+            )}
+          </div>
+
+          {/* Name and Info */}
+          <div className="flex-1">
             <div className="flex items-center gap-4 mb-4">
               <h1 className="text-4xl font-bold">{member.name}</h1>
               {member.is_admin && (
