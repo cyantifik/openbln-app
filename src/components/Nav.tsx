@@ -99,12 +99,12 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
 
         {/* Desktop Nav Links — SPACE | IG | LI | @ */}
         <div className="hidden md:flex items-center gap-6">
-          <Link
-            href="/community"
+          <a
+            href="https://space.open-bln.com"
             className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
           >
             Space
-          </Link>
+          </a>
           <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
           <a
             href="https://instagram.com/open.bln"
@@ -116,7 +116,7 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
           </a>
           <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
           <a
-            href="https://linkedin.com/company/openbln"
+            href="https://www.linkedin.com/company/open-bln"
             target="_blank"
             rel="noopener noreferrer"
             className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
@@ -125,7 +125,7 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
           </a>
           <span className={`${isDark ? "text-white/20" : "text-gray-300"}`}>|</span>
           <a
-            href="mailto:hello@open-bln.com"
+            href="mailto:hallo@open-bln.com"
             className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
           >
             @
@@ -206,13 +206,13 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className={`md:hidden px-6 pb-6 flex flex-col gap-4 ${isDark ? "bg-black/90" : "bg-white"}`}>
-          <Link
-            href="/community"
+          <a
+            href="https://space.open-bln.com"
             className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
             onClick={() => setMobileOpen(false)}
           >
             Space
-          </Link>
+          </a>
           <a
             href="https://instagram.com/open.bln"
             target="_blank"
@@ -223,7 +223,7 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
             IG
           </a>
           <a
-            href="https://linkedin.com/company/openbln"
+            href="https://www.linkedin.com/company/open-bln"
             target="_blank"
             rel="noopener noreferrer"
             className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
@@ -232,7 +232,7 @@ export default function Nav({ variant = "light" }: { variant?: NavVariant }) {
             LI
           </a>
           <a
-            href="mailto:hello@open-bln.com"
+            href="mailto:hallo@open-bln.com"
             className={`text-xs tracking-widest uppercase transition-colors ${linkColor}`}
             onClick={() => setMobileOpen(false)}
           >
