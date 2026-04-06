@@ -13,6 +13,8 @@ export default function Profile() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
+  const [uploading, setUploading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -51,6 +53,7 @@ export default function Profile() {
 
         if (memberData) {
           setMember(memberData);
+          setAvatarUrl(memberData.avatar_url || "");
           setFormData({
             name: memberData.name || "",
             role: memberData.role || "",
@@ -89,6 +92,67 @@ export default function Profile() {
         [key]: value,
       },
     });
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      setError("");
+      if (!e.target.files || e.target.files.length === 0) {
+        return;
+      }
+
+      const file = e.target.files[0];
+      if (!user) {
+        setError("You must be logged in to upload an avatar");
+        return;
+      }
+
+      setUploading(true);
+
+      // Create unique filename with timestamp
+      const ext = file.name.split(".").pop();
+      const timestamp = Date.now();
+      const filename = `${user.id}/${timestamp}.${ext}`;
+
+      // Upload to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(filename, file, { upsert: false });
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data } = supabase.storage.from("avatars").getPublicUrl(filename);
+      const publicUrl = data.publicUrl;
+
+      setAvatarUrl(publicUrl);
+
+      // Update member record
+      if (member) {
+        const { error: updateError } = await supabase
+          .from("members")
+          .update({ avatar_url: publicUrl })
+          .eq("id", member.id);
+
+        if (updateError) throw updateError;
+      }
+
+      setSuccess("Avatar uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      setError("Failed to upload avatar");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -192,10 +256,47 @@ export default function Profile() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* Avatar Upload */}
+        <div className="flex flex-col items-center">
+          <div className="mb-4">
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt={formData.name || "Avatar"}
+                className="w-24 h-24 rounded-full object-cover border border-gray-200"
+              />
+            ) : (
+              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-lg">
+                {getInitials(formData.name) || "?"}
+              </div>
+            )}
+          </div>
+          <div>
+            <input
+              ref={(input) => {
+                if (input) {
+                  input.style.display = "none";
+                }
+              }}
+              id="avatar-input"
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarUpload}
+              disabled={uploading}
+            />
+            <label
+              htmlFor="avatar-input"
+              className="button-primary cursor-pointer inline-block"
+            >
+              {uploading ? "Uploading..." : "Change Photo"}
+            </label>
+          </div>
+        </div>
+
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium mb-2">Full Name</label>
+          <label className="block text-sm font-medium mb-3">Full Name</label>
           <input
             type="text"
             name="name"
@@ -208,7 +309,7 @@ export default function Profile() {
 
         {/* Role */}
         <div>
-          <label className="block text-sm font-medium mb-2">Role / Title</label>
+          <label className="block text-sm font-medium mb-3">Role / Title</label>
           <input
             type="text"
             name="role"
@@ -221,7 +322,7 @@ export default function Profile() {
 
         {/* Company */}
         <div>
-          <label className="block text-sm font-medium mb-2">Company</label>
+          <label className="block text-sm font-medium mb-3">Company</label>
           <input
             type="text"
             name="company"
@@ -234,7 +335,7 @@ export default function Profile() {
 
         {/* Bio */}
         <div>
-          <label className="block text-sm font-medium mb-2">Bio</label>
+          <label className="block text-sm font-medium mb-3">Bio</label>
           <textarea
             name="bio"
             value={formData.bio}
@@ -247,7 +348,7 @@ export default function Profile() {
 
         {/* Skills Offered */}
         <div>
-          <label className="block text-sm font-medium mb-2">Skills Offered</label>
+          <label className="block text-sm font-medium mb-3">Skills Offered</label>
           <textarea
             name="skills_offered"
             value={formData.skills_offered}
@@ -261,7 +362,7 @@ export default function Profile() {
 
         {/* Skills Needed */}
         <div>
-          <label className="block text-sm font-medium mb-2">Skills Needed</label>
+          <label className="block text-sm font-medium mb-3">Skills Needed</label>
           <textarea
             name="skills_needed"
             value={formData.skills_needed}
@@ -277,15 +378,15 @@ export default function Profile() {
         <div className="border-t border-gray-200 pt-6">
           <h2 className="text-lg font-semibold mb-4">Social Links</h2>
 
-          {["linkedin", "twitter", "github", "portfolio"].map((platform) => (
-            <div key={platform}>
-              <label className="block text-sm font-medium mb-2 capitalize">{platform}</label>
+          {["linkedin", "instagram"].map((platform) => (
+            <div key={platform} className="mb-6 last:mb-0">
+              <label className="block text-sm font-medium mb-3 capitalize">{platform}</label>
               <input
                 type="url"
                 value={formData.links[platform] || ""}
                 onChange={(e) => handleLinkChange(platform, e.target.value)}
                 className="input"
-                placeholder={`https://${platform}.com/yourprofile`}
+                placeholder={platform === "linkedin" ? "https://linkedin.com/in/yourprofile" : "https://instagram.com/yourhandle"}
               />
             </div>
           ))}
