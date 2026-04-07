@@ -97,16 +97,6 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
         {/* Desktop Nav Links */}
         <div className="nav-links hidden md:flex items-center gap-6">
           <a
-            href="/about"
-            className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
-            style={{ color: colors.textMuted }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = colors.text)}
-            onMouseLeave={(e) => (e.currentTarget.style.color = colors.textMuted)}
-          >
-            About
-          </a>
-          <span style={{ color: colors.separator }} className="nav-sep">|</span>
-          <a
             href="/events"
             className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
             style={{ color: colors.textMuted }}
@@ -286,7 +276,6 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
           className="md:hidden px-6 pb-6 flex flex-col gap-4 transition-colors duration-300"
           style={{ backgroundColor: colors.bg }}
         >
-          <a href="/about" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>About</a>
           <a href="/events" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Events</a>
           <a href="https://space.open-bln.com" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Space</a>
           <a href="https://instagram.com/open.bln" target="_blank" rel="noopener noreferrer" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>IG</a>
