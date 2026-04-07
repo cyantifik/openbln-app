@@ -23,7 +23,7 @@ export const EVENT_ARCHIVE: ArchivedEvent[] = [
     description: [
       "The very first OPEN BLN gathering brought together mentors, mentees, builders, learners, and dreamers under one roof.",
       "Through a guided exercise, participants discovered each other's paths, set intentions for the community, and began co-shaping what OPEN BLN would become.",
-      "It was an evening of meaningful conversations and intentional connection — the first brushstroke on what was, until then, a blank canvas.",
+      "It was an evening of meaningful conversations and intentional connection. The first brushstroke on what was, until then, a blank canvas.",
     ],
     highlights: [
       "First official OPEN BLN event",
@@ -42,7 +42,7 @@ export const EVENT_ARCHIVE: ArchivedEvent[] = [
     location: "Berlin, Mitte",
     description: [
       "Event 002 arrived just days after OPEN BLN's first anniversary on International Women's Day. We hit capacity and secured a bigger space. The waitlist was open, and more were welcome.",
-      "The room was filled with returning members, new faces, and fellow community builders. It was an honor — and a little nerve-wracking. But what can go wrong when the intention is real?",
+      "The room was filled with returning members, new faces, and fellow community builders. It was an honor, and a little nerve-wracking. But what can go wrong when the intention is real?",
       "A day to honor our purpose and our calling. Regardless of disciplines, we stepped in together, embraced the unknown, and shaped the future one step at a time.",
     ],
     highlights: [

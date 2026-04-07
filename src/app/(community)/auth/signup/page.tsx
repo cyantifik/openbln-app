@@ -123,7 +123,7 @@ export default function SignUp() {
             </p>
             <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-500">
               <p>
-                We also sent a confirmation link to <strong>{formData.email}</strong> — click it to verify your email while you wait.
+                We also sent a confirmation link to <strong>{formData.email}</strong>. Click it to verify your email while you wait.
               </p>
             </div>
           </div>

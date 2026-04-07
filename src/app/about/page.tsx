@@ -75,7 +75,7 @@ export default function AboutPage() {
         <Section className="mb-16">
           <p className="text-lg sm:text-xl font-light text-white/80 leading-relaxed">
             OPEN BLN was born on International Women&apos;s Day, out of a strong
-            calling to build something independent — something that couldn&apos;t
+            calling to build something independent, something that couldn&apos;t
             be taken away.
           </p>
         </Section>
@@ -84,7 +84,7 @@ export default function AboutPage() {
           <p className="text-base text-white/50 leading-relaxed">
             After pouring heart and soul into a community on someone else&apos;s
             ground, the founder learned how fragile that can feel. So we started
-            fresh — with our own identity, rooted in mentorship and open to
+            fresh, with our own identity, rooted in mentorship and open to
             possibilities.
           </p>
         </Section>
@@ -100,7 +100,7 @@ export default function AboutPage() {
 
         <Section className="mb-16" delay={100}>
           <p className="text-base text-white/50 leading-relaxed">
-            In the meantime, the work continued — mentoring, connecting, building,
+            In the meantime, the work continued. Mentoring, connecting, building,
             even through extraordinarily challenging personal times. And a
             realization emerged: the act of being that voice for someone else,
             even when searching for one yourself, was the whole point.
@@ -120,7 +120,7 @@ export default function AboutPage() {
           <p className="text-base text-white/50 leading-relaxed">
             When the platforms we trusted let us down, people were left wondering:
             where do we go from here? We didn&apos;t want to leave anyone in the
-            cold. So we started simple — face to face, one conversation at a time.
+            cold. So we started simple, face to face, one conversation at a time.
           </p>
         </Section>
 
@@ -156,7 +156,7 @@ export default function AboutPage() {
         {/* ── Closing ── */}
         <Section className="mb-20">
           <p className="text-lg sm:text-xl font-light text-white/80 leading-relaxed mb-8">
-            It&apos;s full of possibilities we get to fill — together.
+            It&apos;s full of possibilities we get to fill, together.
           </p>
           <p className="text-sm text-white/30">
             Year one starts now.
