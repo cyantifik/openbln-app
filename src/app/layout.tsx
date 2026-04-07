@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s | OPEN BLN",
   },
   description:
-    "A Berlin-based creative collective shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
+    "A Berlin-based creative community shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
   robots: {
     index: false,
     follow: false,
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "OPEN BLN",
     description:
-      "A Berlin-based creative collective shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
+      "A Berlin-based creative community shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
     url: "https://open-bln.com",
     siteName: "OPEN BLN",
     images: [
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "OPEN BLN",
     description:
-      "A Berlin-based creative collective shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
+      "A Berlin-based creative community shaped by mentorship, colored with inspiration, and driven by purposeful collaboration.",
     images: ["https://open-bln.com/og-image.png"],
   },
 };
