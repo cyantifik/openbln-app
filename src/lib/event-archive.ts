@@ -37,9 +37,9 @@ export const EVENT_ARCHIVE: ArchivedEvent[] = [
     number: "002",
     title: "Shape & Align",
     subtitle: "Growing into purpose",
-    date: "March 11, 2025",
+    date: "March 10, 2026",
     time: "6:30 PM – 9:30 PM",
-    location: "Berlin, Mitte",
+    location: "Benne Berlin, Mitte",
     description: [
       "Event 002 arrived just days after OPEN BLN's first anniversary on International Women's Day. We hit capacity and secured a bigger space. The waitlist was open, and more were welcome.",
       "The room was filled with returning members, new faces, and fellow community builders. It was an honor, and a little nerve-wracking. But what can go wrong when the intention is real?",
@@ -49,6 +49,21 @@ export const EVENT_ARCHIVE: ArchivedEvent[] = [
       "Hit full capacity",
       "Upgraded to a larger venue",
       "Returning members and new faces together",
+    ],
+    lumaUrl: "https://lu.ma/2gp7uv8v",
+  },
+  {
+    slug: "003-align-and-emerge",
+    number: "003",
+    title: "Align & Emerge",
+    subtitle: "The silhouette is getting clearer",
+    date: "April 28, 2026",
+    time: "6:30 PM – 9:30 PM",
+    location: "Berlin (venue TBA)",
+    description: [
+      "Something is taking shape. Two gatherings in, what started as an open canvas now has color, form, and people who keep showing up.",
+      "We've been shaping something since day one. The silhouette is getting clearer, and this gathering is the next step in revealing it.",
+      "Come with intention. Come ready. The rest, we figure out together in our shared space and flow.",
     ],
   },
 ];
