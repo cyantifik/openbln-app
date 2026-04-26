@@ -45,7 +45,7 @@ export default function Footer({ variant = "light", showToggle }: FooterProps) {
           >
             About
           </a>
-          <span style={{ color: colors.separator }}>·</span>
+          <span style={{ color: colors.separator }}>|</span>
           <a
             href="https://instagram.com/open.bln"
             target="_blank"
@@ -55,9 +55,9 @@ export default function Footer({ variant = "light", showToggle }: FooterProps) {
             onMouseEnter={linkHover}
             onMouseLeave={linkLeave}
           >
-            Instagram
+            IG
           </a>
-          <span style={{ color: colors.separator }}>·</span>
+          <span style={{ color: colors.separator }}>|</span>
           <a
             href="https://www.linkedin.com/company/open-bln"
             target="_blank"
@@ -67,9 +67,9 @@ export default function Footer({ variant = "light", showToggle }: FooterProps) {
             onMouseEnter={linkHover}
             onMouseLeave={linkLeave}
           >
-            LinkedIn
+            LI
           </a>
-          <span style={{ color: colors.separator }}>·</span>
+          <span style={{ color: colors.separator }}>|</span>
           <a
             href="mailto:hallo@open-bln.com"
             className="transition-colors duration-200"
@@ -77,7 +77,7 @@ export default function Footer({ variant = "light", showToggle }: FooterProps) {
             onMouseEnter={linkHover}
             onMouseLeave={linkLeave}
           >
-            Email Us
+            @
           </a>
         </div>
 
