@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
-export default function UpdatePassword() {
+function UpdatePasswordForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,7 +20,6 @@ export default function UpdatePassword() {
     const type = searchParams.get("type");
 
     if (token_hash && type === "recovery") {
-      // Verify the OTP client-side so the session is created in the browser
       supabase.auth
         .verifyOtp({ token_hash, type: "recovery" })
         .then(({ error }) => {
@@ -32,7 +31,6 @@ export default function UpdatePassword() {
           setVerifying(false);
         });
     } else {
-      // Check if we already have a session (e.g. from ConfirmationURL flow)
       supabase.auth.getSession().then(({ data: { session } }) => {
         if (session) {
           setVerified(true);
@@ -171,5 +169,21 @@ export default function UpdatePassword() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function UpdatePassword() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center px-6 py-12">
+          <div className="w-full max-w-md text-center">
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <UpdatePasswordForm />
+    </Suspense>
   );
 }
