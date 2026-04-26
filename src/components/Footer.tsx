@@ -81,6 +81,29 @@ export default function Footer({ variant = "light", showToggle }: FooterProps) {
           </a>
         </div>
 
+        {/* Legal */}
+        <div className="flex flex-wrap justify-center gap-4 mb-5 text-xs tracking-widest uppercase">
+          <a
+            href="/privacy"
+            className="transition-colors duration-200"
+            style={linkStyle}
+            onMouseEnter={linkHover}
+            onMouseLeave={linkLeave}
+          >
+            Privacy
+          </a>
+          <span style={{ color: colors.separator }}>|</span>
+          <a
+            href="/imprint"
+            className="transition-colors duration-200"
+            style={linkStyle}
+            onMouseEnter={linkHover}
+            onMouseLeave={linkLeave}
+          >
+            Imprint
+          </a>
+        </div>
+
         {/* Copyright */}
         <p className="text-center text-xs">
           &copy; 2026{" "}

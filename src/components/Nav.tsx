@@ -130,7 +130,7 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
             </>
           )}
 
-          {/* Theme Scale Slider */}
+          {/* Theme Scale Slider — Space pages only */}
           {showToggle && (
             <>
               <span style={{ color: colors.separator }} className="nav-sep">|</span>
@@ -144,7 +144,6 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
                   onChange={(e) => setStop(parseInt(e.target.value, 10))}
                   className="theme-slider"
                   style={{
-                    // CSS custom properties for dynamic coloring
                     "--slider-track": colors.border,
                     "--slider-fill": colors.text,
                     "--slider-thumb": colors.text,
@@ -206,22 +205,22 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
                   </>
                 ) : (
                   <>
-                    <Link
-                      href="/auth/login"
+                    <a
+                      href="https://space.open-bln.com"
                       className="block w-full px-4 py-3 text-left text-sm transition-colors"
                       style={{ color: colors.textMuted }}
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      Enter Space
+                    </a>
+                    <a
+                      href="https://space.open-bln.com/auth/login"
+                      className="block w-full px-4 py-3 text-left text-sm transition-colors border-t"
+                      style={{ color: colors.textMuted, borderTopColor: colors.border }}
                       onClick={() => setDropdownOpen(false)}
                     >
                       Sign In
-                    </Link>
-                    <Link
-                      href="/auth/signup"
-                      className="block w-full px-4 py-3 text-left text-sm transition-colors"
-                      style={{ color: colors.textMuted }}
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      Sign Up
-                    </Link>
+                    </a>
                   </>
                 )}
               </div>
