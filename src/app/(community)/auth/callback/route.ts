@@ -26,12 +26,20 @@ export async function GET(request: Request) {
     }
   }
 
-  // Handle token_hash verification (password reset, email confirmation)
+  // For password reset: pass token_hash to update-password page for client-side verification
+  if (token_hash && type === "recovery") {
+    const updateUrl = new URL("/auth/update-password", request.url);
+    updateUrl.searchParams.set("token_hash", token_hash);
+    updateUrl.searchParams.set("type", type);
+    return NextResponse.redirect(updateUrl);
+  }
+
+  // For other token_hash flows (email confirmation, etc.)
   if (token_hash && type) {
     try {
       await supabase.auth.verifyOtp({
         token_hash,
-        type: type as "recovery" | "signup" | "email",
+        type: type as "signup" | "email",
       });
     } catch (error) {
       console.error("Error verifying OTP:", error);

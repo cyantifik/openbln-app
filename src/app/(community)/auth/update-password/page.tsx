@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
@@ -10,6 +11,38 @@ export default function UpdatePassword() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [verifying, setVerifying] = useState(true);
+  const [verified, setVerified] = useState(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const token_hash = searchParams.get("token_hash");
+    const type = searchParams.get("type");
+
+    if (token_hash && type === "recovery") {
+      // Verify the OTP client-side so the session is created in the browser
+      supabase.auth
+        .verifyOtp({ token_hash, type: "recovery" })
+        .then(({ error }) => {
+          if (error) {
+            setError("This reset link has expired or is invalid. Please request a new one.");
+          } else {
+            setVerified(true);
+          }
+          setVerifying(false);
+        });
+    } else {
+      // Check if we already have a session (e.g. from ConfirmationURL flow)
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+          setVerified(true);
+        } else {
+          setError("No active session. Please request a new password reset link.");
+        }
+        setVerifying(false);
+      });
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,6 +99,16 @@ export default function UpdatePassword() {
     );
   }
 
+  if (verifying) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6 py-12">
+        <div className="w-full max-w-md text-center">
+          <p className="text-gray-600">Verifying your reset link...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
@@ -79,43 +122,48 @@ export default function UpdatePassword() {
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
             {error}
+            {!verified && (
+              <div className="mt-2">
+                <Link href="/auth/reset" className="underline">
+                  Request a new reset link
+                </Link>
+              </div>
+            )}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* New Password */}
-          <div>
-            <label className="block text-sm font-medium mb-2">New Password</label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="input"
-              placeholder="••••••••"
-            />
-          </div>
+        {verified && (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium mb-2">New Password</label>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="input"
+                placeholder="••••••••"
+              />
+            </div>
 
-          {/* Confirm Password */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Confirm Password</label>
-            <input
-              type="password"
-              required
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="input"
-              placeholder="••••••••"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Confirm Password</label>
+              <input
+                type="password"
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="input"
+                placeholder="••••••••"
+              />
+            </div>
 
-          {/* Submit */}
-          <button type="submit" className="button-primary w-full" disabled={loading}>
-            {loading ? "Updating..." : "Update Password"}
-          </button>
-        </form>
+            <button type="submit" className="button-primary w-full" disabled={loading}>
+              {loading ? "Updating..." : "Update Password"}
+            </button>
+          </form>
+        )}
 
-        {/* Links */}
         <div className="mt-8 border-t border-gray-200 pt-4 text-center text-sm">
           <Link href="/auth/login" className="text-gray-600 hover:text-black">
             Back to Sign In
