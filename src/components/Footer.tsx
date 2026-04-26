@@ -31,86 +31,33 @@ export default function Footer({ variant = "light", showToggle }: FooterProps) {
       }}
     >
       <div
-        className="max-w-6xl mx-auto px-6 py-8 transition-colors duration-500"
+        className="max-w-6xl mx-auto px-6 py-6 text-center text-xs transition-colors duration-500"
         style={{ color: colors.textFaint }}
       >
-        {/* Links row */}
-        <div className="flex flex-wrap justify-center gap-4 mb-5 text-xs tracking-widest uppercase">
-          <a
-            href="/about"
-            className="transition-colors duration-200"
-            style={linkStyle}
-            onMouseEnter={linkHover}
-            onMouseLeave={linkLeave}
-          >
-            About
-          </a>
+        {/* Row 1: Copyright + links */}
+        <div className="flex flex-wrap justify-center items-center gap-x-1 mb-2 tracking-widest uppercase">
+          <span>
+            &copy; 2026{" "}
+            <span className="font-bold">OPEN</span>{" "}
+            <span className="font-light">BLN</span>
+            {" "}&hearts;{" "}All rights reserved.
+          </span>
           <span style={{ color: colors.separator }}>|</span>
-          <a
-            href="https://instagram.com/open.bln"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors duration-200"
-            style={linkStyle}
-            onMouseEnter={linkHover}
-            onMouseLeave={linkLeave}
-          >
-            IG
-          </a>
+          <a href="/about" className="transition-colors duration-200" style={linkStyle} onMouseEnter={linkHover} onMouseLeave={linkLeave}>About</a>
           <span style={{ color: colors.separator }}>|</span>
-          <a
-            href="https://www.linkedin.com/company/open-bln"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors duration-200"
-            style={linkStyle}
-            onMouseEnter={linkHover}
-            onMouseLeave={linkLeave}
-          >
-            LI
-          </a>
+          <a href="https://instagram.com/open.bln" target="_blank" rel="noopener noreferrer" className="transition-colors duration-200" style={linkStyle} onMouseEnter={linkHover} onMouseLeave={linkLeave}>IG</a>
           <span style={{ color: colors.separator }}>|</span>
-          <a
-            href="mailto:hallo@open-bln.com"
-            className="transition-colors duration-200"
-            style={linkStyle}
-            onMouseEnter={linkHover}
-            onMouseLeave={linkLeave}
-          >
-            @
-          </a>
+          <a href="https://www.linkedin.com/company/open-bln" target="_blank" rel="noopener noreferrer" className="transition-colors duration-200" style={linkStyle} onMouseEnter={linkHover} onMouseLeave={linkLeave}>LI</a>
+          <span style={{ color: colors.separator }}>|</span>
+          <a href="mailto:hallo@open-bln.com" className="transition-colors duration-200" style={linkStyle} onMouseEnter={linkHover} onMouseLeave={linkLeave}>@</a>
         </div>
 
-        {/* Legal */}
-        <div className="flex flex-wrap justify-center gap-4 mb-5 text-xs tracking-widest uppercase">
-          <a
-            href="/privacy"
-            className="transition-colors duration-200"
-            style={linkStyle}
-            onMouseEnter={linkHover}
-            onMouseLeave={linkLeave}
-          >
-            Privacy
-          </a>
+        {/* Row 2: Legal */}
+        <div className="flex justify-center gap-x-1 tracking-widest uppercase">
+          <a href="/privacy" className="transition-colors duration-200" style={linkStyle} onMouseEnter={linkHover} onMouseLeave={linkLeave}>Privacy</a>
           <span style={{ color: colors.separator }}>|</span>
-          <a
-            href="/imprint"
-            className="transition-colors duration-200"
-            style={linkStyle}
-            onMouseEnter={linkHover}
-            onMouseLeave={linkLeave}
-          >
-            Imprint
-          </a>
+          <a href="/imprint" className="transition-colors duration-200" style={linkStyle} onMouseEnter={linkHover} onMouseLeave={linkLeave}>Imprint</a>
         </div>
-
-        {/* Copyright */}
-        <p className="text-center text-xs">
-          &copy; 2026{" "}
-          <span className="font-bold">OPEN</span>{" "}
-          <span className="font-light">BLN</span>
-          {" "}&hearts;{" "}All rights reserved.
-        </p>
       </div>
     </footer>
   );
