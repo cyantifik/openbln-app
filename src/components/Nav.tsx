@@ -107,16 +107,6 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
           </a>
           <span style={{ color: colors.separator }} className="nav-sep">|</span>
           <a
-            href="/about"
-            className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
-            style={{ color: colors.textMuted }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = colors.text)}
-            onMouseLeave={(e) => (e.currentTarget.style.color = colors.textMuted)}
-          >
-            About
-          </a>
-          <span style={{ color: colors.separator }} className="nav-sep">|</span>
-          <a
             href="https://space.open-bln.com"
             className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
             style={{ color: colors.textMuted }}
@@ -125,9 +115,9 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
           >
             Space
           </a>
-          <span style={{ color: colors.separator }} className="nav-sep">|</span>
           {user && (
             <>
+              <span style={{ color: colors.separator }} className="nav-sep">|</span>
               <Link
                 href="/sessions"
                 className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
@@ -137,42 +127,8 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
               >
                 Sessions
               </Link>
-              <span style={{ color: colors.separator }} className="nav-sep">|</span>
             </>
           )}
-          <a
-            href="https://instagram.com/open.bln"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
-            style={{ color: colors.textMuted }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = colors.text)}
-            onMouseLeave={(e) => (e.currentTarget.style.color = colors.textMuted)}
-          >
-            IG
-          </a>
-          <span style={{ color: colors.separator }} className="nav-sep">|</span>
-          <a
-            href="https://www.linkedin.com/company/open-bln"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
-            style={{ color: colors.textMuted }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = colors.text)}
-            onMouseLeave={(e) => (e.currentTarget.style.color = colors.textMuted)}
-          >
-            LI
-          </a>
-          <span style={{ color: colors.separator }} className="nav-sep">|</span>
-          <a
-            href="mailto:hallo@open-bln.com"
-            className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
-            style={{ color: colors.textMuted }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = colors.text)}
-            onMouseLeave={(e) => (e.currentTarget.style.color = colors.textMuted)}
-          >
-            @
-          </a>
 
           {/* Theme Scale Slider */}
           {showToggle && (
@@ -301,14 +257,10 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
           style={{ backgroundColor: colors.bg }}
         >
           <a href="/events" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Events</a>
-          <a href="/about" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>About</a>
           <a href="https://space.open-bln.com" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Space</a>
           {user && (
             <Link href="/sessions" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Sessions</Link>
           )}
-          <a href="https://instagram.com/open.bln" target="_blank" rel="noopener noreferrer" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>IG</a>
-          <a href="https://www.linkedin.com/company/open-bln" target="_blank" rel="noopener noreferrer" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>LI</a>
-          <a href="mailto:hallo@open-bln.com" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>@</a>
 
           {/* Mobile theme slider */}
           {showToggle && (
