@@ -32,7 +32,7 @@ function SessionsList() {
       </div>
 
       <div className="space-y-4">
-        {SESSIONS.map((session) => (
+        {[...SESSIONS].reverse().map((session) => (
           <Link
             key={session.id}
             href={`/sessions/${session.id}`}

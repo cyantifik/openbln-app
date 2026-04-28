@@ -118,38 +118,54 @@ export const SESSIONS: SessionEvent[] = [
       "Tonight is about emergence: what happens when we stop performing and start building together. No paper, no projections. Everything lives here.",
     sections: [
       {
-        title: "Tonight's Flow",
+        title: "Align (18:30 to 20:00)",
         type: "agenda",
         agendaItems: [
           {
             time: "18:30",
-            title: "Arrival and Welcome",
-            description: "Grab a drink, settle in, say hello to someone you haven't met yet.",
+            title: "Arrive and settle in",
+            description: "Grab a drink, find your spot, say hello to someone you haven't met yet.",
           },
           {
             time: "19:00",
-            title: "Opening Reflection",
+            title: "Welcome back and recap",
             description: "Vicky opens the evening. A brief look at where we've been and where we're heading.",
           },
           {
             time: "19:15",
-            title: "Group Time",
-            description: "Find your group. Your group assignment and tonight's prompt are below.",
+            title: "Group exercise: One Real Thing, One Real Offer",
+            description: "Find your group. Each person shares one real thing they're working through and one real offer they can make to someone in the room.",
           },
           {
-            time: "19:55",
-            title: "Platform Reveal",
-            description: "A first look at what we've been building for the community.",
+            time: "20:00",
+            title: "Break",
+            description: "Stretch, grab a drink, breathe.",
+          },
+        ],
+      },
+      {
+        title: "Emerge (20:20 to 21:30)",
+        type: "agenda",
+        agendaItems: [
+          {
+            time: "20:20",
+            title: "Group share-back (offers)",
+            description: "Each group reads their offers aloud to the room. A first look at what we've been building for the community.",
           },
           {
-            time: "20:15",
-            title: "Cross-Group Mingling",
-            description: "Move freely. Share what your group discussed. Connect across groups.",
+            time: "20:35",
+            title: "Platform wishlist",
+            description: "Groups ideate on what they want the platform to do for them. Sticky notes, open thinking.",
           },
           {
-            time: "20:45",
-            title: "Closing Circle",
-            description: "One word, one sentence, one intention. We close the night together.",
+            time: "20:55",
+            title: "Wishlist share-back",
+            description: "Each group shares their top wishlist item with the room.",
+          },
+          {
+            time: "21:05",
+            title: "Closing circle and social",
+            description: "One sentence each, then social.",
           },
         ],
       },
