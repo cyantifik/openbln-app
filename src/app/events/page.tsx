@@ -98,17 +98,17 @@ export default function EventsPage() {
               <Link
                 key={event.slug}
                 href={`/events/${event.slug}`}
-                className="block border-l border-white/10 pl-6 py-3 transition-all duration-300 hover:border-white/30 group"
+                className="block border-l border-white/20 pl-6 py-3 transition-all duration-300 hover:border-white/40 group"
               >
                 <div className="flex items-baseline gap-4 mb-1">
-                  <span className="text-xs text-white/15 tracking-widest">
+                  <span className="text-xs text-white/30 tracking-widest">
                     #{event.number}
                   </span>
-                  <h3 className="text-lg font-light text-white/40 group-hover:text-white/70 transition-colors duration-300">
+                  <h3 className="text-lg font-light text-white/60 group-hover:text-white/80 transition-colors duration-300">
                     {event.title}
                   </h3>
                 </div>
-                <div className="flex items-center gap-4 text-xs text-white/20">
+                <div className="flex items-center gap-4 text-xs text-white/35">
                   <span>{event.date}</span>
                   <span>{event.location}</span>
                 </div>
