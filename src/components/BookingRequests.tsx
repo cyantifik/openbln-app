@@ -3,12 +3,18 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 
+interface ScreeningAnswer {
+  question: string;
+  answer: string;
+}
+
 interface Booking {
   id: string;
   start_time: string;
   end_time: string;
   status: string;
   notes: string | null;
+  screening_answers: ScreeningAnswer[];
   mentee_id: string;
   mentee_name?: string;
   created_at: string;
@@ -159,8 +165,22 @@ export default function BookingRequests({ mentorId, mentorAuthId, theme }: Booki
                   </p>
                   {booking.notes && (
                     <p className="text-xs mt-1" style={{ color: theme.textFaint }}>
-                      "{booking.notes}"
+                      {booking.notes}
                     </p>
+                  )}
+                  {booking.screening_answers && booking.screening_answers.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      {booking.screening_answers.map((sa, i) => (
+                        <div key={i}>
+                          <p className="text-xs font-medium" style={{ color: theme.textFaint }}>
+                            {sa.question}
+                          </p>
+                          <p className="text-sm" style={{ color: theme.textMuted }}>
+                            {sa.answer}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
                 <div className="flex gap-2">

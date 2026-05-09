@@ -9,7 +9,7 @@ import {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { mentorId, menteeAuthId, startTime, endTime, notes } = body;
+    const { mentorId, menteeAuthId, startTime, endTime, notes, screeningAnswers } = body;
 
     if (!mentorId || !menteeAuthId || !startTime || !endTime) {
       return NextResponse.json(
@@ -52,6 +52,7 @@ export async function POST(request: Request) {
         end_time: endTime,
         status: "pending",
         notes: notes || null,
+        screening_answers: screeningAnswers || [],
       })
       .select()
       .single();

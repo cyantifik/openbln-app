@@ -10,6 +10,7 @@ import type { User } from "@supabase/supabase-js";
 import type { Member } from "@/lib/data";
 import AvailabilityEditor from "@/components/AvailabilityEditor";
 import BookingRequests from "@/components/BookingRequests";
+import ScreeningQuestionsEditor from "@/components/ScreeningQuestionsEditor";
 
 function Toggle({
   checked,
@@ -67,6 +68,7 @@ function ProfileContent() {
   const [mentorTopics, setMentorTopics] = useState("");
   const [menteeTopics, setMenteeTopics] = useState("");
   const [isCalendarConnected, setIsCalendarConnected] = useState(false);
+  const [screeningQuestions, setScreeningQuestions] = useState<string[]>([]);
 
   // Check for calendar connection success/error from redirect
   const calendarSuccess = searchParams.get("success");
@@ -125,14 +127,15 @@ function ProfileContent() {
           setMentorTopics((memberData.mentor_topics || []).join(", "));
           setMenteeTopics((memberData.mentee_topics || []).join(", "));
 
-          // Check calendar connection
+          // Check calendar connection + load screening questions
           if (memberData.is_mentor) {
             const { data: profile } = await supabase
               .from("mentor_profiles")
-              .select("is_calendar_connected")
+              .select("is_calendar_connected, screening_questions")
               .eq("member_id", memberData.id)
               .single();
             setIsCalendarConnected(profile?.is_calendar_connected || false);
+            setScreeningQuestions(profile?.screening_questions || []);
           }
         }
       } catch (error) {
@@ -264,6 +267,7 @@ function ProfileContent() {
               auth_id: user.id,
               session_title: "1:1 Mentoring Session",
               session_duration: 30,
+              screening_questions: screeningQuestions,
             },
             { onConflict: "auth_id" }
           );
@@ -594,6 +598,24 @@ function ProfileContent() {
                   {memberId && (
                     <AvailabilityEditor mentorId={memberId} theme={theme} />
                   )}
+                </div>
+
+                {/* Screening Questions */}
+                <div
+                  className="p-4 rounded-xl"
+                  style={{ backgroundColor: `${theme.textFaint}08` }}
+                >
+                  <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
+                    Screening Questions
+                  </p>
+                  <p className="text-sm mb-3" style={{ color: theme.textFaint }}>
+                    Mentees must answer these before requesting a session. Saved with your profile.
+                  </p>
+                  <ScreeningQuestionsEditor
+                    questions={screeningQuestions}
+                    onChange={setScreeningQuestions}
+                    theme={theme}
+                  />
                 </div>
 
                 {/* Google Calendar (for event creation on approval) */}
