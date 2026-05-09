@@ -31,14 +31,14 @@ function MemberProfileContent() {
         if (error) throw error;
         setMember(data);
 
-        // Check mentor calendar status
+        // Check if mentor has availability set
         if (data?.is_mentor) {
-          const { data: profile } = await supabase
-            .from("mentor_profiles")
-            .select("is_calendar_connected")
-            .eq("member_id", id)
-            .single();
-          setIsMentorWithCalendar(profile?.is_calendar_connected || false);
+          const { data: availability } = await supabase
+            .from("mentor_availability")
+            .select("id")
+            .eq("mentor_id", id)
+            .limit(1);
+          setIsMentorWithCalendar((availability && availability.length > 0) || false);
         }
       } catch (err) {
         console.error("Error loading member:", err);

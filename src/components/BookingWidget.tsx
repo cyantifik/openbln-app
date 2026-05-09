@@ -272,8 +272,8 @@ export default function BookingWidget({
             }}
           >
             {booking
-              ? "Booking..."
-              : `Confirm ${formatTime(selectedSlot.start)} on ${formatDateDisplay(selectedDate)}`}
+              ? "Sending request..."
+              : `Request ${formatTime(selectedSlot.start)} on ${formatDateDisplay(selectedDate)}`}
           </button>
         </div>
       )}
@@ -288,7 +288,7 @@ export default function BookingWidget({
           }}
         >
           <p className="text-sm font-medium" style={{ color: "#10b981" }}>
-            Session booked! Calendar invite on its way.
+            Request sent! {mentorName.split(" ")[0]} will review and confirm your session.
           </p>
         </div>
       )}

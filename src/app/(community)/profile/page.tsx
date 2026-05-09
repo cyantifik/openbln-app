@@ -8,6 +8,8 @@ import { useTheme } from "@/lib/theme";
 import AuthGuard from "@/components/AuthGuard";
 import type { User } from "@supabase/supabase-js";
 import type { Member } from "@/lib/data";
+import AvailabilityEditor from "@/components/AvailabilityEditor";
+import BookingRequests from "@/components/BookingRequests";
 
 function Toggle({
   checked,
@@ -59,6 +61,7 @@ function ProfileContent() {
   });
 
   // Mentorship
+  const [memberId, setMemberId] = useState<string | null>(null);
   const [isMentor, setIsMentor] = useState(false);
   const [isMentee, setIsMentee] = useState(false);
   const [mentorTopics, setMentorTopics] = useState("");
@@ -106,6 +109,7 @@ function ProfileContent() {
 
         if (memberData) {
           setMember(memberData);
+          setMemberId(memberData.id);
           setAvatarUrl(memberData.avatar_url || "");
           setFormData({
             name: memberData.name || "",
@@ -576,7 +580,23 @@ function ProfileContent() {
                   </p>
                 </div>
 
-                {/* Calendar connection */}
+                {/* Availability windows */}
+                <div
+                  className="p-4 rounded-xl"
+                  style={{ backgroundColor: `${theme.textFaint}08` }}
+                >
+                  <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
+                    Your Availability
+                  </p>
+                  <p className="text-sm mb-3" style={{ color: theme.textFaint }}>
+                    Set the hours you are open for mentoring. Mentees can only request slots within these windows.
+                  </p>
+                  {memberId && (
+                    <AvailabilityEditor mentorId={memberId} theme={theme} />
+                  )}
+                </div>
+
+                {/* Google Calendar (for event creation on approval) */}
                 <div
                   className="p-4 rounded-xl"
                   style={{ backgroundColor: `${theme.textFaint}08` }}
@@ -586,8 +606,8 @@ function ProfileContent() {
                   </p>
                   <p className="text-sm mb-3" style={{ color: theme.textFaint }}>
                     {isCalendarConnected
-                      ? "Connected. Members can book available slots from your calendar."
-                      : "Connect your calendar so members can see your availability and book sessions."}
+                      ? "Connected. Approved sessions will be added to your calendar automatically."
+                      : "Optional: connect your calendar so approved sessions are added automatically."}
                   </p>
                   {isCalendarConnected ? (
                     <div className="flex items-center gap-3">
@@ -620,6 +640,22 @@ function ProfileContent() {
                     >
                       Connect Google Calendar
                     </a>
+                  )}
+                </div>
+
+                {/* Booking requests */}
+                <div
+                  className="p-4 rounded-xl"
+                  style={{ backgroundColor: `${theme.textFaint}08` }}
+                >
+                  <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
+                    Booking Requests
+                  </p>
+                  <p className="text-sm mb-3" style={{ color: theme.textFaint }}>
+                    Review and approve session requests from mentees.
+                  </p>
+                  {memberId && user && (
+                    <BookingRequests mentorId={memberId} mentorAuthId={user.id} theme={theme} />
                   )}
                 </div>
               </div>

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-server";
-import { refreshAccessToken, getFreeBusy } from "@/lib/google-calendar";
 
 export async function GET(request: Request) {
   try {
@@ -15,71 +14,75 @@ export async function GET(request: Request) {
       );
     }
 
-    // Get mentor profile with calendar token
-    const { data: profile, error: profileError } = await supabaseAdmin
-      .from("mentor_profiles")
-      .select("*")
-      .eq("member_id", mentorId)
-      .single();
+    // Get the day of week for the requested date (0=Sunday, 6=Saturday)
+    const requestedDate = new Date(date + "T12:00:00");
+    const dayOfWeek = requestedDate.getDay();
 
-    if (profileError || !profile || !profile.google_refresh_token) {
+    // Get mentor's availability windows for this day
+    const { data: windows, error: windowError } = await supabaseAdmin
+      .from("mentor_availability")
+      .select("start_time, end_time")
+      .eq("mentor_id", mentorId)
+      .eq("day_of_week", dayOfWeek);
+
+    if (windowError) {
+      console.error("Error fetching availability:", windowError);
       return NextResponse.json(
-        { error: "Mentor calendar not connected" },
-        { status: 404 }
+        { error: "Failed to fetch availability" },
+        { status: 500 }
       );
     }
 
-    // Get fresh access token
-    const accessToken = await refreshAccessToken(profile.google_refresh_token);
+    if (!windows || windows.length === 0) {
+      return NextResponse.json({
+        slots: [],
+        timezone: "Europe/Berlin",
+        sessionDuration: 30,
+      });
+    }
 
-    // Build time range for the requested date (full day in mentor's timezone)
-    const timeMin = `${date}T08:00:00`;
-    const timeMax = `${date}T20:00:00`;
+    // Get mentor's session duration
+    const { data: profile } = await supabaseAdmin
+      .from("mentor_profiles")
+      .select("session_duration")
+      .eq("member_id", mentorId)
+      .single();
 
-    // Convert to ISO with timezone offset for Berlin (simplified)
-    const timeMinISO = new Date(`${timeMin}+02:00`).toISOString();
-    const timeMaxISO = new Date(`${timeMax}+02:00`).toISOString();
+    const duration = profile?.session_duration || 30;
 
-    // Get busy times from Google Calendar
-    const busySlots = await getFreeBusy(
-      accessToken,
-      profile.google_calendar_id || "primary",
-      timeMinISO,
-      timeMaxISO
-    );
-
-    // Also get existing bookings from our DB for this mentor on this date
+    // Get existing bookings (pending or confirmed) for this date
     const dayStart = `${date}T00:00:00+00:00`;
     const dayEnd = `${date}T23:59:59+00:00`;
     const { data: existingBookings } = await supabaseAdmin
       .from("bookings")
       .select("start_time, end_time")
       .eq("mentor_id", mentorId)
-      .eq("status", "confirmed")
+      .in("status", ["pending", "confirmed"])
       .gte("start_time", dayStart)
       .lte("start_time", dayEnd);
 
-    // Generate available 30-min slots from 9am to 6pm
-    const duration = profile.session_duration || 30;
+    // Generate slots from availability windows
     const slots: { start: string; end: string; available: boolean }[] = [];
 
-    for (let hour = 9; hour < 18; hour++) {
-      for (let min = 0; min < 60; min += duration) {
-        if (hour === 17 && min + duration > 60) continue; // Don't overflow past 6pm
+    for (const window of windows) {
+      // Parse HH:MM:SS time strings
+      const [startH, startM] = window.start_time.split(":").map(Number);
+      const [endH, endM] = window.end_time.split(":").map(Number);
 
-        const slotStart = new Date(`${date}T${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}:00+02:00`);
+      let hour = startH;
+      let min = startM;
+
+      while (hour < endH || (hour === endH && min < endM)) {
+        const slotStart = new Date(
+          `${date}T${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}:00+02:00`
+        );
         const slotEnd = new Date(slotStart.getTime() + duration * 60 * 1000);
 
-        // Check if slot conflicts with Google Calendar busy times
-        const isGoogleBusy = busySlots.some(
-          (busy: { start: string; end: string }) => {
-            const busyStart = new Date(busy.start).getTime();
-            const busyEnd = new Date(busy.end).getTime();
-            return slotStart.getTime() < busyEnd && slotEnd.getTime() > busyStart;
-          }
-        );
+        // Check end doesn't exceed window
+        const windowEnd = new Date(`${date}T${String(endH).padStart(2, "0")}:${String(endM).padStart(2, "0")}:00+02:00`);
+        if (slotEnd.getTime() > windowEnd.getTime()) break;
 
-        // Check if slot conflicts with existing bookings
+        // Check if already booked
         const isBooked = (existingBookings || []).some(
           (booking: { start_time: string; end_time: string }) => {
             const bookStart = new Date(booking.start_time).getTime();
@@ -94,14 +97,21 @@ export async function GET(request: Request) {
         slots.push({
           start: slotStart.toISOString(),
           end: slotEnd.toISOString(),
-          available: !isGoogleBusy && !isBooked && !isPast,
+          available: !isBooked && !isPast,
         });
+
+        // Advance by duration
+        min += duration;
+        while (min >= 60) {
+          min -= 60;
+          hour++;
+        }
       }
     }
 
     return NextResponse.json({
       slots,
-      timezone: profile.timezone || "Europe/Berlin",
+      timezone: "Europe/Berlin",
       sessionDuration: duration,
     });
   } catch (error) {
