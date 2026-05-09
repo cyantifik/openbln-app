@@ -30,8 +30,8 @@ export default function MemberCard({ member }: MemberCardProps) {
         }}
       >
         {/* Badges */}
-        {(member.is_admin || member.is_mentor) && (
-          <div className="mb-3 flex gap-2">
+        {(member.is_admin || member.is_mentor || member.is_mentee) && (
+          <div className="mb-3 flex flex-wrap gap-2">
             {member.is_admin && (
               <span
                 className="inline-block px-2 py-1 text-xs font-semibold rounded"
@@ -50,6 +50,18 @@ export default function MemberCard({ member }: MemberCardProps) {
                 }}
               >
                 Mentor
+              </span>
+            )}
+            {member.is_mentee && (
+              <span
+                className="inline-block px-2 py-1 text-xs font-semibold rounded"
+                style={{
+                  backgroundColor: `${theme.textFaint}18`,
+                  color: theme.textMuted,
+                  border: `1px solid ${theme.border}`,
+                }}
+              >
+                Mentee
               </span>
             )}
           </div>

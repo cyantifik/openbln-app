@@ -242,6 +242,63 @@ function MemberProfileContent() {
             </div>
           )}
 
+          {/* Mentorship Section */}
+          {(member.is_mentor || member.is_mentee) && (
+            <div
+              className="mb-10 p-5 rounded-xl border"
+              style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
+            >
+              <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
+                Mentorship
+              </h2>
+
+              {member.is_mentor && member.mentor_topics && member.mentor_topics.length > 0 && (
+                <div className="mb-4">
+                  <p className="text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
+                    Mentoring on
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {member.mentor_topics.map((topic) => (
+                      <span
+                        key={topic}
+                        className="px-3 py-1.5 rounded-full text-sm border"
+                        style={{
+                          backgroundColor: `${theme.textFaint}10`,
+                          borderColor: theme.border,
+                          color: theme.text,
+                        }}
+                      >
+                        {topic}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {member.is_mentee && member.mentee_topics && member.mentee_topics.length > 0 && (
+                <div>
+                  <p className="text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
+                    Looking for help with
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {member.mentee_topics.map((topic) => (
+                      <span
+                        key={topic}
+                        className="px-3 py-1.5 rounded-full text-sm border"
+                        style={{
+                          borderColor: theme.cardBorder,
+                          color: theme.textMuted,
+                        }}
+                      >
+                        {topic}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Links */}
           {member.links && Object.keys(member.links).length > 0 && (
             <div

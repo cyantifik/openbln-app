@@ -11,13 +11,13 @@ export async function GET(request: Request) {
 
     if (error) {
       return NextResponse.redirect(
-        new URL("/mentor-settings?error=access_denied", request.url)
+        new URL("/profile?error=access_denied", request.url)
       );
     }
 
     if (!code || !state) {
       return NextResponse.redirect(
-        new URL("/mentor-settings?error=missing_params", request.url)
+        new URL("/profile?error=missing_params", request.url)
       );
     }
 
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 
     if (!refreshToken) {
       return NextResponse.redirect(
-        new URL("/mentor-settings?error=no_refresh_token", request.url)
+        new URL("/profile?error=no_refresh_token", request.url)
       );
     }
 
@@ -40,7 +40,7 @@ export async function GET(request: Request) {
 
     if (memberError || !member) {
       return NextResponse.redirect(
-        new URL("/mentor-settings?error=member_not_found", request.url)
+        new URL("/profile?error=member_not_found", request.url)
       );
     }
 
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
     if (upsertError) {
       console.error("Error saving mentor profile:", upsertError);
       return NextResponse.redirect(
-        new URL("/mentor-settings?error=save_failed", request.url)
+        new URL("/profile?error=save_failed", request.url)
       );
     }
 
@@ -72,12 +72,12 @@ export async function GET(request: Request) {
       .eq("auth_id", state);
 
     return NextResponse.redirect(
-      new URL("/mentor-settings?success=connected", request.url)
+      new URL("/profile?success=connected", request.url)
     );
   } catch (error) {
     console.error("Calendar callback error:", error);
     return NextResponse.redirect(
-      new URL("/mentor-settings?error=callback_failed", request.url)
+      new URL("/profile?error=callback_failed", request.url)
     );
   }
 }
