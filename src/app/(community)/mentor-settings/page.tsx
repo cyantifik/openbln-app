@@ -19,6 +19,7 @@ function MentorSettingsContent() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [memberId, setMemberId] = useState<string | null>(null);
+  const [authId, setAuthId] = useState<string | null>(null);
 
   const success = searchParams.get("success");
   const error = searchParams.get("error");
@@ -30,6 +31,8 @@ function MentorSettingsContent() {
           data: { user },
         } = await supabase.auth.getUser();
         if (!user) return;
+
+        setAuthId(user.id);
 
         // Get member record
         const { data: member } = await supabase
@@ -260,7 +263,7 @@ function MentorSettingsContent() {
                   Connected
                 </span>
                 <a
-                  href="/api/calendar/connect"
+                  href={`/api/calendar/connect?userId=${authId}`}
                   className="text-sm underline"
                   style={{ color: theme.textMuted }}
                 >
@@ -269,7 +272,7 @@ function MentorSettingsContent() {
               </div>
             ) : (
               <a
-                href="/api/calendar/connect"
+                href={`/api/calendar/connect?userId=${authId}`}
                 className="inline-block px-6 py-3 rounded-xl text-sm font-medium transition-opacity hover:opacity-80"
                 style={{
                   backgroundColor: theme.text,
