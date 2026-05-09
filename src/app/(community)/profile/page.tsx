@@ -367,7 +367,7 @@ function ProfileContent() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
         {/* ─── Avatar ─── */}
         <div className="flex flex-col items-center mb-2">
           <div className="mb-3">
@@ -416,7 +416,7 @@ function ProfileContent() {
 
         {/* ─── Basic Info ─── */}
         <div
-          className="p-5 sm:p-6 rounded-xl border space-y-5"
+          className="p-6 sm:p-8 rounded-xl border space-y-6"
           style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
         >
           <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
@@ -432,13 +432,13 @@ function ProfileContent() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl border text-sm outline-none"
+              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none"
               style={inputStyle}
               placeholder="Your name"
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
                 Role / Title
@@ -448,7 +448,7 @@ function ProfileContent() {
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border text-sm outline-none"
+                className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none"
                 style={inputStyle}
                 placeholder="e.g., Product Designer"
               />
@@ -462,7 +462,7 @@ function ProfileContent() {
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border text-sm outline-none"
+                className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none"
                 style={inputStyle}
                 placeholder="Your company or studio"
               />
@@ -477,17 +477,17 @@ function ProfileContent() {
               name="bio"
               value={formData.bio}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl border text-sm outline-none resize-none"
+              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none resize-none"
               style={inputStyle}
               placeholder="Tell us about yourself..."
-              rows={3}
+              rows={4}
             />
           </div>
         </div>
 
         {/* ─── Skills ─── */}
         <div
-          className="p-5 sm:p-6 rounded-xl border space-y-5"
+          className="p-6 sm:p-8 rounded-xl border space-y-6"
           style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
         >
           <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
@@ -502,7 +502,7 @@ function ProfileContent() {
               name="skills_offered"
               value={formData.skills_offered}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl border text-sm outline-none resize-none"
+              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none resize-none"
               style={inputStyle}
               placeholder="Design, Mentorship, React, Brand Strategy"
               rows={2}
@@ -520,7 +520,7 @@ function ProfileContent() {
               name="skills_needed"
               value={formData.skills_needed}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl border text-sm outline-none resize-none"
+              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none resize-none"
               style={inputStyle}
               placeholder="Marketing, Backend Development"
               rows={2}
@@ -533,7 +533,7 @@ function ProfileContent() {
 
         {/* ─── Mentorship ─── */}
         <div
-          className="p-5 sm:p-6 rounded-xl border space-y-6"
+          className="p-6 sm:p-8 rounded-xl border space-y-7"
           style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
         >
           <div>
@@ -547,7 +547,7 @@ function ProfileContent() {
 
           {/* Mentor toggle */}
           <div
-            className="p-4 rounded-xl border"
+            className="p-5 rounded-xl border"
             style={{
               borderColor: isMentor ? theme.text : theme.cardBorder,
               backgroundColor: isMentor ? `${theme.textFaint}08` : "transparent",
@@ -566,7 +566,7 @@ function ProfileContent() {
             </div>
 
             {isMentor && (
-              <div className="mt-4 space-y-4">
+              <div className="mt-5 space-y-5">
                 <div>
                   <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
                     What I mentor on
@@ -574,10 +574,10 @@ function ProfileContent() {
                   <textarea
                     value={mentorTopics}
                     onChange={(e) => setMentorTopics(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border text-sm outline-none resize-none"
+                    className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none resize-none"
                     style={inputStyle}
                     placeholder="Portfolio reviews, Career transitions, Design leadership, Job search strategy"
-                    rows={2}
+                    rows={3}
                   />
                   <p className="text-xs mt-1" style={{ color: theme.textFaint }}>
                     Separate with commas
@@ -586,7 +586,7 @@ function ProfileContent() {
 
                 {/* Availability windows */}
                 <div
-                  className="p-4 rounded-xl"
+                  className="p-5 rounded-xl"
                   style={{ backgroundColor: `${theme.textFaint}08` }}
                 >
                   <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
@@ -602,7 +602,7 @@ function ProfileContent() {
 
                 {/* Screening Questions */}
                 <div
-                  className="p-4 rounded-xl"
+                  className="p-5 rounded-xl"
                   style={{ backgroundColor: `${theme.textFaint}08` }}
                 >
                   <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
@@ -620,7 +620,7 @@ function ProfileContent() {
 
                 {/* Google Calendar (for event creation on approval) */}
                 <div
-                  className="p-4 rounded-xl"
+                  className="p-5 rounded-xl"
                   style={{ backgroundColor: `${theme.textFaint}08` }}
                 >
                   <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
@@ -667,7 +667,7 @@ function ProfileContent() {
 
                 {/* Booking requests */}
                 <div
-                  className="p-4 rounded-xl"
+                  className="p-5 rounded-xl"
                   style={{ backgroundColor: `${theme.textFaint}08` }}
                 >
                   <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
@@ -686,7 +686,7 @@ function ProfileContent() {
 
           {/* Mentee toggle */}
           <div
-            className="p-4 rounded-xl border"
+            className="p-5 rounded-xl border"
             style={{
               borderColor: isMentee ? theme.text : theme.cardBorder,
               backgroundColor: isMentee ? `${theme.textFaint}08` : "transparent",
@@ -712,7 +712,7 @@ function ProfileContent() {
                 <textarea
                   value={menteeTopics}
                   onChange={(e) => setMenteeTopics(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border text-sm outline-none resize-none"
+                  className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none resize-none"
                   style={inputStyle}
                   placeholder="Career advice, Breaking into product design, Interview prep"
                   rows={2}
@@ -747,7 +747,7 @@ function ProfileContent() {
 
         {/* ─── Social Links ─── */}
         <div
-          className="p-5 sm:p-6 rounded-xl border space-y-4"
+          className="p-6 sm:p-8 rounded-xl border space-y-5"
           style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
         >
           <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
@@ -763,7 +763,7 @@ function ProfileContent() {
                 type="url"
                 value={formData.links[platform] || ""}
                 onChange={(e) => handleLinkChange(platform, e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border text-sm outline-none"
+                className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none"
                 style={inputStyle}
                 placeholder={
                   platform === "linkedin"

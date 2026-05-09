@@ -15,6 +15,8 @@ interface Booking {
   status: string;
   notes: string | null;
   screening_answers: ScreeningAnswer[];
+  contact_email: string | null;
+  linkedin_url: string | null;
   mentee_id: string;
   mentee_name?: string;
   created_at: string;
@@ -142,17 +144,17 @@ export default function BookingRequests({ mentorId, mentorAuthId, theme }: Booki
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {/* Pending requests */}
       {pending.length > 0 && (
-        <div className="space-y-2">
+        <div className="space-y-3">
           <p className="text-xs font-medium tracking-widest uppercase" style={{ color: theme.textFaint }}>
             Pending
           </p>
           {pending.map((booking) => (
             <div
               key={booking.id}
-              className="p-4 rounded-xl border"
+              className="p-5 rounded-xl border"
               style={{ borderColor: theme.cardBorder }}
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -163,6 +165,30 @@ export default function BookingRequests({ mentorId, mentorAuthId, theme }: Booki
                   <p className="text-sm" style={{ color: theme.textMuted }}>
                     {formatDateTime(booking.start_time)}
                   </p>
+                  {(booking.contact_email || booking.linkedin_url) && (
+                    <div className="flex flex-wrap gap-3 mt-2">
+                      {booking.contact_email && (
+                        <a
+                          href={`mailto:${booking.contact_email}`}
+                          className="text-xs underline"
+                          style={{ color: theme.textMuted }}
+                        >
+                          {booking.contact_email}
+                        </a>
+                      )}
+                      {booking.linkedin_url && (
+                        <a
+                          href={booking.linkedin_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs underline"
+                          style={{ color: theme.textMuted }}
+                        >
+                          LinkedIn
+                        </a>
+                      )}
+                    </div>
+                  )}
                   {booking.notes && (
                     <p className="text-xs mt-1" style={{ color: theme.textFaint }}>
                       {booking.notes}
@@ -211,14 +237,14 @@ export default function BookingRequests({ mentorId, mentorAuthId, theme }: Booki
 
       {/* Confirmed */}
       {confirmed.length > 0 && (
-        <div className="space-y-2">
+        <div className="space-y-3">
           <p className="text-xs font-medium tracking-widest uppercase" style={{ color: theme.textFaint }}>
             Upcoming
           </p>
           {confirmed.map((booking) => (
             <div
               key={booking.id}
-              className="p-3 rounded-xl flex items-center justify-between"
+              className="p-4 rounded-xl flex items-center justify-between"
               style={{ backgroundColor: `${theme.textFaint}08` }}
             >
               <div>

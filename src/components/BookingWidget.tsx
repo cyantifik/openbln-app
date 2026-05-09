@@ -36,6 +36,10 @@ export default function BookingWidget({
   const [mentorTopics, setMentorTopics] = useState<string[]>([]);
   const [selectedTopic, setSelectedTopic] = useState("");
 
+  // Contact info (mandatory)
+  const [contactEmail, setContactEmail] = useState("");
+  const [linkedinUrl, setLinkedinUrl] = useState("");
+
   // Set default date to tomorrow
   useEffect(() => {
     const tomorrow = new Date();
@@ -111,14 +115,22 @@ export default function BookingWidget({
 
   const handleSelectSlot = (slot: Slot) => {
     setSelectedSlot(slot);
-    // If there are screening questions, show them
-    if (screeningQuestions.length > 0) {
-      setShowScreening(true);
-    }
+    // Always show screening step (contact info is always required)
+    setShowScreening(true);
   };
 
   const handleBook = async () => {
     if (!selectedSlot) return;
+
+    // Validate contact info
+    if (!contactEmail.trim() || !linkedinUrl.trim()) {
+      setError("Please provide your email and LinkedIn profile.");
+      return;
+    }
+    if (!linkedinUrl.includes("linkedin.com/")) {
+      setError("Please enter a valid LinkedIn profile URL.");
+      return;
+    }
 
     // Validate screening answers
     if (screeningQuestions.length > 0) {
@@ -160,6 +172,8 @@ export default function BookingWidget({
             ? `Topic: ${selectedTopic}${notes ? `\n${notes}` : ""}`
             : notes,
           screeningAnswers: answers,
+          contactEmail: contactEmail.trim(),
+          linkedinUrl: linkedinUrl.trim(),
         }),
       });
 
@@ -174,6 +188,8 @@ export default function BookingWidget({
       setShowScreening(false);
       setNotes("");
       setSelectedTopic("");
+      setContactEmail("");
+      setLinkedinUrl("");
       setScreeningAnswers(new Array(screeningQuestions.length).fill(""));
 
       // Refresh slots
@@ -323,32 +339,7 @@ export default function BookingWidget({
             </div>
           )}
 
-          {/* If no screening questions, show simple confirm */}
-          {selectedSlot && screeningQuestions.length === 0 && (
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
-                  Topic (optional)
-                </label>
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border text-sm outline-none bg-transparent resize-none"
-                  style={{ borderColor: theme.cardBorder, color: theme.text }}
-                  rows={2}
-                  placeholder="Portfolio review, career advice..."
-                />
-              </div>
-              <button
-                onClick={handleBook}
-                disabled={booking}
-                className="w-full py-3 rounded-xl text-sm font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
-                style={{ backgroundColor: theme.text, color: theme.bg }}
-              >
-                {booking ? "Sending request..." : `Request ${formatTime(selectedSlot.start)} on ${formatDateDisplay(selectedDate)}`}
-              </button>
-            </div>
-          )}
+          {/* Removed: simple confirm path — all bookings now go through screening */}
         </>
       )}
 
@@ -383,8 +374,51 @@ export default function BookingWidget({
           </div>
 
           <p className="text-sm" style={{ color: theme.textMuted }}>
-            {mentorName.split(" ")[0]} would like to know a bit about you before the session.
+            Please share your contact info so {mentorName.split(" ")[0]} can reach you.
           </p>
+
+          {/* Mandatory contact fields */}
+          <div>
+            <label className="block text-sm font-medium mb-2" style={{ color: theme.text }}>
+              Your email *
+            </label>
+            <input
+              type="email"
+              value={contactEmail}
+              onChange={(e) => setContactEmail(e.target.value)}
+              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none bg-transparent"
+              style={{ borderColor: theme.cardBorder, color: theme.text }}
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2" style={{ color: theme.text }}>
+              LinkedIn profile *
+            </label>
+            <input
+              type="url"
+              value={linkedinUrl}
+              onChange={(e) => setLinkedinUrl(e.target.value)}
+              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none bg-transparent"
+              style={{ borderColor: theme.cardBorder, color: theme.text }}
+              placeholder="https://linkedin.com/in/yourprofile"
+              required
+            />
+          </div>
+
+          {/* Custom screening questions */}
+          {screeningQuestions.length > 0 && (
+            <div
+              className="pt-5 mt-1 border-t space-y-5"
+              style={{ borderTopColor: theme.cardBorder }}
+            >
+              <p className="text-sm" style={{ color: theme.textMuted }}>
+                {mentorName.split(" ")[0]} would also like to know:
+              </p>
+            </div>
+          )}
 
           {screeningQuestions.map((question, i) => (
             <div key={i}>
