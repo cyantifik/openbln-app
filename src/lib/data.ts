@@ -8,6 +8,7 @@ export interface Member {
   skills_offered: string[];
   skills_needed: string[];
   is_admin: boolean;
+  is_mentor?: boolean;
   achievements: string[];
   links?: Record<string, string>;
   created_at?: string;

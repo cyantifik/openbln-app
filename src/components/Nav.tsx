@@ -188,6 +188,14 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
                       Profile
                     </Link>
                     <Link
+                      href="/mentor-settings"
+                      className="block w-full px-4 py-3 text-left text-sm transition-colors"
+                      style={{ color: colors.textMuted }}
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      Mentor
+                    </Link>
+                    <Link
                       href="/admin"
                       className="block w-full px-4 py-3 text-left text-sm transition-colors"
                       style={{ color: colors.textMuted }}
@@ -286,6 +294,7 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
             {user ? (
               <>
                 <Link href="/profile" className="block text-xs tracking-widest uppercase py-2" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Profile</Link>
+                <Link href="/mentor-settings" className="block text-xs tracking-widest uppercase py-2" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Mentor</Link>
                 <button className="text-xs tracking-widest uppercase text-left py-2 bg-transparent cursor-pointer" style={{ color: colors.textMuted }} onClick={() => { handleSignOut(); setMobileOpen(false); }}>Sign Out</button>
               </>
             ) : (

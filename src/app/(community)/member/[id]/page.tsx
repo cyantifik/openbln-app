@@ -1,6 +1,8 @@
 import { getMember } from "@/lib/data";
+import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import BookingWidget from "@/components/BookingWidget";
 
 interface MemberPageProps {
   params: Promise<{ id: string }>;
@@ -12,6 +14,19 @@ export default async function MemberProfile({ params }: MemberPageProps) {
 
   if (!member) {
     notFound();
+  }
+
+  // Check if this member is a mentor with calendar connected
+  let isMentorWithCalendar = false;
+  try {
+    const { data: profile } = await supabase
+      .from("mentor_profiles")
+      .select("is_calendar_connected")
+      .eq("member_id", id)
+      .single();
+    isMentorWithCalendar = profile?.is_calendar_connected || false;
+  } catch {
+    // Not a mentor or no profile
   }
 
   const getInitials = (name: string) => {
@@ -115,6 +130,22 @@ export default async function MemberProfile({ params }: MemberPageProps) {
               </span>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Booking Widget */}
+      {isMentorWithCalendar && (
+        <div className="mb-12">
+          <BookingWidget mentorId={member.id} mentorName={member.name} />
+        </div>
+      )}
+
+      {/* Mentor Badge */}
+      {member.is_mentor && !isMentorWithCalendar && (
+        <div className="mb-12 p-4 bg-gray-50 rounded-xl border border-gray-200">
+          <p className="text-sm text-gray-500">
+            This member is a mentor but hasn't set up booking yet.
+          </p>
         </div>
       )}
 
