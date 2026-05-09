@@ -1,33 +1,58 @@
-import { getMember } from "@/lib/data";
-import { supabase } from "@/lib/supabase";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import BookingWidget from "@/components/BookingWidget";
+import AuthGuard from "@/components/AuthGuard";
+import { useTheme } from "@/lib/theme";
+import { supabase } from "@/lib/supabase";
+import type { Member } from "@/lib/data";
 
-interface MemberPageProps {
-  params: Promise<{ id: string }>;
-}
+function MemberProfileContent() {
+  const { theme } = useTheme();
+  const params = useParams();
+  const id = params.id as string;
 
-export default async function MemberProfile({ params }: MemberPageProps) {
-  const { id } = await params;
-  const member = await getMember(id);
+  const [member, setMember] = useState<Member | null>(null);
+  const [isMentorWithCalendar, setIsMentorWithCalendar] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  if (!member) {
-    notFound();
-  }
+  useEffect(() => {
+    const loadMember = async () => {
+      try {
+        // Try Supabase first
+        const { data, error } = await supabase
+          .from("members")
+          .select("*")
+          .eq("id", id)
+          .single();
 
-  // Check if this member is a mentor with calendar connected
-  let isMentorWithCalendar = false;
-  try {
-    const { data: profile } = await supabase
-      .from("mentor_profiles")
-      .select("is_calendar_connected")
-      .eq("member_id", id)
-      .single();
-    isMentorWithCalendar = profile?.is_calendar_connected || false;
-  } catch {
-    // Not a mentor or no profile
-  }
+        if (error) throw error;
+        setMember(data);
+
+        // Check mentor calendar status
+        if (data?.is_mentor) {
+          const { data: profile } = await supabase
+            .from("mentor_profiles")
+            .select("is_calendar_connected")
+            .eq("member_id", id)
+            .single();
+          setIsMentorWithCalendar(profile?.is_calendar_connected || false);
+        }
+      } catch (err) {
+        console.error("Error loading member:", err);
+        // Fallback to static data
+        const { getMemberById } = await import("@/lib/data");
+        const staticMember = getMemberById(id);
+        if (staticMember) setMember(staticMember);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadMember();
+  }, [id]);
 
   const getInitials = (name: string) => {
     return name
@@ -38,137 +63,245 @@ export default async function MemberProfile({ params }: MemberPageProps) {
       .slice(0, 2);
   };
 
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        <p style={{ color: theme.textMuted }}>Loading...</p>
+      </div>
+    );
+  }
+
+  if (!member) {
+    return (
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        <p style={{ color: theme.textMuted }}>Member not found.</p>
+        <Link href="/community" className="text-sm mt-4 inline-block" style={{ color: theme.textFaint }}>
+          ← Back to Space
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-12">
       {/* Back Link */}
-      <Link href="/community" className="text-sm text-gray-600 hover:text-black mb-8 inline-block">
+      <Link
+        href="/community"
+        className="text-sm mb-8 inline-block transition-colors"
+        style={{ color: theme.textMuted }}
+      >
         ← Back to Space
       </Link>
 
-      {/* Header Section */}
-      <div className="mb-12">
-        <div className="flex items-start gap-8 mb-6">
+      {/* Header Section — stacks on mobile */}
+      <div className="mb-10">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8 mb-6">
           {/* Avatar */}
           <div className="flex-shrink-0">
             {member.avatar_url ? (
               <img
                 src={member.avatar_url}
                 alt={member.name}
-                className="w-32 h-32 rounded-full object-cover border border-gray-200"
+                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover"
+                style={{ border: `1px solid ${theme.cardBorder}` }}
               />
             ) : (
-              <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-3xl border border-gray-200">
+              <div
+                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full flex items-center justify-center font-semibold text-2xl sm:text-3xl"
+                style={{
+                  backgroundColor: `${theme.textFaint}22`,
+                  color: theme.textMuted,
+                  border: `1px solid ${theme.cardBorder}`,
+                }}
+              >
                 {getInitials(member.name)}
               </div>
             )}
           </div>
 
           {/* Name and Info */}
-          <div className="flex-1">
-            <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-4xl font-bold">{member.name}</h1>
+          <div className="flex-1 text-center sm:text-left">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-3">
+              <h1
+                className="text-2xl sm:text-4xl font-bold"
+                style={{ color: theme.text }}
+              >
+                {member.name}
+              </h1>
               {member.is_admin && (
-                <span className="px-3 py-1 text-sm font-semibold bg-black text-white rounded">
+                <span
+                  className="px-2.5 py-1 text-xs font-semibold rounded"
+                  style={{ backgroundColor: theme.accent, color: theme.accentText }}
+                >
                   Admin
+                </span>
+              )}
+              {member.is_mentor && (
+                <span
+                  className="px-2.5 py-1 text-xs font-semibold rounded"
+                  style={{
+                    backgroundColor: `${theme.textFaint}18`,
+                    color: theme.textMuted,
+                    border: `1px solid ${theme.border}`,
+                  }}
+                >
+                  Mentor
                 </span>
               )}
             </div>
 
-            <p className="text-xl text-gray-600 mb-2">{member.role}</p>
-            <p className="text-gray-500">{member.company}</p>
+            <p className="text-lg mb-1" style={{ color: theme.textMuted }}>
+              {member.role}
+            </p>
+            <p style={{ color: theme.textFaint }}>{member.company}</p>
           </div>
         </div>
 
         {/* Bio */}
         {member.bio && (
-          <p className="text-gray-700 leading-relaxed max-w-2xl">{member.bio}</p>
+          <p
+            className="leading-relaxed max-w-2xl"
+            style={{ color: theme.textMuted }}
+          >
+            {member.bio}
+          </p>
         )}
       </div>
 
-      {/* Achievements */}
-      {member.achievements && member.achievements.length > 0 && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Achievements</h2>
-          <div className="flex flex-wrap gap-3">
-            {member.achievements.map((achievement) => (
-              <span
-                key={achievement}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium"
-              >
-                {achievement}
-              </span>
-            ))}
+      {/* Two-column layout on desktop: info + booking */}
+      <div className={`${isMentorWithCalendar ? "grid grid-cols-1 lg:grid-cols-5 gap-8" : ""}`}>
+        {/* Left column: details */}
+        <div className={isMentorWithCalendar ? "lg:col-span-3" : ""}>
+          {/* Achievements */}
+          {member.achievements && member.achievements.length > 0 && (
+            <div className="mb-10">
+              <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
+                Achievements
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {member.achievements.map((achievement) => (
+                  <span
+                    key={achievement}
+                    className="px-3 py-1.5 rounded-lg text-sm"
+                    style={{
+                      backgroundColor: `${theme.textFaint}15`,
+                      color: theme.textMuted,
+                    }}
+                  >
+                    {achievement}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Skills Offered */}
+          {member.skills_offered && member.skills_offered.length > 0 && (
+            <div className="mb-10">
+              <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
+                Skills Offered
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {member.skills_offered.map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1.5 rounded-full text-sm border"
+                    style={{
+                      backgroundColor: theme.tagBg,
+                      color: theme.tagText,
+                      borderColor: theme.tagBorder,
+                    }}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Skills Needed */}
+          {member.skills_needed && member.skills_needed.length > 0 && (
+            <div className="mb-10">
+              <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
+                Skills Needed
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {member.skills_needed.map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1.5 rounded-full text-sm border"
+                    style={{
+                      borderColor: theme.cardBorder,
+                      color: theme.textMuted,
+                    }}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Links */}
+          {member.links && Object.keys(member.links).length > 0 && (
+            <div
+              className="pt-8 border-t"
+              style={{ borderTopColor: theme.border }}
+            >
+              <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
+                Links
+              </h2>
+              <div className="space-y-3">
+                {Object.entries(member.links).map(([key, value]) => (
+                  <a
+                    key={key}
+                    href={value}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 transition-colors"
+                    style={{ color: theme.textMuted }}
+                  >
+                    <span className="capitalize font-medium">{key}</span>
+                    <span style={{ color: theme.textFaint }}>→</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Right column: booking widget (sticky on desktop) */}
+        {isMentorWithCalendar && (
+          <div className="lg:col-span-2">
+            <div className="lg:sticky lg:top-24">
+              <BookingWidget mentorId={member.id} mentorName={member.name} />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Skills Offered */}
-      {member.skills_offered && member.skills_offered.length > 0 && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Skills Offered</h2>
-          <div className="flex flex-wrap gap-3">
-            {member.skills_offered.map((skill) => (
-              <span key={skill} className="skill-tag">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Skills Needed */}
-      {member.skills_needed && member.skills_needed.length > 0 && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Skills Needed</h2>
-          <div className="flex flex-wrap gap-3">
-            {member.skills_needed.map((skill) => (
-              <span
-                key={skill}
-                className="inline-block px-3 py-1 text-sm bg-gray-50 text-gray-700 rounded-full border border-gray-300"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Booking Widget */}
-      {isMentorWithCalendar && (
-        <div className="mb-12">
-          <BookingWidget mentorId={member.id} mentorName={member.name} />
-        </div>
-      )}
-
-      {/* Mentor Badge */}
+      {/* Mentor without calendar message */}
       {member.is_mentor && !isMentorWithCalendar && (
-        <div className="mb-12 p-4 bg-gray-50 rounded-xl border border-gray-200">
-          <p className="text-sm text-gray-500">
-            This member is a mentor but hasn't set up booking yet.
+        <div
+          className="mt-8 p-4 rounded-xl border"
+          style={{
+            backgroundColor: `${theme.textFaint}08`,
+            borderColor: theme.cardBorder,
+          }}
+        >
+          <p className="text-sm" style={{ color: theme.textFaint }}>
+            This mentor hasn't set up booking yet.
           </p>
         </div>
       )}
-
-      {/* Links */}
-      {member.links && Object.keys(member.links).length > 0 && (
-        <div className="border-t border-gray-200 pt-8">
-          <h2 className="text-2xl font-bold mb-6">Links</h2>
-          <div className="space-y-3">
-            {Object.entries(member.links).map(([key, value]) => (
-              <a
-                key={key}
-                href={value}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-700 hover:text-black"
-              >
-                <span className="capitalize font-medium">{key}</span>
-                <span className="text-gray-400">→</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
+  );
+}
+
+export default function MemberProfile() {
+  return (
+    <AuthGuard>
+      <MemberProfileContent />
+    </AuthGuard>
   );
 }

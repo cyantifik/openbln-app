@@ -29,15 +29,29 @@ export default function MemberCard({ member }: MemberCardProps) {
           borderColor: theme.cardBorder,
         }}
       >
-        {/* Admin Badge */}
-        {member.is_admin && (
-          <div className="mb-3">
-            <span
-              className="inline-block px-2 py-1 text-xs font-semibold rounded"
-              style={{ backgroundColor: theme.accent, color: theme.accentText }}
-            >
-              Admin
-            </span>
+        {/* Badges */}
+        {(member.is_admin || member.is_mentor) && (
+          <div className="mb-3 flex gap-2">
+            {member.is_admin && (
+              <span
+                className="inline-block px-2 py-1 text-xs font-semibold rounded"
+                style={{ backgroundColor: theme.accent, color: theme.accentText }}
+              >
+                Admin
+              </span>
+            )}
+            {member.is_mentor && (
+              <span
+                className="inline-block px-2 py-1 text-xs font-semibold rounded"
+                style={{
+                  backgroundColor: `${theme.textFaint}18`,
+                  color: theme.textMuted,
+                  border: `1px solid ${theme.border}`,
+                }}
+              >
+                Mentor
+              </span>
+            )}
           </div>
         )}
 
@@ -91,6 +105,21 @@ export default function MemberCard({ member }: MemberCardProps) {
             )}
           </div>
         </div>
+
+        {/* Mentor CTA */}
+        {member.is_mentor && (
+          <div className="mt-4 pt-4 border-t" style={{ borderTopColor: theme.border }}>
+            <span
+              className="block w-full text-center py-2.5 rounded-lg text-sm font-medium transition-opacity hover:opacity-80"
+              style={{
+                backgroundColor: theme.text,
+                color: theme.bg,
+              }}
+            >
+              Book a session
+            </span>
+          </div>
+        )}
       </div>
     </Link>
   );

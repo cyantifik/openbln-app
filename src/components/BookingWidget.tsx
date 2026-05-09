@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import { useTheme } from "@/lib/theme";
 
 interface Slot {
   start: string;
@@ -18,6 +19,7 @@ export default function BookingWidget({
   mentorId,
   mentorName,
 }: BookingWidgetProps) {
+  const { theme } = useTheme();
   const [selectedDate, setSelectedDate] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
   const [loading, setLoading] = useState(false);
@@ -149,18 +151,33 @@ export default function BookingWidget({
   const maxDateStr = maxDate.toISOString().split("T")[0];
 
   return (
-    <div className="border border-gray-200 rounded-2xl p-6">
-      <h3 className="text-lg font-semibold mb-1">
-        Book a session with {mentorName.split(" ")[0]}
+    <div
+      className="rounded-2xl border p-5 sm:p-6 transition-colors duration-500"
+      style={{
+        backgroundColor: theme.cardBg,
+        borderColor: theme.cardBorder,
+      }}
+    >
+      <h3
+        className="text-lg font-semibold mb-1"
+        style={{ color: theme.text }}
+      >
+        Book a session
       </h3>
-      <p className="text-sm text-gray-500 mb-6">
-        30-minute 1:1 mentoring session
+      <p
+        className="text-sm mb-5"
+        style={{ color: theme.textMuted }}
+      >
+        30-min 1:1 with {mentorName.split(" ")[0]}
       </p>
 
       {/* Date Picker */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Select a date
+      <div className="mb-5">
+        <label
+          className="block text-sm font-medium mb-2"
+          style={{ color: theme.textMuted }}
+        >
+          Date
         </label>
         <input
           type="date"
@@ -168,10 +185,14 @@ export default function BookingWidget({
           onChange={(e) => setSelectedDate(e.target.value)}
           min={today}
           max={maxDateStr}
-          className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-gray-400"
+          className="w-full px-4 py-3 rounded-xl border text-sm outline-none bg-transparent"
+          style={{
+            borderColor: theme.cardBorder,
+            color: theme.text,
+          }}
         />
         {selectedDate && (
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-xs mt-1" style={{ color: theme.textFaint }}>
             {formatDateDisplay(selectedDate)}
           </p>
         )}
@@ -179,32 +200,41 @@ export default function BookingWidget({
 
       {/* Time Slots */}
       {loading ? (
-        <p className="text-sm text-gray-400">Loading available times...</p>
+        <p className="text-sm" style={{ color: theme.textFaint }}>
+          Loading available times...
+        </p>
       ) : error ? (
-        <p className="text-sm text-red-500">{error}</p>
+        <p className="text-sm" style={{ color: "#ef4444" }}>{error}</p>
       ) : availableSlots.length === 0 && selectedDate ? (
-        <p className="text-sm text-gray-400">
+        <p className="text-sm" style={{ color: theme.textFaint }}>
           No available slots on this date. Try another day.
         </p>
       ) : (
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Available times (Berlin)
+        <div className="mb-5">
+          <label
+            className="block text-sm font-medium mb-2"
+            style={{ color: theme.textMuted }}
+          >
+            Time (Berlin)
           </label>
-          <div className="grid grid-cols-3 gap-2">
-            {availableSlots.map((slot) => (
-              <button
-                key={slot.start}
-                onClick={() => setSelectedSlot(slot)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                  selectedSlot?.start === slot.start
-                    ? "bg-black text-white"
-                    : "border border-gray-200 text-gray-700 hover:border-gray-400"
-                }`}
-              >
-                {formatTime(slot.start)}
-              </button>
-            ))}
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+            {availableSlots.map((slot) => {
+              const isSelected = selectedSlot?.start === slot.start;
+              return (
+                <button
+                  key={slot.start}
+                  onClick={() => setSelectedSlot(slot)}
+                  className="px-2 py-2.5 rounded-lg text-sm font-medium transition-all border"
+                  style={{
+                    backgroundColor: isSelected ? theme.text : "transparent",
+                    color: isSelected ? theme.bg : theme.text,
+                    borderColor: isSelected ? theme.text : theme.cardBorder,
+                  }}
+                >
+                  {formatTime(slot.start)}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
@@ -213,35 +243,52 @@ export default function BookingWidget({
       {selectedSlot && (
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              What would you like to discuss? (optional)
+            <label
+              className="block text-sm font-medium mb-2"
+              style={{ color: theme.textMuted }}
+            >
+              Topic (optional)
             </label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-gray-400 resize-none"
-              rows={3}
-              placeholder="e.g., Portfolio review, career advice, design feedback..."
+              className="w-full px-4 py-3 rounded-xl border text-sm outline-none bg-transparent resize-none"
+              style={{
+                borderColor: theme.cardBorder,
+                color: theme.text,
+              }}
+              rows={2}
+              placeholder="Portfolio review, career advice..."
             />
           </div>
 
           <button
             onClick={handleBook}
             disabled={booking}
-            className="w-full py-3 rounded-xl bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
+            className="w-full py-3 rounded-xl text-sm font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
+            style={{
+              backgroundColor: theme.text,
+              color: theme.bg,
+            }}
           >
             {booking
               ? "Booking..."
-              : `Confirm — ${formatTime(selectedSlot.start)} on ${formatDateDisplay(selectedDate)}`}
+              : `Confirm ${formatTime(selectedSlot.start)} on ${formatDateDisplay(selectedDate)}`}
           </button>
         </div>
       )}
 
       {/* Success */}
       {bookingResult === "confirmed" && (
-        <div className="mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
-          <p className="text-sm text-emerald-700 font-medium">
-            Session booked! You will receive a calendar invite shortly.
+        <div
+          className="mt-4 p-4 rounded-xl"
+          style={{
+            backgroundColor: "rgba(16, 185, 129, 0.1)",
+            border: "1px solid rgba(16, 185, 129, 0.2)",
+          }}
+        >
+          <p className="text-sm font-medium" style={{ color: "#10b981" }}>
+            Session booked! Calendar invite on its way.
           </p>
         </div>
       )}
