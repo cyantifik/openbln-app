@@ -456,9 +456,14 @@ export default function BookingWidget({
               ) : error ? (
                 <p className="text-sm mb-5" style={{ color: "#ef4444" }}>{error}</p>
               ) : availableSlots.length === 0 ? (
-                <p className="text-sm mb-5" style={{ color: theme.textFaint }}>
-                  No open times on this date.
-                </p>
+                <div className="mb-5">
+                  <p className="text-sm" style={{ color: theme.textFaint }}>
+                    No open times on this date.
+                  </p>
+                  <p className="text-[10px] mt-2 font-mono break-all" style={{ color: theme.textFaint, opacity: 0.6 }}>
+                    DEBUG: date={selectedDate} total={slots.length} available={availableSlots.length} raw={JSON.stringify(slots.slice(0, 3))}
+                  </p>
+                </div>
               ) : (
                 <div className="mb-5">
                   <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
