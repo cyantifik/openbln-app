@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { useTheme } from "@/lib/theme";
 
@@ -10,10 +10,18 @@ interface Slot {
   available: boolean;
 }
 
+interface AvailableDate {
+  date: string; // YYYY-MM-DD
+  label: string; // "Tue, May 13"
+  dayLabel: string; // "Tuesday"
+}
+
 interface BookingWidgetProps {
   mentorId: string;
   mentorName: string;
 }
+
+const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export default function BookingWidget({
   mentorId,
@@ -40,12 +48,76 @@ export default function BookingWidget({
   const [contactEmail, setContactEmail] = useState("");
   const [linkedinUrl, setLinkedinUrl] = useState("");
 
-  // Set default date to tomorrow
+  // Recurring availability
+  const [availableDaysOfWeek, setAvailableDaysOfWeek] = useState<number[]>([]);
+  const [daysLoading, setDaysLoading] = useState(true);
+
+  // Default screening questions (used when mentor hasn't set custom ones)
+  const defaultScreeningQuestions = [
+    "What would you like to get out of this session?",
+    "Tell us a bit about yourself and what you're working on.",
+  ];
+
+  // Load mentor's available days of week
   useEffect(() => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    setSelectedDate(tomorrow.toISOString().split("T")[0]);
-  }, []);
+    const loadAvailableDays = async () => {
+      setDaysLoading(true);
+      try {
+        const { data } = await supabase
+          .from("mentor_availability")
+          .select("day_of_week")
+          .eq("mentor_id", mentorId);
+
+        if (data && data.length > 0) {
+          const days = [...new Set(data.map((d: { day_of_week: number }) => d.day_of_week))].sort();
+          setAvailableDaysOfWeek(days);
+        }
+      } catch (err) {
+        console.error("Error loading available days:", err);
+      } finally {
+        setDaysLoading(false);
+      }
+    };
+
+    loadAvailableDays();
+  }, [mentorId]);
+
+  // Generate upcoming available dates (next 4 weeks)
+  const upcomingDates: AvailableDate[] = useMemo(() => {
+    if (availableDaysOfWeek.length === 0) return [];
+
+    const dates: AvailableDate[] = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    for (let i = 1; i <= 28; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() + i);
+      const dow = d.getDay(); // 0=Sun, 6=Sat
+
+      if (availableDaysOfWeek.includes(dow)) {
+        const dateStr = d.toISOString().split("T")[0];
+        const label = d.toLocaleDateString("en-US", {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+        });
+        dates.push({
+          date: dateStr,
+          label,
+          dayLabel: DAY_NAMES[dow],
+        });
+      }
+    }
+    return dates;
+  }, [availableDaysOfWeek]);
+
+  // Auto-select first available date
+  useEffect(() => {
+    if (upcomingDates.length > 0 && !selectedDate) {
+      setSelectedDate(upcomingDates[0].date);
+    }
+  }, [upcomingDates, selectedDate]);
 
   // Load screening questions + mentor topics
   useEffect(() => {
@@ -58,9 +130,13 @@ export default function BookingWidget({
           .eq("member_id", mentorId)
           .single();
 
-        if (profile?.screening_questions) {
+        if (profile?.screening_questions && profile.screening_questions.length > 0) {
           setScreeningQuestions(profile.screening_questions);
           setScreeningAnswers(new Array(profile.screening_questions.length).fill(""));
+        } else {
+          // Use default screening questions
+          setScreeningQuestions(defaultScreeningQuestions);
+          setScreeningAnswers(new Array(defaultScreeningQuestions.length).fill(""));
         }
 
         // Get mentor topics
@@ -75,6 +151,9 @@ export default function BookingWidget({
         }
       } catch (err) {
         console.error("Error loading mentor info:", err);
+        // Still set defaults on error
+        setScreeningQuestions(defaultScreeningQuestions);
+        setScreeningAnswers(new Array(defaultScreeningQuestions.length).fill(""));
       }
     };
 
@@ -190,7 +269,9 @@ export default function BookingWidget({
       setSelectedTopic("");
       setContactEmail("");
       setLinkedinUrl("");
-      setScreeningAnswers(new Array(screeningQuestions.length).fill(""));
+      setScreeningAnswers(
+        new Array(screeningQuestions.length > 0 ? screeningQuestions.length : defaultScreeningQuestions.length).fill("")
+      );
 
       // Refresh slots
       const refreshRes = await fetch(
@@ -229,11 +310,6 @@ export default function BookingWidget({
 
   const availableSlots = slots.filter((s) => s.available);
 
-  const today = new Date().toISOString().split("T")[0];
-  const maxDate = new Date();
-  maxDate.setDate(maxDate.getDate() + 28);
-  const maxDateStr = maxDate.toISOString().split("T")[0];
-
   return (
     <div
       className="rounded-2xl border p-5 sm:p-6 transition-colors duration-500"
@@ -253,7 +329,7 @@ export default function BookingWidget({
       {mentorTopics.length > 0 && !showScreening && (
         <div className="mb-5">
           <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
-            I am interested in
+            Topics
           </label>
           <div className="flex flex-wrap gap-2">
             {mentorTopics.map((topic) => (
@@ -275,71 +351,94 @@ export default function BookingWidget({
         </div>
       )}
 
-      {/* Date Picker */}
+      {/* Date & Time Selection */}
       {!showScreening && (
         <>
+          {/* Recurring schedule hint */}
+          {!daysLoading && availableDaysOfWeek.length > 0 && (
+            <p className="text-xs mb-4" style={{ color: theme.textFaint }}>
+              Available every {availableDaysOfWeek.map(d => DAY_NAMES[d]).join(", ")}
+            </p>
+          )}
+
+          {/* Date chips */}
           <div className="mb-5">
             <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
               Date
             </label>
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              min={today}
-              max={maxDateStr}
-              className="w-full px-4 py-3 rounded-xl border text-sm outline-none bg-transparent"
-              style={{
-                borderColor: theme.cardBorder,
-                color: theme.text,
-              }}
-            />
-            {selectedDate && (
-              <p className="text-xs mt-1" style={{ color: theme.textFaint }}>
-                {formatDateDisplay(selectedDate)}
+            {daysLoading ? (
+              <p className="text-sm" style={{ color: theme.textFaint }}>
+                Loading schedule...
               </p>
-            )}
-          </div>
-
-          {/* Time Slots */}
-          {loading ? (
-            <p className="text-sm" style={{ color: theme.textFaint }}>
-              Loading available times...
-            </p>
-          ) : error ? (
-            <p className="text-sm" style={{ color: "#ef4444" }}>{error}</p>
-          ) : availableSlots.length === 0 && selectedDate ? (
-            <p className="text-sm" style={{ color: theme.textFaint }}>
-              No available slots on this date. Try another day.
-            </p>
-          ) : (
-            <div className="mb-5">
-              <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
-                Time (Berlin)
-              </label>
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                {availableSlots.map((slot) => {
-                  const isSelected = selectedSlot?.start === slot.start;
+            ) : upcomingDates.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {upcomingDates.map((d) => {
+                  const isSelected = selectedDate === d.date;
                   return (
                     <button
-                      key={slot.start}
-                      onClick={() => handleSelectSlot(slot)}
-                      className="px-2 py-2.5 rounded-lg text-sm font-medium transition-all border"
+                      key={d.date}
+                      type="button"
+                      onClick={() => setSelectedDate(d.date)}
+                      className="px-3 py-2 rounded-lg text-sm transition-all border"
                       style={{
                         backgroundColor: isSelected ? theme.text : "transparent",
                         color: isSelected ? theme.bg : theme.text,
                         borderColor: isSelected ? theme.text : theme.cardBorder,
                       }}
                     >
-                      {formatTime(slot.start)}
+                      {d.label}
                     </button>
                   );
                 })}
               </div>
-            </div>
-          )}
+            ) : (
+              <p className="text-sm" style={{ color: theme.textFaint }}>
+                No upcoming availability. Check back soon.
+              </p>
+            )}
+          </div>
 
-          {/* Removed: simple confirm path — all bookings now go through screening */}
+          {/* Time Slots */}
+          {selectedDate && (
+            <>
+              {loading ? (
+                <p className="text-sm mb-5" style={{ color: theme.textFaint }}>
+                  Loading times...
+                </p>
+              ) : error ? (
+                <p className="text-sm mb-5" style={{ color: "#ef4444" }}>{error}</p>
+              ) : availableSlots.length === 0 ? (
+                <p className="text-sm mb-5" style={{ color: theme.textFaint }}>
+                  No open times on this date.
+                </p>
+              ) : (
+                <div className="mb-5">
+                  <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
+                    Time (Berlin)
+                  </label>
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                    {availableSlots.map((slot) => {
+                      const isSelected = selectedSlot?.start === slot.start;
+                      return (
+                        <button
+                          key={slot.start}
+                          onClick={() => handleSelectSlot(slot)}
+                          className="px-2 py-2.5 rounded-lg text-sm font-medium transition-all border"
+                          style={{
+                            backgroundColor: isSelected ? theme.text : "transparent",
+                            color: isSelected ? theme.bg : theme.text,
+                            borderColor: isSelected ? theme.text : theme.cardBorder,
+                          }}
+                        >
+                          {formatTime(slot.start)}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </>
       )}
 
@@ -408,14 +507,14 @@ export default function BookingWidget({
             />
           </div>
 
-          {/* Custom screening questions */}
+          {/* Screening questions */}
           {screeningQuestions.length > 0 && (
             <div
-              className="pt-5 mt-1 border-t space-y-5"
+              className="pt-5 mt-1 border-t"
               style={{ borderTopColor: theme.cardBorder }}
             >
-              <p className="text-sm" style={{ color: theme.textMuted }}>
-                {mentorName.split(" ")[0]} would also like to know:
+              <p className="text-sm mb-5" style={{ color: theme.textMuted }}>
+                A few questions before booking:
               </p>
             </div>
           )}
