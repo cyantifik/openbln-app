@@ -31,8 +31,11 @@ function Toggle({
       style={{ backgroundColor: checked ? theme.text : theme.cardBorder }}
     >
       <span
-        className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white transition-transform duration-200"
-        style={{ transform: checked ? "translateX(20px)" : "translateX(0)" }}
+        className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full transition-transform duration-200"
+        style={{
+          transform: checked ? "translateX(20px)" : "translateX(0)",
+          backgroundColor: theme.bg,
+        }}
       />
     </button>
   );
