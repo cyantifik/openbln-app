@@ -15,6 +15,7 @@ interface AvailableDate {
   dayShort: string; // "TUE"
   dayNum: string; // "13"
   monthShort: string; // "May"
+  dow: number; // 0-6
 }
 
 interface BookingWidgetProps {
@@ -49,9 +50,9 @@ export default function BookingWidget({
 
   // Recurring availability
   const [availableDaysOfWeek, setAvailableDaysOfWeek] = useState<number[]>([]);
+  const [dayTimeWindows, setDayTimeWindows] = useState<Record<number, string>>({});
   const [daysLoading, setDaysLoading] = useState(true);
   const [showAllDates, setShowAllDates] = useState(false);
-  const [slotCounts, setSlotCounts] = useState<Record<string, number>>({});
 
   // Default screening questions (used when mentor hasn't set custom ones)
   const defaultScreeningQuestions = [
@@ -59,19 +60,36 @@ export default function BookingWidget({
     "Tell us a bit about yourself and what you're working on.",
   ];
 
-  // Load mentor's available days of week
+  // Load mentor's available days + time windows
   useEffect(() => {
     const loadAvailableDays = async () => {
       setDaysLoading(true);
       try {
         const { data } = await supabase
           .from("mentor_availability")
-          .select("day_of_week")
+          .select("day_of_week, start_time, end_time")
           .eq("mentor_id", mentorId);
 
         if (data && data.length > 0) {
           const days = [...new Set(data.map((d: { day_of_week: number }) => d.day_of_week))].sort();
           setAvailableDaysOfWeek(days);
+
+          // Build time window labels per day (e.g. "10–14h")
+          const windows: Record<number, string> = {};
+          for (const row of data) {
+            const startH = row.start_time.split(":")[0].replace(/^0/, "");
+            const endH = row.end_time.split(":")[0].replace(/^0/, "");
+            const label = `${startH}–${endH}h`;
+            if (windows[row.day_of_week]) {
+              // Multiple windows on same day
+              if (!windows[row.day_of_week].includes(label)) {
+                windows[row.day_of_week] += `, ${label}`;
+              }
+            } else {
+              windows[row.day_of_week] = label;
+            }
+          }
+          setDayTimeWindows(windows);
         }
       } catch (err) {
         console.error("Error loading available days:", err);
@@ -103,43 +121,12 @@ export default function BookingWidget({
           dayShort: d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase(),
           dayNum: String(d.getDate()),
           monthShort: d.toLocaleDateString("en-US", { month: "short" }),
+          dow,
         });
       }
     }
     return dates;
   }, [availableDaysOfWeek]);
-
-  // Pre-fetch slot counts for visible dates
-  useEffect(() => {
-    if (upcomingDates.length === 0) return;
-
-    const visible = showAllDates ? upcomingDates : upcomingDates.slice(0, 4);
-    const datesToFetch = visible.filter((d) => !(d.date in slotCounts));
-    if (datesToFetch.length === 0) return;
-
-    const fetchCounts = async () => {
-      const results: Record<string, number> = { ...slotCounts };
-      await Promise.all(
-        datesToFetch.map(async (d) => {
-          try {
-            const res = await fetch(
-              `/api/calendar/availability?mentorId=${mentorId}&date=${d.date}`
-            );
-            if (res.ok) {
-              const data = await res.json();
-              const available = (data.slots || []).filter((s: Slot) => s.available);
-              results[d.date] = available.length;
-            }
-          } catch {
-            // silently skip
-          }
-        })
-      );
-      setSlotCounts(results);
-    };
-
-    fetchCounts();
-  }, [upcomingDates, showAllDates, mentorId]);
 
   // Auto-select first available date
   useEffect(() => {
@@ -395,7 +382,7 @@ export default function BookingWidget({
                   <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
                     {(showAllDates ? upcomingDates : upcomingDates.slice(0, 4)).map((d) => {
                       const isSelected = selectedDate === d.date;
-                      const count = slotCounts[d.date];
+                      const timeWindow = dayTimeWindows[d.dow];
                       return (
                         <button
                           key={d.date}
@@ -425,18 +412,14 @@ export default function BookingWidget({
                           >
                             {d.monthShort}
                           </span>
-                          {count !== undefined && (
+                          {timeWindow && (
                             <span
                               className="text-[10px] mt-1.5 font-medium"
                               style={{
-                                color: isSelected
-                                  ? `${theme.bg}cc`
-                                  : count > 0
-                                  ? "#10b981"
-                                  : theme.textFaint,
+                                color: isSelected ? `${theme.bg}bb` : theme.textMuted,
                               }}
                             >
-                              {count > 0 ? `${count} slot${count > 1 ? "s" : ""}` : "full"}
+                              {timeWindow}
                             </span>
                           )}
                         </button>
