@@ -74,22 +74,22 @@ export default function BookingWidget({
           const days = [...new Set(data.map((d: { day_of_week: number }) => d.day_of_week))].sort();
           setAvailableDaysOfWeek(days);
 
-          // Merge time windows per day into a single range
-          const windowsByDay: Record<number, { start: string; end: string }[]> = {};
+          // Merge all windows per day into one clean time range
+          const windowsByDay: Record<number, string[]> = {};
           for (const row of data) {
             if (!windowsByDay[row.day_of_week]) windowsByDay[row.day_of_week] = [];
-            windowsByDay[row.day_of_week].push({
-              start: row.start_time.slice(0, 5), // "HH:MM"
-              end: row.end_time.slice(0, 5),
-            });
+            // Collect all start and end times as HH:MM
+            windowsByDay[row.day_of_week].push(
+              row.start_time.slice(0, 5),
+              row.end_time.slice(0, 5)
+            );
           }
 
           const windows: Record<number, string> = {};
-          for (const [dow, wins] of Object.entries(windowsByDay)) {
-            // Sort by start time and merge into overall range
-            wins.sort((a, b) => a.start.localeCompare(b.start));
-            const earliest = wins[0].start;
-            const latest = wins.reduce((max, w) => w.end > max ? w.end : max, wins[0].end);
+          for (const [dow, times] of Object.entries(windowsByDay)) {
+            times.sort();
+            const earliest = times[0];
+            const latest = times[times.length - 1];
             windows[Number(dow)] = `${earliest}–${latest}`;
           }
           setDayTimeWindows(windows);
