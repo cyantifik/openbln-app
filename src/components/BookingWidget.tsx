@@ -50,7 +50,7 @@ export default function BookingWidget({
 
   // Recurring availability
   const [availableDaysOfWeek, setAvailableDaysOfWeek] = useState<number[]>([]);
-  const [dayTimeWindows, setDayTimeWindows] = useState<Record<number, string>>({});
+  const [dayStartTimes, setDayStartTimes] = useState<Record<number, string[]>>({});
   const [daysLoading, setDaysLoading] = useState(true);
   const [showAllDates, setShowAllDates] = useState(false);
 
@@ -74,25 +74,17 @@ export default function BookingWidget({
           const days = [...new Set(data.map((d: { day_of_week: number }) => d.day_of_week))].sort();
           setAvailableDaysOfWeek(days);
 
-          // Merge all windows per day into one clean time range
-          const windowsByDay: Record<number, string[]> = {};
+          // Build start times per day from availability windows
+          const startsByDay: Record<number, string[]> = {};
           for (const row of data) {
-            if (!windowsByDay[row.day_of_week]) windowsByDay[row.day_of_week] = [];
-            // Collect all start and end times as HH:MM
-            windowsByDay[row.day_of_week].push(
-              row.start_time.slice(0, 5),
-              row.end_time.slice(0, 5)
-            );
+            if (!startsByDay[row.day_of_week]) startsByDay[row.day_of_week] = [];
+            startsByDay[row.day_of_week].push(row.start_time.slice(0, 5));
           }
-
-          const windows: Record<number, string> = {};
-          for (const [dow, times] of Object.entries(windowsByDay)) {
-            times.sort();
-            const earliest = times[0];
-            const latest = times[times.length - 1];
-            windows[Number(dow)] = `${earliest}–${latest}`;
+          // Sort and dedupe
+          for (const dow of Object.keys(startsByDay)) {
+            startsByDay[Number(dow)] = [...new Set(startsByDay[Number(dow)])].sort();
           }
-          setDayTimeWindows(windows);
+          setDayStartTimes(startsByDay);
         }
       } catch (err) {
         console.error("Error loading available days:", err);
@@ -385,7 +377,7 @@ export default function BookingWidget({
                   <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
                     {(showAllDates ? upcomingDates : upcomingDates.slice(0, 4)).map((d) => {
                       const isSelected = selectedDate === d.date;
-                      const timeWindow = dayTimeWindows[d.dow];
+                      const starts = dayStartTimes[d.dow] || [];
                       return (
                         <button
                           key={d.date}
@@ -415,15 +407,20 @@ export default function BookingWidget({
                           >
                             {d.monthShort}
                           </span>
-                          {timeWindow && (
-                            <span
-                              className="text-[10px] mt-1.5 font-medium"
-                              style={{
-                                color: isSelected ? `${theme.bg}bb` : theme.textMuted,
-                              }}
-                            >
-                              {timeWindow}
-                            </span>
+                          {starts.length > 0 && (
+                            <div className="flex flex-col items-center mt-1.5 gap-0.5">
+                              {starts.map((t) => (
+                                <span
+                                  key={t}
+                                  className="text-[10px] font-medium"
+                                  style={{
+                                    color: isSelected ? `${theme.bg}bb` : theme.textMuted,
+                                  }}
+                                >
+                                  {t}
+                                </span>
+                              ))}
+                            </div>
                           )}
                         </button>
                       );
