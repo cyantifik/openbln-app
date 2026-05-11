@@ -12,16 +12,15 @@ interface Slot {
 
 interface AvailableDate {
   date: string; // YYYY-MM-DD
-  label: string; // "Tue, May 13"
-  dayLabel: string; // "Tuesday"
+  dayShort: string; // "TUE"
+  dayNum: string; // "13"
+  monthShort: string; // "May"
 }
 
 interface BookingWidgetProps {
   mentorId: string;
   mentorName: string;
 }
-
-const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export default function BookingWidget({
   mentorId,
@@ -51,6 +50,8 @@ export default function BookingWidget({
   // Recurring availability
   const [availableDaysOfWeek, setAvailableDaysOfWeek] = useState<number[]>([]);
   const [daysLoading, setDaysLoading] = useState(true);
+  const [showAllDates, setShowAllDates] = useState(false);
+  const [slotCounts, setSlotCounts] = useState<Record<string, number>>({});
 
   // Default screening questions (used when mentor hasn't set custom ones)
   const defaultScreeningQuestions = [
@@ -93,24 +94,52 @@ export default function BookingWidget({
     for (let i = 1; i <= 28; i++) {
       const d = new Date(today);
       d.setDate(d.getDate() + i);
-      const dow = d.getDay(); // 0=Sun, 6=Sat
+      const dow = d.getDay();
 
       if (availableDaysOfWeek.includes(dow)) {
         const dateStr = d.toISOString().split("T")[0];
-        const label = d.toLocaleDateString("en-US", {
-          weekday: "short",
-          month: "short",
-          day: "numeric",
-        });
         dates.push({
           date: dateStr,
-          label,
-          dayLabel: DAY_NAMES[dow],
+          dayShort: d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase(),
+          dayNum: String(d.getDate()),
+          monthShort: d.toLocaleDateString("en-US", { month: "short" }),
         });
       }
     }
     return dates;
   }, [availableDaysOfWeek]);
+
+  // Pre-fetch slot counts for visible dates
+  useEffect(() => {
+    if (upcomingDates.length === 0) return;
+
+    const visible = showAllDates ? upcomingDates : upcomingDates.slice(0, 4);
+    const datesToFetch = visible.filter((d) => !(d.date in slotCounts));
+    if (datesToFetch.length === 0) return;
+
+    const fetchCounts = async () => {
+      const results: Record<string, number> = { ...slotCounts };
+      await Promise.all(
+        datesToFetch.map(async (d) => {
+          try {
+            const res = await fetch(
+              `/api/calendar/availability?mentorId=${mentorId}&date=${d.date}`
+            );
+            if (res.ok) {
+              const data = await res.json();
+              const available = (data.slots || []).filter((s: Slot) => s.available);
+              results[d.date] = available.length;
+            }
+          } catch {
+            // silently skip
+          }
+        })
+      );
+      setSlotCounts(results);
+    };
+
+    fetchCounts();
+  }, [upcomingDates, showAllDates, mentorId]);
 
   // Auto-select first available date
   useEffect(() => {
@@ -354,43 +383,78 @@ export default function BookingWidget({
       {/* Date & Time Selection */}
       {!showScreening && (
         <>
-          {/* Recurring schedule hint */}
-          {!daysLoading && availableDaysOfWeek.length > 0 && (
-            <p className="text-xs mb-4" style={{ color: theme.textFaint }}>
-              Available every {availableDaysOfWeek.map(d => DAY_NAMES[d]).join(", ")}
-            </p>
-          )}
-
-          {/* Date chips */}
+          {/* Date cards */}
           <div className="mb-5">
-            <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
-              Date
-            </label>
             {daysLoading ? (
               <p className="text-sm" style={{ color: theme.textFaint }}>
                 Loading schedule...
               </p>
             ) : upcomingDates.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {upcomingDates.map((d) => {
-                  const isSelected = selectedDate === d.date;
-                  return (
+              <>
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
+                    {(showAllDates ? upcomingDates : upcomingDates.slice(0, 4)).map((d) => {
+                      const isSelected = selectedDate === d.date;
+                      const count = slotCounts[d.date];
+                      return (
+                        <button
+                          key={d.date}
+                          type="button"
+                          onClick={() => setSelectedDate(d.date)}
+                          className="flex flex-col items-center min-w-[72px] px-3 py-3 rounded-xl border transition-all"
+                          style={{
+                            backgroundColor: isSelected ? theme.text : "transparent",
+                            borderColor: isSelected ? theme.text : theme.cardBorder,
+                          }}
+                        >
+                          <span
+                            className="text-[10px] font-semibold tracking-wider mb-1"
+                            style={{ color: isSelected ? theme.bg : theme.textFaint }}
+                          >
+                            {d.dayShort}
+                          </span>
+                          <span
+                            className="text-lg font-bold leading-tight"
+                            style={{ color: isSelected ? theme.bg : theme.text }}
+                          >
+                            {d.dayNum}
+                          </span>
+                          <span
+                            className="text-[10px] mt-0.5"
+                            style={{ color: isSelected ? theme.bg : theme.textFaint }}
+                          >
+                            {d.monthShort}
+                          </span>
+                          {count !== undefined && (
+                            <span
+                              className="text-[10px] mt-1.5 font-medium"
+                              style={{
+                                color: isSelected
+                                  ? `${theme.bg}cc`
+                                  : count > 0
+                                  ? "#10b981"
+                                  : theme.textFaint,
+                              }}
+                            >
+                              {count > 0 ? `${count} slot${count > 1 ? "s" : ""}` : "full"}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {upcomingDates.length > 4 && (
                     <button
-                      key={d.date}
                       type="button"
-                      onClick={() => setSelectedDate(d.date)}
-                      className="px-3 py-2 rounded-lg text-sm transition-all border"
-                      style={{
-                        backgroundColor: isSelected ? theme.text : "transparent",
-                        color: isSelected ? theme.bg : theme.text,
-                        borderColor: isSelected ? theme.text : theme.cardBorder,
-                      }}
+                      onClick={() => setShowAllDates(!showAllDates)}
+                      className="text-xs whitespace-nowrap font-medium flex-shrink-0"
+                      style={{ color: theme.textMuted }}
                     >
-                      {d.label}
+                      {showAllDates ? "Less" : `View all`}
                     </button>
-                  );
-                })}
-              </div>
+                  )}
+                </div>
+              </>
             ) : (
               <p className="text-sm" style={{ color: theme.textFaint }}>
                 No upcoming availability. Check back soon.
@@ -414,7 +478,7 @@ export default function BookingWidget({
               ) : (
                 <div className="mb-5">
                   <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
-                    Time (Berlin)
+                    Available times
                   </label>
                   <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                     {availableSlots.map((slot) => {
@@ -435,6 +499,9 @@ export default function BookingWidget({
                       );
                     })}
                   </div>
+                  <p className="text-[11px] mt-2" style={{ color: theme.textFaint }}>
+                    Times shown in Berlin (CET)
+                  </p>
                 </div>
               )}
             </>
