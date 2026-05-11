@@ -9,6 +9,7 @@ export interface ArchivedEvent {
   description: string[];
   highlights?: string[];
   lumaUrl?: string;
+  photos?: string[];
 }
 
 export const EVENT_ARCHIVE: ArchivedEvent[] = [
@@ -31,6 +32,14 @@ export const EVENT_ARCHIVE: ArchivedEvent[] = [
       "Intimate gathering of founding members",
     ],
     lumaUrl: "https://lu.ma/piwxfxqb",
+    photos: [
+      "/events/001-meet-and-shape/photo-1.jpg",
+      "/events/001-meet-and-shape/photo-2.jpg",
+      "/events/001-meet-and-shape/photo-3.jpg",
+      "/events/001-meet-and-shape/photo-4.jpg",
+      "/events/001-meet-and-shape/photo-5.jpg",
+      "/events/001-meet-and-shape/photo-6.jpg",
+    ],
   },
   {
     slug: "002-shape-and-align",

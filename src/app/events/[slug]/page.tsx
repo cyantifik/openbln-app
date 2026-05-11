@@ -6,6 +6,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { getEventBySlug, EVENT_ARCHIVE } from "@/lib/event-archive";
+import PhotoStrips from "@/components/PhotoStrips";
 
 /* ── Reveal-on-scroll hook ── */
 function useReveal(threshold = 0.2) {
@@ -135,6 +136,16 @@ export default function EventDetailPage() {
             </p>
           </FadeIn>
         ))}
+
+        {/* Photo strips gallery */}
+        {event.photos && event.photos.length > 0 && (
+          <FadeIn className="my-16" delay={400}>
+            <PhotoStrips
+              photos={event.photos}
+              eventTitle={event.title}
+            />
+          </FadeIn>
+        )}
 
         {/* Highlights */}
         {event.highlights && event.highlights.length > 0 && (
