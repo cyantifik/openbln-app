@@ -7,6 +7,7 @@ export interface SessionEvent {
   venue: string;
   summary: string;
   sections: SessionSection[];
+  photos?: string[];
 }
 
 export interface SessionSection {
@@ -33,6 +34,14 @@ export const SESSIONS: SessionEvent[] = [
     venue: "The Castle Berlin, Backroom",
     summary:
       "Our first gathering. 25 seats turned into 60+ signups with a 32-person waitlist. Luma featured us as a February Berlin highlight. The backroom at The Castle was full of sticky notes, pool tables, and people who showed up fully. We shared, we listened, we shaped something new together.",
+    photos: [
+      "/events/001-meet-and-shape/photo-1.jpg",
+      "/events/001-meet-and-shape/photo-2.jpg",
+      "/events/001-meet-and-shape/photo-3.jpg",
+      "/events/001-meet-and-shape/photo-4.jpg",
+      "/events/001-meet-and-shape/photo-5.jpg",
+      "/events/001-meet-and-shape/photo-6.jpg",
+    ],
     sections: [
       {
         title: "The 4Ls Exercise",

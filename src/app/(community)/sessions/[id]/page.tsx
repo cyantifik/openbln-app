@@ -5,6 +5,7 @@ import Link from "next/link";
 import AuthGuard from "@/components/AuthGuard";
 import { useTheme } from "@/lib/theme";
 import { getSessionById, SESSIONS } from "@/lib/sessions-data";
+import PhotoStrips from "@/components/PhotoStrips";
 
 function SessionDetail() {
   const { theme } = useTheme();
@@ -67,6 +68,13 @@ function SessionDetail() {
           {session.summary}
         </p>
       </div>
+
+      {/* Photo strips */}
+      {session.photos && session.photos.length > 0 && (
+        <div className="mb-12">
+          <PhotoStrips photos={session.photos} eventTitle={session.title} />
+        </div>
+      )}
 
       {/* Sections */}
       <div className="space-y-10">
