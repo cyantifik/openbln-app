@@ -127,6 +127,16 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
               >
                 Sessions
               </Link>
+              <span style={{ color: colors.separator }} className="nav-sep">|</span>
+              <Link
+                href="/groups"
+                className="nav-link text-xs tracking-widest uppercase transition-colors duration-200"
+                style={{ color: colors.textMuted }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = colors.text)}
+                onMouseLeave={(e) => (e.currentTarget.style.color = colors.textMuted)}
+              >
+                Groups
+              </Link>
             </>
           )}
 
@@ -258,7 +268,10 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
           <a href="/events" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Events</a>
           <a href="https://space.open-bln.com" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Space</a>
           {user && (
-            <Link href="/sessions" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Sessions</Link>
+            <>
+              <Link href="/sessions" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Sessions</Link>
+              <Link href="/groups" className="text-xs tracking-widest uppercase" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Groups</Link>
+            </>
           )}
 
           {/* Mobile theme slider */}

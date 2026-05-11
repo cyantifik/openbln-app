@@ -7,7 +7,8 @@ import { supabase } from "@/lib/supabase";
 import { useTheme } from "@/lib/theme";
 import AuthGuard from "@/components/AuthGuard";
 import type { User } from "@supabase/supabase-js";
-import type { Member } from "@/lib/data";
+import type { Member, AccountabilityGroup } from "@/lib/data";
+import { getAccountabilityGroups, getMemberGroups, joinGroup, leaveGroup } from "@/lib/data";
 import AvailabilityEditor from "@/components/AvailabilityEditor";
 import BookingRequests from "@/components/BookingRequests";
 import ScreeningQuestionsEditor from "@/components/ScreeningQuestionsEditor";
@@ -69,6 +70,11 @@ function ProfileContent() {
   const [menteeTopics, setMenteeTopics] = useState("");
   const [isCalendarConnected, setIsCalendarConnected] = useState(false);
   const [screeningQuestions, setScreeningQuestions] = useState<string[]>([]);
+
+  // Accountability Groups
+  const [allGroups, setAllGroups] = useState<AccountabilityGroup[]>([]);
+  const [myGroupIds, setMyGroupIds] = useState<string[]>([]);
+  const [groupsLoading, setGroupsLoading] = useState(false);
 
   // Check for calendar connection success/error from redirect
   const calendarSuccess = searchParams.get("success");
@@ -137,6 +143,14 @@ function ProfileContent() {
             setIsCalendarConnected(profile?.is_calendar_connected || false);
             setScreeningQuestions(profile?.screening_questions || []);
           }
+
+          // Load accountability groups
+          const [groups, memberGroupsList] = await Promise.all([
+            getAccountabilityGroups(),
+            getMemberGroups(memberData.id),
+          ]);
+          setAllGroups(groups);
+          setMyGroupIds(memberGroupsList.map((g) => g.id));
         }
       } catch (error) {
         console.error("Error loading profile:", error);
@@ -728,24 +742,80 @@ function ProfileContent() {
             )}
           </div>
 
-          {/* Accountability Groups — placeholder */}
+          {/* Accountability Groups */}
           <div
-            className="p-4 rounded-xl border opacity-60"
+            className="p-5 rounded-xl border"
             style={{
               borderColor: theme.cardBorder,
-              borderStyle: "dashed",
             }}
           >
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium" style={{ color: theme.text }}>
-                  Accountability Groups
-                </h3>
-                <p className="text-sm" style={{ color: theme.textFaint }}>
-                  Coming soon
-                </p>
-              </div>
+            <div className="mb-1">
+              <h3 className="font-medium" style={{ color: theme.text }}>
+                Accountability Groups
+              </h3>
+              <p className="text-sm" style={{ color: theme.textFaint }}>
+                Pick up to two groups to find your people. You can change these anytime.
+              </p>
             </div>
+
+            {allGroups.length > 0 ? (
+              <div className="mt-4 space-y-3">
+                {allGroups.map((group) => {
+                  const isJoined = myGroupIds.includes(group.id);
+                  return (
+                    <button
+                      key={group.id}
+                      type="button"
+                      disabled={groupsLoading}
+                      onClick={async () => {
+                        if (!memberId) return;
+                        setGroupsLoading(true);
+                        if (isJoined) {
+                          const ok = await leaveGroup(memberId, group.id);
+                          if (ok) setMyGroupIds((prev) => prev.filter((id) => id !== group.id));
+                        } else {
+                          const ok = await joinGroup(memberId, group.id);
+                          if (ok) setMyGroupIds((prev) => [...prev, group.id]);
+                        }
+                        setGroupsLoading(false);
+                      }}
+                      className="w-full text-left p-4 rounded-xl border transition-all duration-200 disabled:opacity-50"
+                      style={{
+                        borderColor: isJoined ? theme.text : theme.cardBorder,
+                        backgroundColor: isJoined ? `${theme.textFaint}08` : "transparent",
+                      }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: theme.text }}>
+                            {group.name}
+                          </p>
+                          <p className="text-sm mt-0.5" style={{ color: theme.textFaint }}>
+                            {group.description}
+                          </p>
+                        </div>
+                        {isJoined && (
+                          <span
+                            className="text-xs px-2.5 py-1 rounded-full flex-shrink-0 ml-3"
+                            style={{
+                              backgroundColor: `${theme.text}12`,
+                              color: theme.text,
+                              border: `1px solid ${theme.cardBorder}`,
+                            }}
+                          >
+                            Joined
+                          </span>
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-sm mt-3" style={{ color: theme.textFaint }}>
+                Loading groups...
+              </p>
+            )}
           </div>
         </div>
 

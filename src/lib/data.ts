@@ -15,6 +15,14 @@ export interface Member {
   achievements: string[];
   links?: Record<string, string>;
   created_at?: string;
+  groups?: AccountabilityGroup[];
+}
+
+export interface AccountabilityGroup {
+  id: string;
+  name: string;
+  description: string;
+  sort_order: number;
 }
 
 export interface Event {
@@ -218,5 +226,122 @@ export async function getPastEvents(): Promise<Event[]> {
   } catch (error) {
     console.error("Error fetching past events from Supabase:", error);
     return EVENTS.filter((event) => new Date(event.date) < new Date());
+  }
+}
+
+// ─── Accountability Groups ───
+
+export async function getAccountabilityGroups(): Promise<AccountabilityGroup[]> {
+  try {
+    const { data, error } = await supabase
+      .from("accountability_groups")
+      .select("*")
+      .order("sort_order", { ascending: true });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching accountability groups:", error);
+    return [];
+  }
+}
+
+export async function getMemberGroups(memberId: string): Promise<AccountabilityGroup[]> {
+  try {
+    const { data, error } = await supabase
+      .from("member_groups")
+      .select("group_id, accountability_groups(*)")
+      .eq("member_id", memberId);
+
+    if (error) throw error;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (data || []).map((row: any) => row.accountability_groups).filter(Boolean);
+  } catch (error) {
+    console.error("Error fetching member groups:", error);
+    return [];
+  }
+}
+
+export async function joinGroup(memberId: string, groupId: string): Promise<boolean> {
+  try {
+    const { error } = await supabase
+      .from("member_groups")
+      .insert({ member_id: memberId, group_id: groupId });
+
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error("Error joining group:", error);
+    return false;
+  }
+}
+
+export async function leaveGroup(memberId: string, groupId: string): Promise<boolean> {
+  try {
+    const { error } = await supabase
+      .from("member_groups")
+      .delete()
+      .eq("member_id", memberId)
+      .eq("group_id", groupId);
+
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error("Error leaving group:", error);
+    return false;
+  }
+}
+
+export async function getGroupMembers(groupId: string): Promise<Member[]> {
+  try {
+    const { data, error } = await supabase
+      .from("member_groups")
+      .select("member_id, members(*)")
+      .eq("group_id", groupId);
+
+    if (error) throw error;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (data || []).map((row: any) => row.members).filter(Boolean);
+  } catch (error) {
+    console.error("Error fetching group members:", error);
+    return [];
+  }
+}
+
+export async function getMembersWithGroups(): Promise<Member[]> {
+  try {
+    const { data: members, error: membersError } = await supabase
+      .from("members")
+      .select("*")
+      .eq("status", "approved")
+      .order("created_at", { ascending: false });
+
+    if (membersError) throw membersError;
+
+    // Get all member-group relationships
+    const { data: memberGroups, error: mgError } = await supabase
+      .from("member_groups")
+      .select("member_id, accountability_groups(*)");
+
+    if (mgError) throw mgError;
+
+    // Map groups to members
+    const groupsByMember: Record<string, AccountabilityGroup[]> = {};
+    for (const mg of memberGroups || []) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const group = (mg as any).accountability_groups;
+      if (group) {
+        if (!groupsByMember[mg.member_id]) groupsByMember[mg.member_id] = [];
+        groupsByMember[mg.member_id].push(group);
+      }
+    }
+
+    return (members || []).map((m) => ({
+      ...m,
+      groups: groupsByMember[m.id] || [],
+    }));
+  } catch (error) {
+    console.error("Error fetching members with groups:", error);
+    return MEMBERS;
   }
 }

@@ -94,8 +94,28 @@ export default function MemberCard({ member }: MemberCardProps) {
           <p className="text-sm mb-4 ml-16" style={{ color: theme.textFaint }}>{member.company}</p>
         )}
 
+        {/* Groups */}
+        {member.groups && member.groups.length > 0 && (
+          <div className="mt-auto pt-3">
+            <div className="flex flex-wrap gap-1.5">
+              {member.groups.map((group) => (
+                <span
+                  key={group.id}
+                  className="inline-block px-2.5 py-1 text-xs rounded-full transition-colors duration-500"
+                  style={{
+                    backgroundColor: `${theme.textFaint}12`,
+                    color: theme.textMuted,
+                  }}
+                >
+                  {group.name}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Skills */}
-        <div className="mt-auto pt-4 border-t" style={{ borderTopColor: theme.border }}>
+        <div className={`${member.groups && member.groups.length > 0 ? 'pt-3' : 'mt-auto pt-4'} border-t`} style={{ borderTopColor: theme.border }}>
           <div className="flex flex-wrap gap-2">
             {member.skills_offered.slice(0, 3).map((skill) => (
               <span

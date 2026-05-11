@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import MemberCard from "@/components/MemberCard";
 import AuthGuard from "@/components/AuthGuard";
-import { getMembers, searchMembersDB, MEMBERS } from "@/lib/data";
+import { getMembersWithGroups, searchMembersDB, MEMBERS } from "@/lib/data";
 import type { Member } from "@/lib/data";
 import { useTheme } from "@/lib/theme";
 
@@ -19,7 +19,7 @@ export default function SpacePage() {
           const results = await searchMembersDB(searchQuery);
           setFilteredMembers(results);
         } else {
-          const members = await getMembers();
+          const members = await getMembersWithGroups();
           setFilteredMembers(members);
         }
       } catch (error) {
