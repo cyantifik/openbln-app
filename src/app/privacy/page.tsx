@@ -11,16 +11,16 @@ export default function PrivacyPolicy() {
       <main className="flex-1 max-w-2xl mx-auto px-6 py-20 w-full">
         <h1 className="text-3xl font-light tracking-tight mb-2">Privacy Policy</h1>
         <p className="text-white/25 text-sm tracking-widest uppercase mb-12">
-          Last updated: April 2026
+          Last updated: May 2026
         </p>
 
         <div className="space-y-8 text-white/50 text-sm leading-relaxed">
           <section>
             <h2 className="text-white/80 text-base font-semibold mb-3">1. Overview</h2>
             <p>
-              OPEN BLN ("we", "us", "our") operates the websites open-bln.com and space.open-bln.com.
+              OPEN BLN ("we", "us", "our") operates the website open-bln.com.
               This policy explains how we collect, use, and protect your personal data when you use our
-              websites and community platform.
+              website and community platform.
             </p>
           </section>
 
@@ -74,8 +74,8 @@ export default function PrivacyPolicy() {
             <h2 className="text-white/80 text-base font-semibold mb-3">7. Third-Party Services</h2>
             <p>
               We use the following third-party services: Supabase (database and authentication),
-              Vercel (hosting), Google Analytics (usage statistics), and Cal.com (appointment booking).
-              Each service has its own privacy policy.
+              Vercel (hosting), Google Analytics (usage statistics), and Google Calendar (session
+              scheduling for mentors). Each service has its own privacy policy.
             </p>
           </section>
 
