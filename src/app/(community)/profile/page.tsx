@@ -261,7 +261,7 @@ function ProfileContent() {
 
         // Create/update mentor profile if needed
         if (isMentor) {
-          await supabase.from("mentor_profiles").upsert(
+          const { error: mentorError } = await supabase.from("mentor_profiles").upsert(
             {
               member_id: member.id,
               auth_id: user.id,
@@ -271,6 +271,10 @@ function ProfileContent() {
             },
             { onConflict: "auth_id" }
           );
+          if (mentorError) {
+            console.error("Mentor profile upsert error:", mentorError);
+            // Don't block the save — mentor profile will be created on calendar connect
+          }
         }
       } else {
         const { error: createError } = await supabase.from("members").insert({
