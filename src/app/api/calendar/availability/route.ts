@@ -18,16 +18,12 @@ export async function GET(request: Request) {
     const requestedDate = new Date(date + "T12:00:00");
     const dayOfWeek = requestedDate.getDay();
 
-    console.log("[availability] date:", date, "dayOfWeek:", dayOfWeek, "mentorId:", mentorId);
-
     // Get mentor's availability windows for this day
     const { data: windows, error: windowError } = await supabaseAdmin
       .from("mentor_availability")
       .select("start_time, end_time")
       .eq("mentor_id", mentorId)
       .eq("day_of_week", dayOfWeek);
-
-    console.log("[availability] windows:", JSON.stringify(windows), "error:", windowError);
 
     if (windowError) {
       console.error("Error fetching availability:", windowError);

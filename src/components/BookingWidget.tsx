@@ -110,7 +110,7 @@ export default function BookingWidget({
       const dow = d.getDay();
 
       if (availableDaysOfWeek.includes(dow)) {
-        const dateStr = d.toISOString().split("T")[0];
+        const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
         dates.push({
           date: dateStr,
           dayShort: d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase(),
@@ -188,7 +188,6 @@ export default function BookingWidget({
           throw new Error(data.error || "Failed to load availability");
         }
         const data = await res.json();
-        console.log("[BookingWidget] API response for", selectedDate, ":", JSON.stringify(data));
         setSlots(data.slots || []);
       } catch (err) {
         console.error("Error fetching slots:", err);
@@ -456,14 +455,9 @@ export default function BookingWidget({
               ) : error ? (
                 <p className="text-sm mb-5" style={{ color: "#ef4444" }}>{error}</p>
               ) : availableSlots.length === 0 ? (
-                <div className="mb-5">
-                  <p className="text-sm" style={{ color: theme.textFaint }}>
-                    No open times on this date.
-                  </p>
-                  <p className="text-[10px] mt-2 font-mono break-all" style={{ color: theme.textFaint, opacity: 0.6 }}>
-                    DEBUG: date={selectedDate} total={slots.length} available={availableSlots.length} raw={JSON.stringify(slots.slice(0, 3))}
-                  </p>
-                </div>
+                <p className="text-sm mb-5" style={{ color: theme.textFaint }}>
+                  No open times on this date.
+                </p>
               ) : (
                 <div className="mb-5">
                   <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
