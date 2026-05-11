@@ -856,14 +856,29 @@ function ProfileContent() {
         <button
           type="submit"
           disabled={saving}
-          className="w-full py-3.5 rounded-xl text-sm font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
+          className="w-full py-3.5 rounded-xl text-sm font-medium transition-all hover:opacity-80 disabled:opacity-50"
           style={{
-            backgroundColor: theme.text,
-            color: theme.bg,
+            backgroundColor: success ? "rgba(16, 185, 129, 0.15)" : theme.text,
+            color: success ? "#10b981" : theme.bg,
+            border: success ? "1px solid rgba(16, 185, 129, 0.3)" : "1px solid transparent",
           }}
         >
-          {saving ? "Saving..." : "Save Profile"}
+          {saving ? "Saving..." : success ? "Saved ✓" : "Save Profile"}
         </button>
+
+        {/* View Profile */}
+        {memberId && (
+          <Link
+            href={`/member/${memberId}`}
+            className="block w-full py-3.5 rounded-xl text-sm font-medium text-center transition-opacity hover:opacity-70 border"
+            style={{
+              borderColor: theme.cardBorder,
+              color: theme.textMuted,
+            }}
+          >
+            View My Profile
+          </Link>
+        )}
       </form>
 
       <div className="mt-8 text-center">
