@@ -172,29 +172,6 @@ function MemberProfileContent() {
       <div className={`${isMentorWithCalendar ? "grid grid-cols-1 lg:grid-cols-5 gap-8" : ""}`}>
         {/* Left column: details */}
         <div className={isMentorWithCalendar ? "lg:col-span-3" : ""}>
-          {/* Achievements */}
-          {member.achievements && member.achievements.length > 0 && (
-            <div className="mb-10">
-              <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
-                Achievements
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {member.achievements.map((achievement) => (
-                  <span
-                    key={achievement}
-                    className="px-3 py-1.5 rounded-lg text-sm"
-                    style={{
-                      backgroundColor: `${theme.textFaint}15`,
-                      color: theme.textMuted,
-                    }}
-                  >
-                    {achievement}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Skills Offered */}
           {member.skills_offered && member.skills_offered.length > 0 && (
             <div className="mb-10">
