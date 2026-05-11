@@ -188,6 +188,7 @@ export default function BookingWidget({
           throw new Error(data.error || "Failed to load availability");
         }
         const data = await res.json();
+        console.log("[BookingWidget] API response for", selectedDate, ":", JSON.stringify(data));
         setSlots(data.slots || []);
       } catch (err) {
         console.error("Error fetching slots:", err);
