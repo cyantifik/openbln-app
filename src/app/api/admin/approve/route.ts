@@ -56,12 +56,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: memberError.message }, { status: 500 });
     }
 
+    // Get the admin's member id for reviewed_by
+    const { data: adminMember } = await supabaseAdmin
+      .from("members")
+      .select("id")
+      .eq("auth_id", user.id)
+      .single();
+
     // Update application status
     const { error: appError } = await supabaseAdmin
       .from("applications")
       .update({
         status: "approved",
-        reviewed_by: user.id,
+        reviewed_by: adminMember?.id || null,
       })
       .eq("id", applicationId);
 
