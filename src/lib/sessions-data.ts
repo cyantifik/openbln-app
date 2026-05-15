@@ -234,7 +234,7 @@ export const SESSIONS: SessionEvent[] = [
     date: "April 28, 2026",
     venue: "Spreegold Prenzlauer Berg, Berlin",
     summary:
-      "Tonight is about emergence: what happens when we stop performing and start building together. No paper, no projections. Everything lives here.",
+      "The night something clicked. We shared real offers, built a platform wishlist on sticky notes around the golden starburst, and for the first time, the OPEN BLN platform was revealed to the group. What started as a blank canvas now has a home.",
     photos: [
       "/events/003-align-and-emerge/photo-1.jpg",
       "/events/003-align-and-emerge/photo-2.jpg",
