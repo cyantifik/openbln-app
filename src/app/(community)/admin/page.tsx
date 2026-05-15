@@ -73,20 +73,27 @@ export default function Admin() {
     setActionLoading(app.id);
     try {
       // Create or update member from application
+      const skillsOffered = app.can_help_with
+        ? app.can_help_with.split(",").map((s) => s.trim()).filter(Boolean)
+        : [];
+
       const { error: memberError } = await supabase.from("members").upsert({
         auth_id: app.auth_id,
         name: app.name,
         role: "Member",
         company: "",
-        bio: app.working_on,
-        skills_offered: app.can_help_with.split(",").map((s) => s.trim()),
+        bio: app.working_on || "",
+        skills_offered: skillsOffered,
         skills_needed: [],
         is_admin: false,
         achievements: [],
         status: "approved",
       }, { onConflict: "auth_id" });
 
-      if (memberError) throw memberError;
+      if (memberError) {
+        console.error("Member upsert error:", memberError);
+        throw memberError;
+      }
 
       // Update application status
       const { error: appError } = await supabase
@@ -97,7 +104,10 @@ export default function Admin() {
         })
         .eq("id", app.id);
 
-      if (appError) throw appError;
+      if (appError) {
+        console.error("Application update error:", appError);
+        throw appError;
+      }
 
       // Reload applications
       const { data: appsData } = await supabase
@@ -107,8 +117,9 @@ export default function Admin() {
 
       setApplications(appsData || []);
     } catch (error) {
+      const errMsg = error instanceof Error ? error.message : JSON.stringify(error);
       console.error("Error approving application:", error);
-      alert("Failed to approve application");
+      alert(`Failed to approve: ${errMsg}`);
     } finally {
       setActionLoading(null);
     }
