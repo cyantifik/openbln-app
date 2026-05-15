@@ -101,7 +101,7 @@ export default function MemberCard({ member }: MemberCardProps) {
               {member.groups.map((group) => (
                 <span
                   key={group.id}
-                  className="inline-block px-2.5 py-1 text-xs rounded-full transition-colors duration-500"
+                  className="inline-block px-2.5 py-1 text-xs rounded-md transition-colors duration-500"
                   style={{
                     backgroundColor: `${theme.textFaint}12`,
                     color: theme.textMuted,
@@ -120,7 +120,7 @@ export default function MemberCard({ member }: MemberCardProps) {
             {member.skills_offered.slice(0, 3).map((skill) => (
               <span
                 key={skill}
-                className="inline-block px-3 py-1 text-sm rounded-full border transition-colors duration-500"
+                className="inline-block px-3 py-1 text-sm rounded-md border transition-colors duration-500"
                 style={{
                   backgroundColor: theme.tagBg,
                   color: theme.tagText,

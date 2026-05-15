@@ -323,7 +323,7 @@ export default function BookingWidget({
 
   return (
     <div
-      className="rounded-2xl border p-5 sm:p-6 transition-colors duration-500"
+      className="rounded-lg border p-5 sm:p-6 transition-colors duration-500"
       style={{
         backgroundColor: theme.cardBg,
         borderColor: theme.cardBorder,
@@ -383,7 +383,7 @@ export default function BookingWidget({
                           key={d.date}
                           type="button"
                           onClick={() => setSelectedDate(d.date)}
-                          className="flex flex-col items-center min-w-[72px] px-3 py-3 rounded-xl border transition-all"
+                          className="flex flex-col items-center min-w-[72px] px-3 py-3 rounded-lg border transition-all"
                           style={{
                             backgroundColor: isSelected ? theme.text : "transparent",
                             borderColor: isSelected ? theme.text : theme.cardBorder,
@@ -535,7 +535,7 @@ export default function BookingWidget({
               type="email"
               value={contactEmail}
               onChange={(e) => setContactEmail(e.target.value)}
-              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none bg-transparent"
+              className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none bg-transparent"
               style={{ borderColor: theme.cardBorder, color: theme.text }}
               placeholder="you@example.com"
               required
@@ -550,7 +550,7 @@ export default function BookingWidget({
               type="url"
               value={linkedinUrl}
               onChange={(e) => setLinkedinUrl(e.target.value)}
-              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none bg-transparent"
+              className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none bg-transparent"
               style={{ borderColor: theme.cardBorder, color: theme.text }}
               placeholder="https://linkedin.com/in/yourprofile"
               required
@@ -581,7 +581,7 @@ export default function BookingWidget({
                   updated[i] = e.target.value;
                   setScreeningAnswers(updated);
                 }}
-                className="w-full px-4 py-3 rounded-xl border text-sm outline-none bg-transparent resize-none"
+                className="w-full px-4 py-3 rounded-lg border text-sm outline-none bg-transparent resize-none"
                 style={{ borderColor: theme.cardBorder, color: theme.text }}
                 rows={2}
                 required
@@ -596,7 +596,7 @@ export default function BookingWidget({
           <button
             onClick={handleBook}
             disabled={booking}
-            className="w-full py-3 rounded-xl text-sm font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
+            className="w-full py-3 rounded-lg text-sm font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
             style={{ backgroundColor: theme.text, color: theme.bg }}
           >
             {booking ? "Sending request..." : "Submit Request"}
@@ -607,7 +607,7 @@ export default function BookingWidget({
       {/* Success */}
       {bookingResult === "confirmed" && (
         <div
-          className="mt-4 p-4 rounded-xl"
+          className="mt-4 p-4 rounded-lg"
           style={{
             backgroundColor: "rgba(16, 185, 129, 0.1)",
             border: "1px solid rgba(16, 185, 129, 0.2)",

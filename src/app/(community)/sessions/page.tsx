@@ -36,7 +36,7 @@ function SessionsList() {
           <Link
             key={session.id}
             href={`/sessions/${session.id}`}
-            className="block p-6 rounded-xl border transition-all duration-300"
+            className="block p-6 rounded-lg border transition-all duration-300"
             style={{
               backgroundColor: theme.cardBg,
               borderColor: theme.cardBorder,

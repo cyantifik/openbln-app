@@ -93,7 +93,7 @@ function GroupsContent() {
           return (
             <div
               key={group.id}
-              className="rounded-xl border transition-all duration-300"
+              className="rounded-lg border transition-all duration-300"
               style={{
                 backgroundColor: theme.cardBg,
                 borderColor: isExpanded ? theme.text : theme.cardBorder,
@@ -155,7 +155,7 @@ function GroupsContent() {
                       <Link
                         key={member.id}
                         href={`/member/${member.id}`}
-                        className="flex items-center gap-4 p-3 rounded-xl transition-all duration-200 hover:opacity-80"
+                        className="flex items-center gap-4 p-3 rounded-lg transition-all duration-200 hover:opacity-80"
                         style={{ backgroundColor: `${theme.textFaint}06` }}
                       >
                         {member.avatar_url ? (

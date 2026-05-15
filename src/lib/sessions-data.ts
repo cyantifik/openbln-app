@@ -202,6 +202,14 @@ export const SESSIONS: SessionEvent[] = [
     venue: "Spreegold Prenzlauer Berg, Berlin",
     summary:
       "Tonight is about emergence: what happens when we stop performing and start building together. No paper, no projections. Everything lives here.",
+    photos: [
+      "/events/003-align-and-emerge/photo-1.jpg",
+      "/events/003-align-and-emerge/photo-2.jpg",
+      "/events/003-align-and-emerge/photo-3.jpg",
+      "/events/003-align-and-emerge/photo-4.jpg",
+      "/events/003-align-and-emerge/photo-5.jpg",
+      "/events/003-align-and-emerge/photo-6.jpg",
+    ],
     sections: [
       {
         title: "Align (18:30 to 20:00)",

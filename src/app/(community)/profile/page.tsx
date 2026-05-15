@@ -364,7 +364,7 @@ function ProfileContent() {
 
       {error && (
         <div
-          className="mb-6 p-4 rounded-xl text-sm"
+          className="mb-6 p-4 rounded-lg text-sm"
           style={{
             backgroundColor: "rgba(239, 68, 68, 0.1)",
             color: "#ef4444",
@@ -377,7 +377,7 @@ function ProfileContent() {
 
       {success && (
         <div
-          className="mb-6 p-4 rounded-xl text-sm"
+          className="mb-6 p-4 rounded-lg text-sm"
           style={{
             backgroundColor: "rgba(16, 185, 129, 0.1)",
             color: "#10b981",
@@ -437,7 +437,7 @@ function ProfileContent() {
 
         {/* ─── Basic Info ─── */}
         <div
-          className="p-6 sm:p-8 rounded-xl border space-y-6"
+          className="p-6 sm:p-8 rounded-lg border space-y-6"
           style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
         >
           <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
@@ -453,7 +453,7 @@ function ProfileContent() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none"
+              className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none"
               style={inputStyle}
               placeholder="Your name"
             />
@@ -469,7 +469,7 @@ function ProfileContent() {
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none"
+                className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none"
                 style={inputStyle}
                 placeholder="e.g., Product Designer"
               />
@@ -483,7 +483,7 @@ function ProfileContent() {
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
-                className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none"
+                className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none"
                 style={inputStyle}
                 placeholder="Your company or studio"
               />
@@ -498,7 +498,7 @@ function ProfileContent() {
               name="bio"
               value={formData.bio}
               onChange={handleChange}
-              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none resize-none"
+              className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none resize-none"
               style={inputStyle}
               placeholder="Tell us about yourself..."
               rows={4}
@@ -508,7 +508,7 @@ function ProfileContent() {
 
         {/* ─── Skills ─── */}
         <div
-          className="p-6 sm:p-8 rounded-xl border space-y-6"
+          className="p-6 sm:p-8 rounded-lg border space-y-6"
           style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
         >
           <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
@@ -523,7 +523,7 @@ function ProfileContent() {
               name="skills_offered"
               value={formData.skills_offered}
               onChange={handleChange}
-              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none resize-none"
+              className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none resize-none"
               style={inputStyle}
               placeholder="Design, Mentorship, React, Brand Strategy"
               rows={2}
@@ -541,7 +541,7 @@ function ProfileContent() {
               name="skills_needed"
               value={formData.skills_needed}
               onChange={handleChange}
-              className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none resize-none"
+              className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none resize-none"
               style={inputStyle}
               placeholder="Marketing, Backend Development"
               rows={2}
@@ -554,7 +554,7 @@ function ProfileContent() {
 
         {/* ─── Mentorship ─── */}
         <div
-          className="p-6 sm:p-8 rounded-xl border space-y-7"
+          className="p-6 sm:p-8 rounded-lg border space-y-7"
           style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
         >
           <div>
@@ -568,7 +568,7 @@ function ProfileContent() {
 
           {/* Mentor toggle */}
           <div
-            className="p-5 rounded-xl border"
+            className="p-5 rounded-lg border"
             style={{
               borderColor: isMentor ? theme.text : theme.cardBorder,
               backgroundColor: isMentor ? `${theme.textFaint}08` : "transparent",
@@ -595,7 +595,7 @@ function ProfileContent() {
                   <textarea
                     value={mentorTopics}
                     onChange={(e) => setMentorTopics(e.target.value)}
-                    className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none resize-none"
+                    className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none resize-none"
                     style={inputStyle}
                     placeholder="Portfolio reviews, Career transitions, Design leadership, Job search strategy"
                     rows={3}
@@ -607,7 +607,7 @@ function ProfileContent() {
 
                 {/* Availability windows */}
                 <div
-                  className="p-5 rounded-xl"
+                  className="p-5 rounded-lg"
                   style={{ backgroundColor: `${theme.textFaint}08` }}
                 >
                   <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
@@ -623,7 +623,7 @@ function ProfileContent() {
 
                 {/* Screening Questions */}
                 <div
-                  className="p-5 rounded-xl"
+                  className="p-5 rounded-lg"
                   style={{ backgroundColor: `${theme.textFaint}08` }}
                 >
                   <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
@@ -641,7 +641,7 @@ function ProfileContent() {
 
                 {/* Google Calendar (for event creation on approval) */}
                 <div
-                  className="p-5 rounded-xl"
+                  className="p-5 rounded-lg"
                   style={{ backgroundColor: `${theme.textFaint}08` }}
                 >
                   <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
@@ -675,7 +675,7 @@ function ProfileContent() {
                   ) : (
                     <a
                       href={`/api/calendar/connect?userId=${user?.id}`}
-                      className="inline-block px-5 py-2.5 rounded-xl text-sm font-medium transition-opacity hover:opacity-80"
+                      className="inline-block px-5 py-2.5 rounded-lg text-sm font-medium transition-opacity hover:opacity-80"
                       style={{
                         backgroundColor: theme.text,
                         color: theme.bg,
@@ -688,7 +688,7 @@ function ProfileContent() {
 
                 {/* Booking requests */}
                 <div
-                  className="p-5 rounded-xl"
+                  className="p-5 rounded-lg"
                   style={{ backgroundColor: `${theme.textFaint}08` }}
                 >
                   <p className="text-sm font-medium mb-1" style={{ color: theme.text }}>
@@ -707,7 +707,7 @@ function ProfileContent() {
 
           {/* Mentee toggle */}
           <div
-            className="p-5 rounded-xl border"
+            className="p-5 rounded-lg border"
             style={{
               borderColor: isMentee ? theme.text : theme.cardBorder,
               backgroundColor: isMentee ? `${theme.textFaint}08` : "transparent",
@@ -733,7 +733,7 @@ function ProfileContent() {
                 <textarea
                   value={menteeTopics}
                   onChange={(e) => setMenteeTopics(e.target.value)}
-                  className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none resize-none"
+                  className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none resize-none"
                   style={inputStyle}
                   placeholder="Career advice, Breaking into product design, Interview prep"
                   rows={2}
@@ -747,7 +747,7 @@ function ProfileContent() {
 
           {/* Accountability Groups */}
           <div
-            className="p-5 rounded-xl border"
+            className="p-5 rounded-lg border"
             style={{
               borderColor: theme.cardBorder,
             }}
@@ -782,7 +782,7 @@ function ProfileContent() {
                         }
                         setGroupsLoading(false);
                       }}
-                      className="w-full text-left p-4 rounded-xl border transition-all duration-200 disabled:opacity-50"
+                      className="w-full text-left p-4 rounded-lg border transition-all duration-200 disabled:opacity-50"
                       style={{
                         borderColor: isJoined ? theme.text : theme.cardBorder,
                         backgroundColor: isJoined ? `${theme.textFaint}08` : "transparent",
@@ -824,7 +824,7 @@ function ProfileContent() {
 
         {/* ─── Social Links ─── */}
         <div
-          className="p-6 sm:p-8 rounded-xl border space-y-5"
+          className="p-6 sm:p-8 rounded-lg border space-y-5"
           style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
         >
           <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
@@ -840,7 +840,7 @@ function ProfileContent() {
                 type="url"
                 value={formData.links[platform] || ""}
                 onChange={(e) => handleLinkChange(platform, e.target.value)}
-                className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none"
+                className="w-full px-4 py-3.5 rounded-lg border text-sm outline-none"
                 style={inputStyle}
                 placeholder={
                   platform === "linkedin"
@@ -856,7 +856,7 @@ function ProfileContent() {
         <button
           type="submit"
           disabled={saving}
-          className="w-full py-3.5 rounded-xl text-sm font-medium transition-all hover:opacity-80 disabled:opacity-50"
+          className="w-full py-3.5 rounded-lg text-sm font-medium transition-all hover:opacity-80 disabled:opacity-50"
           style={{
             backgroundColor: success ? "rgba(16, 185, 129, 0.15)" : theme.text,
             color: success ? "#10b981" : theme.bg,
@@ -870,7 +870,7 @@ function ProfileContent() {
         {memberId && (
           <Link
             href={`/member/${memberId}`}
-            className="block w-full py-3.5 rounded-xl text-sm font-medium text-center transition-opacity hover:opacity-70 border"
+            className="block w-full py-3.5 rounded-lg text-sm font-medium text-center transition-opacity hover:opacity-70 border"
             style={{
               borderColor: theme.cardBorder,
               color: theme.textMuted,

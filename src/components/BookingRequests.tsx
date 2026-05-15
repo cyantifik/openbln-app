@@ -154,7 +154,7 @@ export default function BookingRequests({ mentorId, mentorAuthId, theme }: Booki
           {pending.map((booking) => (
             <div
               key={booking.id}
-              className="p-5 rounded-xl border"
+              className="p-5 rounded-lg border"
               style={{ borderColor: theme.cardBorder }}
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -244,7 +244,7 @@ export default function BookingRequests({ mentorId, mentorAuthId, theme }: Booki
           {confirmed.map((booking) => (
             <div
               key={booking.id}
-              className="p-4 rounded-xl flex items-center justify-between"
+              className="p-4 rounded-lg flex items-center justify-between"
               style={{ backgroundColor: `${theme.textFaint}08` }}
             >
               <div>

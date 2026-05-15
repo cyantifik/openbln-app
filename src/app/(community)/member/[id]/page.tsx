@@ -222,7 +222,7 @@ function MemberProfileContent() {
           {/* Mentorship Section */}
           {(member.is_mentor || member.is_mentee) && (
             <div
-              className="mb-10 p-5 rounded-xl border"
+              className="mb-10 p-5 rounded-lg border"
               style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
             >
               <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
@@ -317,7 +317,7 @@ function MemberProfileContent() {
       {/* Mentor without calendar message */}
       {member.is_mentor && !isMentorWithCalendar && (
         <div
-          className="mt-8 p-4 rounded-xl border"
+          className="mt-8 p-4 rounded-lg border"
           style={{
             backgroundColor: `${theme.textFaint}08`,
             borderColor: theme.cardBorder,

@@ -76,7 +76,7 @@ export default function ScreeningQuestionsEditor({
           value={newQuestion}
           onChange={(e) => setNewQuestion(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="flex-1 px-4 py-2.5 rounded-xl border text-sm outline-none"
+          className="flex-1 px-4 py-2.5 rounded-lg border text-sm outline-none"
           style={{
             borderColor: theme.cardBorder,
             color: theme.text,
@@ -87,7 +87,7 @@ export default function ScreeningQuestionsEditor({
         <button
           type="button"
           onClick={handleAdd}
-          className="px-4 py-2.5 rounded-xl text-sm font-medium transition-opacity hover:opacity-80"
+          className="px-4 py-2.5 rounded-lg text-sm font-medium transition-opacity hover:opacity-80"
           style={{
             backgroundColor: theme.text,
             color: theme.bg,

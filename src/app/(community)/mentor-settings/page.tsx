@@ -178,7 +178,7 @@ function MentorSettingsContent() {
 
       {message && (
         <div
-          className="mb-8 p-4 rounded-xl text-sm"
+          className="mb-8 p-4 rounded-lg text-sm"
           style={{
             backgroundColor: success
               ? "rgba(16, 185, 129, 0.1)"
@@ -193,7 +193,7 @@ function MentorSettingsContent() {
 
       {/* Mentor Toggle */}
       <div
-        className="p-6 rounded-xl border mb-6"
+        className="p-6 rounded-lg border mb-6"
         style={{
           backgroundColor: theme.cardBg,
           borderColor: theme.cardBorder,
@@ -232,7 +232,7 @@ function MentorSettingsContent() {
         <>
           {/* Google Calendar Connection */}
           <div
-            className="p-6 rounded-xl border mb-6"
+            className="p-6 rounded-lg border mb-6"
             style={{
               backgroundColor: theme.cardBg,
               borderColor: theme.cardBorder,
@@ -273,7 +273,7 @@ function MentorSettingsContent() {
             ) : (
               <a
                 href={`/api/calendar/connect?userId=${authId}`}
-                className="inline-block px-6 py-3 rounded-xl text-sm font-medium transition-opacity hover:opacity-80"
+                className="inline-block px-6 py-3 rounded-lg text-sm font-medium transition-opacity hover:opacity-80"
                 style={{
                   backgroundColor: theme.text,
                   color: theme.bg,
@@ -286,7 +286,7 @@ function MentorSettingsContent() {
 
           {/* Session Settings */}
           <div
-            className="p-6 rounded-xl border mb-6"
+            className="p-6 rounded-lg border mb-6"
             style={{
               backgroundColor: theme.cardBg,
               borderColor: theme.cardBorder,
@@ -310,7 +310,7 @@ function MentorSettingsContent() {
                 type="text"
                 value={sessionTitle}
                 onChange={(e) => setSessionTitle(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border bg-transparent text-sm outline-none"
+                className="w-full px-4 py-3 rounded-lg border bg-transparent text-sm outline-none"
                 style={{
                   borderColor: theme.cardBorder,
                   color: theme.text,
@@ -329,7 +329,7 @@ function MentorSettingsContent() {
               <select
                 value={sessionDuration}
                 onChange={(e) => setSessionDuration(Number(e.target.value))}
-                className="w-full px-4 py-3 rounded-xl border text-sm outline-none"
+                className="w-full px-4 py-3 rounded-lg border text-sm outline-none"
                 style={{
                   borderColor: theme.cardBorder,
                   color: theme.text,
@@ -346,7 +346,7 @@ function MentorSettingsContent() {
             <button
               onClick={handleSaveSettings}
               disabled={saving}
-              className="px-6 py-3 rounded-xl text-sm font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
+              className="px-6 py-3 rounded-lg text-sm font-medium transition-opacity hover:opacity-80 disabled:opacity-50"
               style={{
                 backgroundColor: theme.text,
                 color: theme.bg,
