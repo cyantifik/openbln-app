@@ -188,6 +188,9 @@ export const SESSIONS: SessionEvent[] = [
       "/events/002-shape-and-align/photo-4.jpg",
       "/events/002-shape-and-align/photo-5.jpg",
       "/events/002-shape-and-align/photo-6.jpg",
+      "/events/002-shape-and-align/photo-7.jpg",
+      "/events/002-shape-and-align/photo-8.jpg",
+      "/events/002-shape-and-align/photo-9.jpg",
     ],
     sections: [
       {
@@ -239,6 +242,9 @@ export const SESSIONS: SessionEvent[] = [
       "/events/003-align-and-emerge/photo-4.jpg",
       "/events/003-align-and-emerge/photo-5.jpg",
       "/events/003-align-and-emerge/photo-6.jpg",
+      "/events/003-align-and-emerge/photo-7.jpg",
+      "/events/003-align-and-emerge/photo-8.jpg",
+      "/events/003-align-and-emerge/photo-9.jpg",
     ],
     sections: [
       {
