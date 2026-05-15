@@ -151,6 +151,14 @@ export const SESSIONS: SessionEvent[] = [
     venue: "Benne Berlin",
     summary:
       "We went deeper. 60+ signups. Featured by FOMO Berlin (we didn't see that coming). Benne Berlin generously hosted us during peak hours. We formed accountability groups, set intentions for our community, and made sure every voice was heard in under three hours. What's forming is a genuine sense of belonging.",
+    photos: [
+      "/events/002-shape-and-align/photo-1.jpg",
+      "/events/002-shape-and-align/photo-2.jpg",
+      "/events/002-shape-and-align/photo-3.jpg",
+      "/events/002-shape-and-align/photo-4.jpg",
+      "/events/002-shape-and-align/photo-5.jpg",
+      "/events/002-shape-and-align/photo-6.jpg",
+    ],
     sections: [
       {
         title: "Accountability Groups",
