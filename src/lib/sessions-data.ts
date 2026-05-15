@@ -107,6 +107,39 @@ export const SESSIONS: SessionEvent[] = [
     ],
   },
   {
+    id: "berlin-design-ev",
+    number: "—",
+    title: "Berlin Design e.V. Members' Meeting",
+    subtitle: "External Event",
+    date: "March 4, 2026",
+    venue: "WIN CREATING IMAGES, Kreuzbergstraße 28, Berlin",
+    summary:
+      "Our first time attending as a member of Berlin Design e.V. This wasn't our event, but it was a milestone — OPEN BLN was officially welcomed into the Berlin design community as a recognized member organization. An evening of presentations, networking, and connecting with fellow design professionals across the city.",
+    photos: [
+      "/events/berlin-design-ev/photo-1.jpg",
+      "/events/berlin-design-ev/photo-2.jpg",
+      "/events/berlin-design-ev/photo-3.jpg",
+    ],
+    sections: [
+      {
+        title: "Why This Matters",
+        type: "text",
+        content:
+          "This was the first members' meeting we attended as an official member of Berlin Design e.V. It marked OPEN BLN's recognition within the broader Berlin design community. Not our event, but a proud first for us.",
+      },
+      {
+        title: "Details",
+        type: "tags",
+        items: [
+          "External event",
+          "First attendance as member",
+          "Berlin Design e.V.",
+          "Networking",
+        ],
+      },
+    ],
+  },
+  {
     id: "lab-02",
     number: "Lab.02",
     title: "Between the Lines",
@@ -118,9 +151,6 @@ export const SESSIONS: SessionEvent[] = [
     photos: [
       "/events/lab-02/photo-1.jpg",
       "/events/lab-02/photo-2.jpg",
-      "/events/lab-02/photo-3.jpg",
-      "/events/lab-02/photo-4.jpg",
-      "/events/lab-02/photo-5.jpg",
     ],
     sections: [
       {
