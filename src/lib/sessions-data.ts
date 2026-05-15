@@ -74,6 +74,75 @@ export const SESSIONS: SessionEvent[] = [
     ],
   },
   {
+    id: "lab-01",
+    number: "Lab.01",
+    title: "Between the Lines",
+    subtitle: "Lab Session",
+    date: "February 22, 2026",
+    venue: "Coffee Circle Wedding, Lindower Strasse 18, Berlin",
+    summary:
+      "The first lab. An open working session to go through, document, digitize, and process everything shared at #001. All the input from Meet and Shape was laid out and ready. No fixed agenda — just us unpacking what was shared and preparing for #002: Shape & Align.",
+    photos: [
+      "/events/lab-01/photo-1.jpg",
+      "/events/lab-01/photo-2.jpg",
+      "/events/lab-01/photo-3.jpg",
+    ],
+    sections: [
+      {
+        title: "What Happened",
+        type: "text",
+        content:
+          "We opened the lab for the first time. The afternoon was spent going through every sticky note, every piece of input from the first event, documenting and digitizing it all. An invite-only, private session for those who wanted to go deep.",
+      },
+      {
+        title: "Format",
+        type: "tags",
+        items: [
+          "Private session",
+          "Invite only",
+          "Open working session",
+          "Afternoon format",
+        ],
+      },
+    ],
+  },
+  {
+    id: "lab-02",
+    number: "Lab.02",
+    title: "Between the Lines",
+    subtitle: "Lab Session",
+    date: "March 7, 2026",
+    venue: "Coffee Circle Wedding, Lindower Strasse 18, Berlin",
+    summary:
+      "The second lab. We brainstormed and designed the flow for #002: Shape & Align. With findings from #001 and all the new input from signups ready to go, we designed activities and exercises to help us match accountability partners, set a community intention, and process everything gathered from new attendees. Then we took a hike to visit our potential new venue.",
+    photos: [
+      "/events/lab-02/photo-1.jpg",
+      "/events/lab-02/photo-2.jpg",
+      "/events/lab-02/photo-3.jpg",
+      "/events/lab-02/photo-4.jpg",
+      "/events/lab-02/photo-5.jpg",
+    ],
+    sections: [
+      {
+        title: "What Happened",
+        type: "text",
+        content:
+          "Two parts, one fun afternoon. First, we gathered at the cafe to brainstorm and design the flow for Session 002. We worked through findings from #001, processed input from new signups, and designed the exercises for accountability group matching and community intention-setting. After that, we took a little hike to visit a potential new venue for the next event.",
+      },
+      {
+        title: "Format",
+        type: "tags",
+        items: [
+          "Private session",
+          "Invite only",
+          "Brainstorm + design",
+          "Venue scouting",
+          "Afternoon format",
+        ],
+      },
+    ],
+  },
+  {
     id: "002",
     number: "002",
     title: "Shape and Align",
