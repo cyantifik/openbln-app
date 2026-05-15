@@ -512,12 +512,12 @@ function ProfileContent() {
           style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
         >
           <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
-            Skills
+            Toolbox
           </h2>
 
           <div>
             <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
-              What you offer
+              What you bring
             </label>
             <textarea
               name="skills_offered"
@@ -535,7 +535,7 @@ function ProfileContent() {
 
           <div>
             <label className="block text-sm font-medium mb-2" style={{ color: theme.textMuted }}>
-              What you need
+              What you're looking for
             </label>
             <textarea
               name="skills_needed"

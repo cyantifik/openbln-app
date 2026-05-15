@@ -172,17 +172,17 @@ function MemberProfileContent() {
       <div className={`${isMentorWithCalendar ? "grid grid-cols-1 lg:grid-cols-5 gap-8" : ""}`}>
         {/* Left column: details */}
         <div className={isMentorWithCalendar ? "lg:col-span-3" : ""}>
-          {/* Skills Offered */}
+          {/* Toolbox */}
           {member.skills_offered && member.skills_offered.length > 0 && (
             <div className="mb-10">
               <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
-                Skills Offered
+                Toolbox
               </h2>
               <div className="flex flex-wrap gap-2">
                 {member.skills_offered.map((skill) => (
                   <span
                     key={skill}
-                    className="px-3 py-1.5 rounded-full text-sm border"
+                    className="px-3 py-1.5 rounded-md text-sm border"
                     style={{
                       backgroundColor: theme.tagBg,
                       color: theme.tagText,
@@ -196,17 +196,17 @@ function MemberProfileContent() {
             </div>
           )}
 
-          {/* Skills Needed */}
+          {/* Looking For */}
           {member.skills_needed && member.skills_needed.length > 0 && (
             <div className="mb-10">
               <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
-                Skills Needed
+                Looking For
               </h2>
               <div className="flex flex-wrap gap-2">
                 {member.skills_needed.map((skill) => (
                   <span
                     key={skill}
-                    className="px-3 py-1.5 rounded-full text-sm border"
+                    className="px-3 py-1.5 rounded-md text-sm border"
                     style={{
                       borderColor: theme.cardBorder,
                       color: theme.textMuted,
@@ -238,7 +238,7 @@ function MemberProfileContent() {
                     {member.mentor_topics.map((topic) => (
                       <span
                         key={topic}
-                        className="px-3 py-1.5 rounded-full text-sm border"
+                        className="px-3 py-1.5 rounded-md text-sm border"
                         style={{
                           backgroundColor: `${theme.textFaint}10`,
                           borderColor: theme.border,
@@ -261,7 +261,7 @@ function MemberProfileContent() {
                     {member.mentee_topics.map((topic) => (
                       <span
                         key={topic}
-                        className="px-3 py-1.5 rounded-full text-sm border"
+                        className="px-3 py-1.5 rounded-md text-sm border"
                         style={{
                           borderColor: theme.cardBorder,
                           color: theme.textMuted,
