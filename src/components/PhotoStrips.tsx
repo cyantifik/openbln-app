@@ -13,9 +13,10 @@ export default function PhotoStrips({
 }: PhotoStripsProps) {
   if (!photos || photos.length === 0) return null;
 
-  // Split photos into 3 strips of ~2-3 photos each
-  const strips: string[][] = [[], [], []];
-  photos.forEach((p, i) => strips[i % 3].push(p));
+  // Adapt strip count to photo count: 1 strip for ≤3, 2 for 4-5, 3 for 6+
+  const stripCount = photos.length <= 3 ? 1 : photos.length <= 5 ? 2 : 3;
+  const strips: string[][] = Array.from({ length: stripCount }, () => []);
+  photos.forEach((p, i) => strips[i % stripCount].push(p));
 
   return (
     <div className="w-full">
