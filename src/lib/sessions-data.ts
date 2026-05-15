@@ -76,7 +76,7 @@ export const SESSIONS: SessionEvent[] = [
   {
     id: "lab-01",
     number: "Lab.01",
-    title: "Between the Lines",
+    title: "Between the Lines — Lab 01",
     subtitle: "Lab Session",
     date: "February 22, 2026",
     venue: "Coffee Circle Wedding, Lindower Strasse 18, Berlin",
@@ -142,7 +142,7 @@ export const SESSIONS: SessionEvent[] = [
   {
     id: "lab-02",
     number: "Lab.02",
-    title: "Between the Lines",
+    title: "Between the Lines — Lab 02",
     subtitle: "Lab Session",
     date: "March 7, 2026",
     venue: "Coffee Circle Wedding, Lindower Strasse 18, Berlin",
