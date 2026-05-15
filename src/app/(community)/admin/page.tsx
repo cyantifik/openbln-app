@@ -72,42 +72,27 @@ export default function Admin() {
   const handleApprove = async (app: Application) => {
     setActionLoading(app.id);
     try {
-      // Create or update member from application
-      const skillsOffered = app.can_help_with
-        ? app.can_help_with.split(",").map((s) => s.trim()).filter(Boolean)
-        : [];
+      // Get current session token
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
 
-      const { error: memberError } = await supabase.from("members").upsert({
-        auth_id: app.auth_id,
-        name: app.name,
-        role: "Member",
-        company: "",
-        bio: app.working_on || "",
-        skills_offered: skillsOffered,
-        skills_needed: [],
-        is_admin: false,
-        achievements: [],
-        status: "approved",
-      }, { onConflict: "auth_id" });
+      const res = await fetch("/api/admin/approve", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({
+          applicationId: app.id,
+          authId: app.auth_id,
+          name: app.name,
+          workingOn: app.working_on,
+          canHelpWith: app.can_help_with,
+        }),
+      });
 
-      if (memberError) {
-        console.error("Member upsert error:", memberError);
-        throw memberError;
-      }
-
-      // Update application status
-      const { error: appError } = await supabase
-        .from("applications")
-        .update({
-          status: "approved",
-          reviewed_by: user?.id,
-        })
-        .eq("id", app.id);
-
-      if (appError) {
-        console.error("Application update error:", appError);
-        throw appError;
-      }
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || "Failed to approve");
 
       // Reload applications
       const { data: appsData } = await supabase
