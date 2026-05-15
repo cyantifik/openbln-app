@@ -72,8 +72,8 @@ export default function Admin() {
   const handleApprove = async (app: Application) => {
     setActionLoading(app.id);
     try {
-      // Create member from application
-      const { error: memberError } = await supabase.from("members").insert({
+      // Create or update member from application
+      const { error: memberError } = await supabase.from("members").upsert({
         auth_id: app.auth_id,
         name: app.name,
         role: "Member",
@@ -84,7 +84,7 @@ export default function Admin() {
         is_admin: false,
         achievements: [],
         status: "approved",
-      });
+      }, { onConflict: "auth_id" });
 
       if (memberError) throw memberError;
 
