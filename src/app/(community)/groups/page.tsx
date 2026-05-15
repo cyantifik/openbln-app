@@ -83,6 +83,12 @@ function GroupsContent() {
           </Link>{" "}
           and start connecting.
         </p>
+        <p
+          className="text-sm mt-2 transition-colors duration-500"
+          style={{ color: theme.textFaint }}
+        >
+          This is just the beginning. For now, groups are here to help you find each other. Over time, this space will grow to support goal setting, activity planning, and event proposals, all shaped by you.
+        </p>
       </div>
 
       <div className="space-y-4">
