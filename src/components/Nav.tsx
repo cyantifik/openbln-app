@@ -299,6 +299,7 @@ export default function Nav({ variant = "light", showToggle }: NavProps) {
             {user ? (
               <>
                 <Link href="/profile" className="block text-xs tracking-widest uppercase py-2" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Profile</Link>
+                <Link href="/admin" className="block text-xs tracking-widest uppercase py-2" style={{ color: colors.textMuted }} onClick={() => setMobileOpen(false)}>Admin</Link>
                 <button className="text-xs tracking-widest uppercase text-left py-2 bg-transparent cursor-pointer" style={{ color: colors.textMuted }} onClick={() => { handleSignOut(); setMobileOpen(false); }}>Sign Out</button>
               </>
             ) : (
