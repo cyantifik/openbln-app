@@ -59,7 +59,7 @@ export const EVENT_ARCHIVE: ArchivedEvent[] = [
     subtitle: "The silhouette is getting clearer",
     date: "April 28, 2026",
     time: "6:30 PM – 9:30 PM",
-    location: "Berlin (venue TBA)",
+    location: "(Private) Berlin",
     description: [
       "Something is taking shape. Two gatherings in, what started as an open canvas now has color, form, and people who keep showing up.",
       "We've been shaping something since day one. The silhouette is getting clearer, and this gathering is the next step in revealing it.",
