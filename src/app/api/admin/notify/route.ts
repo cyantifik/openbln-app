@@ -15,14 +15,17 @@ export async function POST(request: NextRequest) {
     const resendKey = process.env.RESEND_API_KEY;
 
     if (resendKey) {
-      await fetch("https://api.resend.com/emails", {
+      // Use verified domain if available, otherwise Resend's default sender
+      const fromAddress = process.env.RESEND_FROM_EMAIL || "OPEN BLN <onboarding@resend.dev>";
+
+      const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${resendKey}`,
         },
         body: JSON.stringify({
-          from: "OPEN BLN <notifications@open-bln.com>",
+          from: fromAddress,
           to: ["cyantifik@gmail.com"],
           subject: `New application: ${name}`,
           html: `
@@ -38,6 +41,13 @@ export async function POST(request: NextRequest) {
           `,
         }),
       });
+
+      const resBody = await res.json();
+      if (!res.ok) {
+        console.error("Resend error:", resBody);
+      }
+    } else {
+      console.error("RESEND_API_KEY not set — skipping notification");
     }
 
     return NextResponse.json({ success: true });
