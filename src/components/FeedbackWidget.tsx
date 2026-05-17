@@ -70,18 +70,21 @@ export default function FeedbackWidget() {
             <path d="M6 6l12 12" />
           </svg>
         ) : (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
             {/* Collar */}
-            <path d="M10 2h4v2h-4z" />
-            {/* Shoulders and body */}
-            <path d="M10 4v4L4 20a1 1 0 001 1h14a1 1 0 001-1L14 8V4" />
-            {/* Lapel lines */}
-            <path d="M10 4l2 6 2-6" />
+            <path d="M9 2h6l-1 3h-4L9 2z" />
+            {/* Left shoulder + sleeve */}
+            <path d="M10 5L7 6 3 8v4l3-1v10h5" />
+            {/* Right shoulder + sleeve */}
+            <path d="M14 5l3 1 4 2v4l-3-1v10h-5" />
+            {/* Center opening */}
+            <path d="M11 21V5" />
+            <path d="M13 21V5" />
             {/* Pocket */}
-            <rect x="13" y="14" width="3" height="2" rx="0.5" />
-            {/* Buttons */}
-            <circle cx="12" cy="13" r="0.5" fill="currentColor" />
-            <circle cx="12" cy="16" r="0.5" fill="currentColor" />
+            <rect x="14.5" y="14" width="2.5" height="2" rx="0.3" />
+            {/* Button */}
+            <circle cx="12" cy="12" r="0.6" fill="currentColor" />
+            <circle cx="12" cy="15" r="0.6" fill="currentColor" />
           </svg>
         )}
       </button>
