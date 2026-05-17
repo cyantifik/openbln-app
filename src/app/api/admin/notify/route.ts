@@ -18,7 +18,7 @@ export async function GET() {
       },
       body: JSON.stringify({
         from: fromAddress,
-        to: ["cyantifik@gmail.com"],
+        to: ["v@open-bln.com", "admin@open-bln.com"],
         subject: "Test: OPEN BLN notifications are working",
         html: "<p>If you see this, email notifications are working!</p>",
       }),
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         },
         body: JSON.stringify({
           from: fromAddress,
-          to: ["cyantifik@gmail.com"],
+          to: ["v@open-bln.com", "admin@open-bln.com"],
           subject: `New application: ${name}`,
           html: `
             <div style="font-family: -apple-system, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px 24px;">
