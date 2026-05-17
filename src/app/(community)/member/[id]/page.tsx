@@ -8,6 +8,7 @@ import AuthGuard from "@/components/AuthGuard";
 import { useTheme } from "@/lib/theme";
 import { supabase } from "@/lib/supabase";
 import type { Member } from "@/lib/data";
+import { IdCardIcon, ToolboxIcon, LookingForIcon, MentorshipIcon, LinksIcon } from "@/components/AnimatedIcons";
 
 function MemberProfileContent() {
   const { theme } = useTheme();
@@ -128,6 +129,7 @@ function MemberProfileContent() {
               >
                 {member.name}
               </h1>
+              <IdCardIcon size={28} color={theme.textFaint} />
               {member.is_admin && (
                 <span
                   className="px-2.5 py-1 text-xs font-semibold rounded"
@@ -205,9 +207,12 @@ function MemberProfileContent() {
           {/* Toolbox */}
           {member.skills_offered && member.skills_offered.length > 0 && (
             <div className="mb-10">
-              <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
-                Toolbox
-              </h2>
+              <div className="flex items-center gap-2 mb-4">
+                <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
+                  Toolbox
+                </h2>
+                <ToolboxIcon size={20} color={theme.textFaint} />
+              </div>
               <div className="flex flex-wrap gap-2">
                 {member.skills_offered.map((skill) => (
                   <span
@@ -229,9 +234,12 @@ function MemberProfileContent() {
           {/* Looking For */}
           {member.skills_needed && member.skills_needed.length > 0 && (
             <div className="mb-10">
-              <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
-                Looking For
-              </h2>
+              <div className="flex items-center gap-2 mb-4">
+                <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
+                  Looking For
+                </h2>
+                <LookingForIcon size={20} color={theme.textFaint} />
+              </div>
               <div className="flex flex-wrap gap-2">
                 {member.skills_needed.map((skill) => (
                   <span
@@ -255,9 +263,12 @@ function MemberProfileContent() {
               className="mb-10 p-5 rounded-lg border"
               style={{ backgroundColor: theme.cardBg, borderColor: theme.cardBorder }}
             >
-              <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
-                Mentorship
-              </h2>
+              <div className="flex items-center gap-2 mb-4">
+                <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
+                  Mentorship
+                </h2>
+                <MentorshipIcon size={20} color={theme.textFaint} />
+              </div>
 
               {member.is_mentor && member.mentor_topics && member.mentor_topics.length > 0 && (
                 <div className="mb-4">
@@ -312,9 +323,12 @@ function MemberProfileContent() {
               className="pt-8 border-t"
               style={{ borderTopColor: theme.border }}
             >
-              <h2 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
-                Links
-              </h2>
+              <div className="flex items-center gap-2 mb-4">
+                <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
+                  Links
+                </h2>
+                <LinksIcon size={20} color={theme.textFaint} />
+              </div>
               <div className="space-y-3">
                 {Object.entries(member.links).map(([key, value]) => (
                   <a

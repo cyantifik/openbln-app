@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { useTheme } from "@/lib/theme";
+import { BookingChevronIcon } from "@/components/AnimatedIcons";
 
 interface Slot {
   start: string;
@@ -329,9 +330,12 @@ export default function BookingWidget({
         borderColor: theme.cardBorder,
       }}
     >
-      <h3 className="text-lg font-semibold mb-1" style={{ color: theme.text }}>
-        Book a session
-      </h3>
+      <div className="flex items-center gap-2 mb-1">
+        <h3 className="text-lg font-semibold" style={{ color: theme.text }}>
+          Book a session
+        </h3>
+        <BookingChevronIcon size={20} color={theme.textMuted} />
+      </div>
       <p className="text-sm mb-5" style={{ color: theme.textMuted }}>
         30-min 1:1 with {mentorName.split(" ")[0]}
       </p>
