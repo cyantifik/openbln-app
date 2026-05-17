@@ -1,5 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Test endpoint: visit /api/admin/notify in browser to send a test email
+export async function GET() {
+  const resendKey = process.env.RESEND_API_KEY;
+  if (!resendKey) {
+    return NextResponse.json({ error: "RESEND_API_KEY not set" }, { status: 500 });
+  }
+
+  const fromAddress = process.env.RESEND_FROM_EMAIL || "OPEN BLN <onboarding@resend.dev>";
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${resendKey}`,
+      },
+      body: JSON.stringify({
+        from: fromAddress,
+        to: ["cyantifik@gmail.com"],
+        subject: "Test: OPEN BLN notifications are working",
+        html: "<p>If you see this, email notifications are working!</p>",
+      }),
+    });
+
+    const body = await res.json();
+    return NextResponse.json({ status: res.status, resend: body });
+  } catch (err) {
+    return NextResponse.json({ error: String(err) }, { status: 500 });
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { name, email, workingOn } = await request.json();

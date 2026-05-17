@@ -94,15 +94,19 @@ export default function SignUp() {
         }
 
         // Notify admin of new application
-        fetch("/api/admin/notify", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            workingOn: formData.working_on,
-          }),
-        }).catch(() => {}); // Fire and forget
+        try {
+          await fetch("/api/admin/notify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: formData.name,
+              email: formData.email,
+              workingOn: formData.working_on,
+            }),
+          });
+        } catch (notifyErr) {
+          console.error("Notify failed:", notifyErr);
+        }
       }
 
       setSuccess(true);
