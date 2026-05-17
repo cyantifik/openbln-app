@@ -9,6 +9,8 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const [approved, setApproved] = useState(false);
+  const [hasGroups, setHasGroups] = useState(true);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -23,6 +25,16 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
           .eq("auth_id", user.id)
           .single();
         setApproved(!!member);
+
+        // Check if member has joined any groups
+        if (member) {
+          const { data: groups } = await supabase
+            .from("member_groups")
+            .select("id")
+            .eq("member_id", member.id)
+            .limit(1);
+          setHasGroups((groups && groups.length > 0) || false);
+        }
       }
       setLoading(false);
     };
@@ -115,5 +127,40 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {/* Nudge to pick groups */}
+      {!hasGroups && !bannerDismissed && (
+        <div
+          className="border-b transition-colors duration-500"
+          style={{
+            backgroundColor: `${theme.textFaint}08`,
+            borderBottomColor: theme.border,
+          }}
+        >
+          <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
+            <p className="text-sm" style={{ color: theme.textMuted }}>
+              Welcome! Head to your{" "}
+              <Link href="/profile" className="underline font-medium" style={{ color: theme.text }}>
+                profile
+              </Link>{" "}
+              to pick your accountability groups and complete your setup.
+            </p>
+            <button
+              onClick={() => setBannerDismissed(true)}
+              className="flex-shrink-0 p-1 rounded-full transition-opacity hover:opacity-60 cursor-pointer bg-transparent"
+              style={{ color: theme.textFaint }}
+              aria-label="Dismiss"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M18 6L6 18" />
+                <path d="M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+      {children}
+    </>
+  );
 }
