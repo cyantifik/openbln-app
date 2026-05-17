@@ -52,7 +52,7 @@ export default function EventsPage() {
       <main className="flex-1 max-w-4xl mx-auto px-6 py-16 w-full">
         <div className="flex items-center gap-3 mb-16">
           <h1 className="text-4xl font-light tracking-tight">Events</h1>
-          <PeopleMeetingIcon size={20} color="rgba(255,255,255,0.4)" />
+          <PeopleMeetingIcon size={28} color="rgba(255,255,255,0.65)" />
         </div>
 
         {/* Upcoming — only shown when there are real upcoming events from Supabase */}

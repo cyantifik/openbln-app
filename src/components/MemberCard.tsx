@@ -173,7 +173,7 @@ export default function MemberCard({ member }: MemberCardProps) {
               }}
             >
               Book a session
-              <BookingChevronIcon size={14} color={theme.bg} />
+              <BookingChevronIcon size={16} color={theme.bg} />
             </span>
           </div>
         )}

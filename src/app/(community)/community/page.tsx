@@ -57,7 +57,7 @@ export default function SpacePage() {
       <div className="mb-12">
         <div className="flex items-center gap-3 mb-4">
           <h2 className="text-2xl font-bold">Directory</h2>
-          <PersonIcon size={18} color={theme.textFaint} />
+          <PersonIcon size={24} color={theme.textMuted} />
         </div>
         <p className="mb-8 transition-colors duration-500" style={{ color: theme.textMuted }}>
           Find and connect with designers, developers, and creative professionals

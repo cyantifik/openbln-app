@@ -75,7 +75,7 @@ function GroupsContent() {
           >
             Accountability Groups
           </h1>
-          <OrbitingNodesIcon size={20} color={theme.textFaint} />
+          <OrbitingNodesIcon size={28} color={theme.textMuted} />
         </div>
         <p
           className="transition-colors duration-500"
