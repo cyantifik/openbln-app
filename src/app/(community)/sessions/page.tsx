@@ -25,7 +25,7 @@ function SessionsList() {
           >
             Sessions
           </h1>
-          <PhotoStripIcon size={28} color={theme.textMuted} />
+          <PhotoStripIcon size={48} color={theme.textMuted} />
         </div>
         <p
           className="transition-colors duration-500"
