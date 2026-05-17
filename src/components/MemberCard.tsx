@@ -87,6 +87,29 @@ export default function MemberCard({ member }: MemberCardProps) {
             <h3 className="text-lg font-semibold mb-1">{member.name}</h3>
             <p className="text-sm" style={{ color: theme.textMuted }}>{member.role}</p>
           </div>
+          {/* Contact paper plane */}
+          {(member as any).email && (
+            <a
+              href={`mailto:${(member as any).email}`}
+              onClick={(e) => e.stopPropagation()}
+              className="flex-shrink-0 p-1.5 rounded-full transition-colors duration-200 hover:bg-black/5 dark:hover:bg-white/5"
+              title="Get in touch"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke={theme.textFaint}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M22 2L11 13" />
+                <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+              </svg>
+            </a>
+          )}
         </div>
 
         {/* Company */}

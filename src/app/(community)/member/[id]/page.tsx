@@ -154,6 +154,36 @@ function MemberProfileContent() {
               {member.role}
             </p>
             <p style={{ color: theme.textFaint }}>{member.company}</p>
+
+            {/* Contact — paper plane */}
+            {(member as any).email && (
+              <a
+                href={`mailto:${(member as any).email}`}
+                className="inline-flex items-center gap-2 mt-4 group"
+                title="Get in touch"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke={theme.textMuted}
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="transition-colors duration-200"
+                >
+                  <path d="M22 2L11 13" />
+                  <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+                </svg>
+                <span
+                  className="text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  style={{ color: theme.textMuted }}
+                >
+                  Get in touch
+                </span>
+              </a>
+            )}
           </div>
         </div>
 

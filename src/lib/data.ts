@@ -12,6 +12,7 @@ export interface Member {
   is_mentee?: boolean;
   mentor_topics?: string[];
   mentee_topics?: string[];
+  email?: string;
   achievements: string[];
   links?: Record<string, string>;
   created_at?: string;

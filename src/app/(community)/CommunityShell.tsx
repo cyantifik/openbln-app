@@ -2,6 +2,7 @@
 
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import FeedbackWidget from "@/components/FeedbackWidget";
 import { ThemeProvider, useTheme } from "@/lib/theme";
 
 function Shell({ children }: { children: React.ReactNode }) {
@@ -15,6 +16,7 @@ function Shell({ children }: { children: React.ReactNode }) {
       <Nav variant="light" showToggle />
       <main className="flex-1">{children}</main>
       <Footer variant="light" showToggle />
+      <FeedbackWidget />
     </div>
   );
 }
