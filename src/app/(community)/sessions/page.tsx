@@ -4,6 +4,7 @@ import Link from "next/link";
 import AuthGuard from "@/components/AuthGuard";
 import { useTheme } from "@/lib/theme";
 import { SESSIONS } from "@/lib/sessions-data";
+import { PhotoStripIcon } from "@/components/AnimatedIcons";
 
 function SessionsList() {
   const { theme } = useTheme();
@@ -17,12 +18,15 @@ function SessionsList() {
         >
           Memory Lane
         </p>
-        <h1
-          className="text-3xl font-bold mb-3 transition-colors duration-500"
-          style={{ color: theme.text }}
-        >
-          Sessions
-        </h1>
+        <div className="flex items-center gap-3 mb-3">
+          <h1
+            className="text-3xl font-bold transition-colors duration-500"
+            style={{ color: theme.text }}
+          >
+            Sessions
+          </h1>
+          <PhotoStripIcon size={20} color={theme.textFaint} />
+        </div>
         <p
           className="transition-colors duration-500"
           style={{ color: theme.textMuted }}

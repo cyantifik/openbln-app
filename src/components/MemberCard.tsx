@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Member } from "@/lib/data";
 import { useTheme } from "@/lib/theme";
+import { BookingChevronIcon } from "@/components/AnimatedIcons";
 
 interface MemberCardProps {
   member: Member;
@@ -172,6 +173,7 @@ export default function MemberCard({ member }: MemberCardProps) {
               }}
             >
               Book a session
+              <BookingChevronIcon size={14} color={theme.bg} />
             </span>
           </div>
         )}

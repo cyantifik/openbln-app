@@ -10,6 +10,7 @@ import {
   type AccountabilityGroup,
   type Member,
 } from "@/lib/data";
+import { OrbitingNodesIcon } from "@/components/AnimatedIcons";
 
 function GroupsContent() {
   const { theme } = useTheme();
@@ -67,12 +68,15 @@ function GroupsContent() {
         >
           Find Your People
         </p>
-        <h1
-          className="text-3xl font-bold mb-3 transition-colors duration-500"
-          style={{ color: theme.text }}
-        >
-          Accountability Groups
-        </h1>
+        <div className="flex items-center gap-3 mb-3">
+          <h1
+            className="text-3xl font-bold transition-colors duration-500"
+            style={{ color: theme.text }}
+          >
+            Accountability Groups
+          </h1>
+          <OrbitingNodesIcon size={20} color={theme.textFaint} />
+        </div>
         <p
           className="transition-colors duration-500"
           style={{ color: theme.textMuted }}

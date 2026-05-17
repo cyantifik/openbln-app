@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { getUpcomingEventsDB } from "@/lib/data";
 import type { Event } from "@/lib/data";
 import { EVENT_ARCHIVE } from "@/lib/event-archive";
+import { PeopleMeetingIcon } from "@/components/AnimatedIcons";
 
 export default function EventsPage() {
   const [upcoming, setUpcoming] = useState<Event[]>([]);
@@ -49,7 +50,10 @@ export default function EventsPage() {
       <Nav variant="dark" />
 
       <main className="flex-1 max-w-4xl mx-auto px-6 py-16 w-full">
-        <h1 className="text-4xl font-light tracking-tight mb-16">Events</h1>
+        <div className="flex items-center gap-3 mb-16">
+          <h1 className="text-4xl font-light tracking-tight">Events</h1>
+          <PeopleMeetingIcon size={20} color="rgba(255,255,255,0.4)" />
+        </div>
 
         {/* Upcoming — only shown when there are real upcoming events from Supabase */}
         {upcoming.length > 0 && (

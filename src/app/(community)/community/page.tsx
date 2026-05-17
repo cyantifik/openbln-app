@@ -6,6 +6,7 @@ import AuthGuard from "@/components/AuthGuard";
 import { getMembersWithGroups, searchMembersDB, MEMBERS } from "@/lib/data";
 import type { Member } from "@/lib/data";
 import { useTheme } from "@/lib/theme";
+import { PersonIcon } from "@/components/AnimatedIcons";
 
 export default function SpacePage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,7 +55,10 @@ export default function SpacePage() {
 
       {/* Directory */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold mb-4">Directory</h2>
+        <div className="flex items-center gap-3 mb-4">
+          <h2 className="text-2xl font-bold">Directory</h2>
+          <PersonIcon size={18} color={theme.textFaint} />
+        </div>
         <p className="mb-8 transition-colors duration-500" style={{ color: theme.textMuted }}>
           Find and connect with designers, developers, and creative professionals
           in Berlin. Search by name, role, company, or skill.
