@@ -70,21 +70,9 @@ export default function FeedbackWidget() {
             <path d="M6 6l12 12" />
           </svg>
         ) : (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-            {/* Collar */}
-            <path d="M9 2h6l-1 3h-4L9 2z" />
-            {/* Left shoulder + sleeve */}
-            <path d="M10 5L7 6 3 8v4l3-1v10h5" />
-            {/* Right shoulder + sleeve */}
-            <path d="M14 5l3 1 4 2v4l-3-1v10h-5" />
-            {/* Center opening */}
-            <path d="M11 21V5" />
-            <path d="M13 21V5" />
-            {/* Pocket */}
-            <rect x="14.5" y="14" width="2.5" height="2" rx="0.3" />
-            {/* Button */}
-            <circle cx="12" cy="12" r="0.6" fill="currentColor" />
-            <circle cx="12" cy="15" r="0.6" fill="currentColor" />
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 3h6" />
+            <path d="M10 3v7.4a2 2 0 01-.6 1.4L4.6 16.6a2 2 0 00-.6 1.4V19a2 2 0 002 2h12a2 2 0 002-2v-1a2 2 0 00-.6-1.4l-4.8-4.8a2 2 0 01-.6-1.4V3" />
           </svg>
         )}
       </button>
