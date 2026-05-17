@@ -243,8 +243,11 @@ export default function SignUp() {
 
           {/* Vetting Questions */}
           <div className="border-t border-gray-200 pt-6">
-            <p className="text-sm font-medium text-gray-600 mb-6">
+            <p className="text-sm font-medium text-gray-600 mb-1">
               Help us get to know you better
+            </p>
+            <p className="text-xs text-gray-400 mb-6">
+              These answers are just for your application. You can update your profile anytime once you're in.
             </p>
 
             {/* Question 1 */}
