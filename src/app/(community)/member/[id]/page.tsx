@@ -129,7 +129,7 @@ function MemberProfileContent() {
               >
                 {member.name}
               </h1>
-              <IdCardIcon size={28} color={theme.textFaint} />
+              <IdCardIcon size={28} color={theme.textMuted} />
               {member.is_admin && (
                 <span
                   className="px-2.5 py-1 text-xs font-semibold rounded"
@@ -211,7 +211,7 @@ function MemberProfileContent() {
                 <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
                   Toolbox
                 </h2>
-                <ToolboxIcon size={20} color={theme.textFaint} />
+                <ToolboxIcon size={20} color={theme.textMuted} />
               </div>
               <div className="flex flex-wrap gap-2">
                 {member.skills_offered.map((skill) => (
@@ -238,7 +238,7 @@ function MemberProfileContent() {
                 <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
                   Looking For
                 </h2>
-                <LookingForIcon size={20} color={theme.textFaint} />
+                <LookingForIcon size={20} color={theme.textMuted} />
               </div>
               <div className="flex flex-wrap gap-2">
                 {member.skills_needed.map((skill) => (
@@ -267,7 +267,7 @@ function MemberProfileContent() {
                 <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
                   Mentorship
                 </h2>
-                <MentorshipIcon size={20} color={theme.textFaint} />
+                <MentorshipIcon size={20} color={theme.textMuted} />
               </div>
 
               {member.is_mentor && member.mentor_topics && member.mentor_topics.length > 0 && (
@@ -327,7 +327,7 @@ function MemberProfileContent() {
                 <h2 className="text-lg font-semibold" style={{ color: theme.text }}>
                   Links
                 </h2>
-                <LinksIcon size={20} color={theme.textFaint} />
+                <LinksIcon size={20} color={theme.textMuted} />
               </div>
               <div className="space-y-3">
                 {Object.entries(member.links).map(([key, value]) => (

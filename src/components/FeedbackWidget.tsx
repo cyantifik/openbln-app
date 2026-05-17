@@ -169,7 +169,12 @@ export default function FeedbackWidget() {
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="What's on your mind?"
+                  placeholder={
+                    category === "Feedback" ? "What do you have in mind?" :
+                    category === "Feature idea" ? "Tell us all about it!" :
+                    category === "Bug" ? "What did you catch?" :
+                    "What's on your mind?"
+                  }
                   rows={4}
                   required
                   className="w-full px-3 py-2 text-sm rounded-lg border bg-transparent outline-none resize-none transition-colors duration-200"
