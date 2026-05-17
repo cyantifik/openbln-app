@@ -56,7 +56,7 @@ export default function FeedbackWidget() {
       {/* Floating button — bottom right */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 cursor-pointer"
+        className="fixed bottom-6 right-6 z-50 w-[52px] h-[52px] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 cursor-pointer"
         style={{
           backgroundColor: theme.text,
           color: theme.bg,
@@ -70,7 +70,7 @@ export default function FeedbackWidget() {
             <path d="M6 6l12 12" />
           </svg>
         ) : (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             {/* Collar */}
             <path d="M10 2h4v2h-4z" />
             {/* Shoulders and body */}
@@ -110,7 +110,7 @@ export default function FeedbackWidget() {
                 className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
                 style={{ backgroundColor: theme.text }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={theme.bg} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={theme.bg} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 13l4 4L19 7" />
                 </svg>
               </div>
