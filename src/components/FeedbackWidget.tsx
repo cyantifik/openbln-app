@@ -71,8 +71,19 @@ export default function FeedbackWidget() {
           </svg>
         ) : (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <style>{`
+              @keyframes b1 { 0%,100% { transform: translateY(0); opacity: 0.8; } 50% { transform: translateY(-3px); opacity: 0; } }
+              @keyframes b2 { 0%,100% { transform: translateY(0); opacity: 0.6; } 60% { transform: translateY(-4px); opacity: 0; } }
+              @keyframes b3 { 0%,100% { transform: translateY(0); opacity: 0.7; } 55% { transform: translateY(-2.5px); opacity: 0; } }
+              .bub1 { animation: b1 2.4s ease-in-out infinite; }
+              .bub2 { animation: b2 3.1s ease-in-out infinite 0.8s; }
+              .bub3 { animation: b3 2.7s ease-in-out infinite 1.5s; }
+            `}</style>
             <path d="M9 3h6" />
             <path d="M10 3v7.4a2 2 0 01-.6 1.4L4.6 16.6a2 2 0 00-.6 1.4V19a2 2 0 002 2h12a2 2 0 002-2v-1a2 2 0 00-.6-1.4l-4.8-4.8a2 2 0 01-.6-1.4V3" />
+            <circle className="bub1" cx="10" cy="17" r="1" fill="currentColor" stroke="none" />
+            <circle className="bub2" cx="13" cy="18" r="0.7" fill="currentColor" stroke="none" />
+            <circle className="bub3" cx="11.5" cy="19" r="0.8" fill="currentColor" stroke="none" />
           </svg>
         )}
       </button>
